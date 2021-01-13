@@ -1,0 +1,25 @@
+body,
+table,
+tr,
+td {
+    font-family: sans-serif, 'Franklin Gothic Medium', 'Arial Narrow', Arial
+}
+
+h2 {
+    padding-top: 18px;
+    margin-bottom: 4px;
+    vertical-align: middle;
+}
+
+h2 div {
+    display: flex;
+    align-items: center;
+}
+
+h2 div span {
+    margin-left: 4px;
+}
+
+h2 div::before {
+    content: url('icon-64.png');
+}

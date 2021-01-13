@@ -9,6 +9,17 @@ function get_filename_from_move($move) {
     return "notations/" . $file;
 }
 
+function get_function_endpoint($functionName) {
+    if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on')   
+        $url = "https://";
+    else  
+        $url = "http://";
+    $url.= $_SERVER['HTTP_HOST'];   
+    $url.= $_SERVER['REQUEST_URI'];    
+    $url = str_replace(basename($_SERVER['PHP_SELF']), $functionName . ".php", $url);
+    return $url;
+}
+
 function get_authorization() {
 
     //Make sure we got a valid query

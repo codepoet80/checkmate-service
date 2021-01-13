@@ -10,6 +10,7 @@ $jsondata = get_notation_data($file, $auth['grandmaster']);
 //Load and return only the task list
 class notationdata {};
 $move = new notationdata();
+$move->notation = $jsondata['notation'];
 $move->tasks = $jsondata['moves'];
 
 header('Content-Type: application/json');
