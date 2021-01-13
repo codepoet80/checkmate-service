@@ -3,36 +3,40 @@ include("common.php");
 
 $auth = get_authorization();
 
-//Make sure the file exists and can be loaded
-$file = get_filename_from_move($auth['move']);
-$jsondata = get_notation_data($file, $auth['grandmaster']);
-
+//Make sure we can get the input
 $postjson = file_get_contents('php://input'); 
 $postdata = json_decode($postjson); 
+
+//Make sure the file exists and can be loaded
+$file = get_filename_from_move($auth['move']);
 $updatedtaskdata = "";
 if (is_array($postdata)) {
     foreach ($postdata as $thistask) {
+        $jsondata = get_notation_data($file, $auth['grandmaster']);
         $updatedtaskdata = update_or_create_task($thistask, $jsondata);
+        file_put_contents($file, json_encode($updatedtaskdata, JSON_PRETTY_PRINT));
     }
 }
 if (is_object($postdata)) {
+    $jsondata = get_notation_data($file, $auth['grandmaster']);
     $updatedtaskdata = update_or_create_task($postdata, $jsondata);
-}
-if ($updatedtaskdata != "") {
     file_put_contents($file, json_encode($updatedtaskdata, JSON_PRETTY_PRINT));
-    header('Content-Type: application/json');
-    print_r (json_encode($updatedtaskdata));
-} else {
-    die ("Something went wrong updating data!");
 }
 
+//Output the results
+header('Content-Type: application/json');
+print_r (json_encode($updatedtaskdata));
+exit();
+
 //Determine if this is a create or update
-function update_or_create_task($newtaskdata, $oldtaskdata){
-    $newtaskdata = validate_incoming_data($newtaskdata);
+function update_or_create_task($newtaskitem, $oldtaskdata){
+    $newtaskitem = validate_incoming_data($newtaskitem);
     $updatedtaskdata = "";
-    if(strtolower($newtaskdata->guid) == "new")
+    if(strtolower($newtaskitem->guid) == "new")
     {
-        $updatedtaskdata = create_new_task($newtaskdata, $oldtaskdata);
+        echo ("called new!");
+        die;
+        $updatedtaskdata = create_new_task($newtaskitem, $oldtaskdata);
     }
     else
     {
@@ -40,29 +44,30 @@ function update_or_create_task($newtaskdata, $oldtaskdata){
         $found = false;
         foreach ($existingtasks as $existingtask)
         {
-            if ($existingtask['guid'] == $newtaskdata->guid)
+            if ($existingtask['guid'] == $newtaskitem->guid)
             {
                 $found = true;
             }
         }
-        if (!$found) {
-            $updatedtaskdata = create_new_task($newtaskdata, $oldtaskdata);
+
+        if (!$found && $new) {  
+            $updatedtaskdata = create_new_task($newtaskitem, $oldtaskdata, false);
         } else {
-            $updatedtaskdata = update_existing_task($newtaskdata, $oldtaskdata, $newtaskdata->guid);
+            $updatedtaskdata = update_existing_task($newtaskitem, $oldtaskdata);
         }
     }
 
     return $updatedtaskdata;
 }
 
-//Update an existing task with new data
-function update_existing_task($newtaskdata, $oldtaskdata, $guid){
+//Update (or delete) an existing task with new data
+function update_existing_task($newtaskitem, $oldtaskdata){
     $updatedtasks = array();
     $existingtasks = $oldtaskdata['moves'];
     foreach ($existingtasks as $existingtask)
     {
         //if this task is NOT the task being edited, copy it to the new array as is
-        if ($existingtask['guid'] != $newtaskdata->$guid)
+        if ($existingtask['guid'] != $newtaskitem->guid)
         {
             array_push($updatedtasks, $existingtask);
         }
@@ -70,18 +75,22 @@ function update_existing_task($newtaskdata, $oldtaskdata, $guid){
     //update the old array to be equal to the new array
     $oldtaskdata['moves'] = $updatedtasks;
     //then add the item being edited into the newly updated array IF this wasn't a delete
-    if ($newtaskdata->sortPosition > -1)
-        return create_new_task($newtaskdata, $oldtaskdata);
+    if ($newtaskitem->sortPosition > -1)
+        return create_new_task($newtaskitem, $oldtaskdata, true);
     else   //otherwise just return the newly updated array with that item missing
         return ($oldtaskdata);
 }
 
-//Create a brand new task
-function create_new_task($newtaskdata, $oldtaskdata){
+//(Re)create a task, optionally include old data
+function create_new_task($newtaskdata, $oldtaskdata, $resusedata){
     $updatedtaskdata = $oldtaskdata;
     $newtaskdata = (array)$newtaskdata;
-    $newtaskdata['sortPosition'] = find_next_sortPosition($updatedtaskdata); 
-    $newtaskdata['guid'] = uniqid();
+
+    if (!$resusedata) {
+        $newtaskdata['guid'] = uniqid();
+        $newtaskdata['sortPosition'] = find_next_sortPosition($updatedtaskdata);
+    }
+
     array_push($updatedtaskdata['moves'], $newtaskdata);
     usort($updatedtaskdata['moves'], 'sorter');
     
@@ -112,9 +121,4 @@ function validate_incoming_data($newtaskdata)
     //todo: validate new data before pushing
     return $newtaskdata;
 }
-
-//add or update notation json with post data, based on content
-
-//header('Content-Type: application/json');
-//print_r (json_encode($postdata));
 ?>
