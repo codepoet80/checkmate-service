@@ -61,13 +61,19 @@ function update_existing_task($newtaskdata, $oldtaskdata, $guid){
     $existingtasks = $oldtaskdata['moves'];
     foreach ($existingtasks as $existingtask)
     {
-        if ($existingtask['guid'] != $guid)
+        //if this task is NOT the task being edited, copy it to the new array as is
+        if ($existingtask['guid'] != $newtaskdata->$guid)
         {
             array_push($updatedtasks, $existingtask);
         }
     }
+    //update the old array to be equal to the new array
     $oldtaskdata['moves'] = $updatedtasks;
-    return create_new_task($newtaskdata, $oldtaskdata);
+    //then add the item being edited into the newly updated array IF this wasn't a delete
+    if ($newtaskdata->sortPosition > -1)
+        return create_new_task($newtaskdata, $oldtaskdata);
+    else   //otherwise just return the newly updated array with that item missing
+        return ($oldtaskdata);
 }
 
 //Create a brand new task

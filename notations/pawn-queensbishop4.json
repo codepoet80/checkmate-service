@@ -1,40 +1,40 @@
 {
     "grandmaster": "Alexander Motylev",
     "moves": [{
-            "guid": "5ffd057ad46cb",
-            "title": "Build Checkmate",
-            "notes": "Figure out how to make a cross-platform, retro-friendly, web-based todo list",
+            "guid": "44444",
+            "title": "Num 4 Sample Task",
+            "notes": "This is the 4th sample task",
             "completed": false,
             "createTime": "January 1, 2020 17:39:00",
             "completeTime": "",
-            "sortPosition": 7
+            "sortPosition": 1
         },
         {
-            "guid": "5ffd02ea632cb",
-            "title": "Another Sample Task",
-            "notes": "This task is another example",
+            "guid": "33333",
+            "title": "#3 Sample Task",
+            "notes": "This is the third sample task",
             "completed": true,
             "createTime": "January 1, 2020 17:39:00",
             "completeTime": "",
-            "sortPosition": 4
+            "sortPosition": 2
         },
         {
-            "guid": "12346",
-            "title": "Build Checkmate webOS App",
-            "notes": "Build a Mojo app for Checkmate",
+            "guid": "22222",
+            "title": "Sample Task 2",
+            "notes": "This is the second sample task",
             "completed": false,
             "createTime": "January 1, 2020 17:39:00",
             "completeTime": "",
             "sortPosition": 3
         },
         {
-            "guid": "12345",
-            "title": "Build Checkmate Service",
-            "notes": "Figure out how to make a cross-platform, retro-friendly, web-based todo list",
+            "guid": "11111",
+            "title": "1st Sample Task",
+            "notes": "This is the first sample task",
             "completed": false,
             "createTime": "January 1, 2020 17:39:00",
             "completeTime": "",
-            "sortPosition": 2
+            "sortPosition": 4
         }
     ]
 }
