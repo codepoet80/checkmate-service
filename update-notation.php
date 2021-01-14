@@ -25,7 +25,9 @@ if (is_object($postdata)) {
 
 //Output the results
 header('Content-Type: application/json');
-print_r (json_encode($updatedtaskdata));
+
+$movedata = convert_move_to_public_schema($updatedtaskdata);
+print_r (json_encode($movedata));
 exit();
 
 //Determine if this is a create or update
@@ -34,9 +36,7 @@ function update_or_create_task($newtaskitem, $oldtaskdata){
     $updatedtaskdata = "";
     if(strtolower($newtaskitem->guid) == "new")
     {
-        echo ("called new!");
-        die;
-        $updatedtaskdata = create_new_task($newtaskitem, $oldtaskdata);
+        $updatedtaskdata = create_new_task($newtaskitem, $oldtaskdata, false);
     }
     else
     {

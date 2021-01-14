@@ -15,8 +15,11 @@ function get_function_endpoint($functionName) {
     else  
         $url = "http://";
     $url.= $_SERVER['HTTP_HOST'];   
-    $url.= $_SERVER['REQUEST_URI'];    
-    $url = str_replace(basename($_SERVER['PHP_SELF']), $functionName . ".php", $url);
+    $url.= $_SERVER['REQUEST_URI'];  
+    $page = basename($_SERVER['PHP_SELF']);
+    $url.= $page;
+    $url = str_replace($page, $functionName . ".php", $url);
+    $url = strtok($url, "?");
     return $url;
 }
 
@@ -64,6 +67,14 @@ function get_notation_data($file, $grandmaster) {
         die ("Illegal move");
     
     return $jsondata;
+}
+
+function convert_move_to_public_schema($data) {
+    class notationdata {};
+    $move = new notationdata();
+    $move->notation = $data['notation'];
+    $move->tasks = $data['moves'];
+    return $move;
 }
 
 ?>

@@ -5,7 +5,7 @@
             "guid": "44444",
             "title": "Num 4 Sample Task",
             "notes": "This is the 4th sample task",
-            "completed": false,
+            "completed": true,
             "createTime": "January 1, 2020 17:39:00",
             "completeTime": "",
             "sortPosition": 4
@@ -14,7 +14,7 @@
             "guid": "33333",
             "title": "#3 Sample Task",
             "notes": "This is the third sample task",
-            "completed": true,
+            "completed": false,
             "createTime": "January 1, 2020 17:39:00",
             "completeTime": "",
             "sortPosition": 3
@@ -23,7 +23,7 @@
             "guid": "22222",
             "title": "Sample Task 2",
             "notes": "This is the second sample task",
-            "completed": false,
+            "completed": true,
             "createTime": "January 1, 2020 17:39:00",
             "completeTime": "",
             "sortPosition": 2

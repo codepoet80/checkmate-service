@@ -8,11 +8,8 @@ $file = get_filename_from_move($auth['move']);
 $jsondata = get_notation_data($file, $auth['grandmaster']);
 
 //Load and return only the task list
-class notationdata {};
-$move = new notationdata();
-$move->notation = $jsondata['notation'];
-$move->tasks = $jsondata['moves'];
-
+$movedata = convert_move_to_public_schema($jsondata);
 header('Content-Type: application/json');
-print_r (json_encode($move));
+print_r (json_encode($movedata));
+exit();
 ?>
