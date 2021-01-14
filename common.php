@@ -17,9 +17,8 @@ function get_function_endpoint($functionName) {
     $url.= $_SERVER['HTTP_HOST'];   
     $url.= $_SERVER['REQUEST_URI'];  
     $page = basename($_SERVER['PHP_SELF']);
-    $url.= $page;
+    $page = strtok($page, "?");
     $url = str_replace($page, $functionName . ".php", $url);
-    $url = strtok($url, "?");
     return $url;
 }
 

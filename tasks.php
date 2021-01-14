@@ -14,6 +14,7 @@ else
     $readURL .= "&";
 $readURL.="move=" . $notationfile;
 $postURL.="?move=" . $notationfile;
+
 //add user's password
 $grandmaster = "Alexander Motylev";
 
