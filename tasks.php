@@ -4,7 +4,7 @@ include("web-common.php");
 
 //figure out paths
 $readURL = get_function_endpoint("read-notation");
-$postURL = get_function_endpoint("update-notation");
+$postURL = get_function_endpoint("update-notation");    
 
 //add user's notation
 $notationfile = "pawn-queensbishop4";
@@ -15,15 +15,17 @@ else
 $readURL.="move=" . $notationfile;
 $postURL.="?move=" . $notationfile;
 
-//add user's password
+//add user's password -- which should be posted in from some kind of login page
 $grandmaster = "Alexander Motylev";
 
 //LOAD EXISTING DATA
 $response = load_task_data($readURL, $notationFile, $grandmaster);
 $data = json_decode($response);
+//echo "Data was: <br>";
+//print_r ($data);
 
 //POST CHANGED DATA
-if (isset($_GET["submit"]) && $_GET["submit"] == true)
+if ((isset($_GET["submit"]) && $_GET["submit"] == true) || (isset($_POST["submit"]) && $_POST["submit"] == true))
 {
     //Look for changed completion status
     $tasks = (array)$data->tasks;
@@ -77,7 +79,10 @@ if (isset($_GET["submit"]) && $_GET["submit"] == true)
         }
     }
     $response = update_task_data($postURL, $notationFile, $grandmaster, json_encode($tasks));
-    $data = json_decode($response);
+    if (isset($response))
+        $data = json_decode($response);
+    //echo "Data is: <br>";
+    //print_r ($data);
 }
 
 ?>
@@ -91,7 +96,22 @@ if (isset($_GET["submit"]) && $_GET["submit"] == true)
 </head>
 <body>
 <h2><div><span>Check Mate - <?php echo $data->notation ?></span></div></h2>
-<form action="?notation=<?php echo urlencode($data->notation)?>&submit=true" method="post">
+<?php
+//Debugging
+/*
+echo "<hr>";
+echo "<b>GET data: </b>";
+print_r($_GET);
+echo "<br>";
+echo "<b>POST data: </b>";
+print_r($_POST);
+echo "<br>";
+$postdata = file_get_contents("php://input");
+print_r($postdata);
+echo "<br><hr>";
+*/
+?>
+<form action="?notation=<?php echo urlencode($data->notation)?>" method="post">
 <table cellpadding="2" cellspacing="2" border="0" width="80%">
 <tr><td colspan="3"><hr></td></tr>
 <?php
@@ -102,7 +122,7 @@ if (isset($_GET["submit"]) && $_GET["submit"] == true)
         if ($task->completed)
             echo " checked";
         echo "><br/>&nbsp;</td>\r\n";
-        echo "<td width='100%'><b>" . $task->title . "</b><br/>" . $task->notes . "<br/>&nbsp;</td>\r\n";
+        echo "<td width='100%' class='taskListDetailCell'><b>" . $task->title . "</b><br/>" . $task->notes . "<br/>&nbsp;</td>\r\n";
         echo "<td><a href='?edit=" . $task->guid . "'>Edit</a>";
         echo "<br><a href='?delete=" . $task->guid . "'> Delete</td></tr>\r\n";
     }
@@ -140,6 +160,7 @@ if (!isset($editTask)) {
 ?>
 <tr><td colspan="3" align="right"><input type="submit" value="Save Changes"></td></tr>
 </table>
+<input type="hidden" name="submit" value="on"/>
 </form>
 </body>
 </html>

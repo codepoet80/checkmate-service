@@ -2,7 +2,16 @@ body,
 table,
 tr,
 td {
-    font-family: sans-serif, 'Franklin Gothic Medium', 'Arial Narrow', Arial
+    font-family: sans-serif, 'Franklin Gothic Medium', 'Arial Narrow', Arial;
+    border-bottom: 1px solid white;
+}
+
+.taskListDetailCell {
+    padding-top: 18px;
+}
+
+body {
+    background-color: lightblue;
 }
 
 h2 {
