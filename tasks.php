@@ -53,15 +53,9 @@ $response = load_task_data($readURL, $notationFile, $grandmaster);
 
 if (isset($response))
     $data = json_decode($response);
-
-//TODO: Handle bad login
-/*
-if (!isset($move) || !isset($grandmaster))
-{
-    header ("Location: login.php");
-    exit();
-}
-*/
+//$debugMsg .= "Data was: <br>";
+//$debugMsg .= $response;
+//TODO: handle bad data
 
 if ((isset($_GET['delete']) && $_GET['delete'] != ""))
 {
@@ -138,6 +132,7 @@ if ((isset($_GET["submit"]) && $_GET["submit"] == true) || (isset($_POST["submit
 
     if (isset($response))
         $data = json_decode($response);
+    //TODO: handle bad data
     //$debugMsg .= "Data now: <br>";
     //$debugMsg .= $response;
 }
@@ -148,10 +143,24 @@ if ((isset($_GET["submit"]) && $_GET["submit"] == true) || (isset($_POST["submit
 <link rel="shortcut icon" href="favicon.ico">
 <link rel="stylesheet" href="style.css">
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1" />
-
 <title>Check Mate - Your To Do List Anywhere</title>
+<script>
+    function swapTech()
+    {
+        document.getElementById("tableControls").style.marginTop = "14px";
+        document.getElementById("divCancel").innerHTML = "<input type=\"button\" value=\"Cancel Changes\" class=\"button\" onclick=\"document.location='<?php echo $actionUrl?>'\"/>";
+        document.getElementById("divLogout").innerHTML = "<input type=\"button\" value=\"Log Out\" class=\"button\" onclick=\"document.location='login.php'\"/>";
+        document.getElementById("divClear").innerHTML = "<input type=\"button\" value=\"Clear Completed\" class=\"button\"/>";
+        //TODO: 
+        // Replace delete link with button
+        // If !XMLHTTPRequest
+            //Replace edit link with button
+        // Else
+            //Replace edit fields with double click to edit
+    }
+</script>
 </head>
-<body>
+<body onload="swapTech()">
 <h2><div><span>Check Mate<br><i><?php echo $data->notation ?></i></span></div></h2>
 
 <?php
@@ -203,17 +212,28 @@ else {
     $editGUID = "new";
 }
 ?>
-<a name="editfield"><i><b><?php echo $editTitle ?>
-<table width="80%" cellpadding="0" cellspacing="0" border="0"><tr>
-<tr><td valign="top">
+<span class="editTitle"><a name="editfield"><i><b><?php echo $editTitle ?></span>
+
+<table class="tableEdit" width="80%" cellpadding="0" cellspacing="0" border="0"><tr>
+<tr>
+    <td valign="top" width="90">
         &nbsp;Task Title: &nbsp;
-</td><td><input type="text" size="40" name="editTaskTitle" id="editTaskTitle" value="<?php echo $editTask->title ?>"></input></td></tr>
-<tr><td>
+    </td>
+    <td width="*">
+        <input type="text" size="45" name="editTaskTitle" id="editTaskTitle" value="<?php echo $editTask->title ?>"></input>
+    </td>
+</tr>
+<tr>
+    <td valign="top" width="90">
         &nbsp;Task Notes: &nbsp;
-</td><td><textarea name="editTaskNotes" cols="40" rows="5" id="editTaskNotes"><?php echo $editTask->notes ?></textarea></td></tr>
-</td></tr>
+    </td>
+    <td width="*">
+        <textarea name="editTaskNotes" cols="40" rows="5" id="editTaskNotes"><?php echo $editTask->notes ?></textarea></td></tr>
+    </td>
+</tr>
 </table>
-<table width="80%" cellpadding="0" cellspacing="0" border="0"><tr>
+
+<table id="tableControls" width="80%" cellpadding="0" cellspacing="0" border="0"><tr>
     <td align="left">
         <span id="divCancel"><a href="<?php echo $actionUrl ?>">Cancel Changes</a></span> | <span id="divLogout"><a href="login.php?logout=true">Log out</a></span> 
     </td>
