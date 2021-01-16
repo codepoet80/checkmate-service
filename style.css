@@ -3,15 +3,14 @@ table,
 tr,
 td {
     font-family: sans-serif, 'Franklin Gothic Medium', 'Arial Narrow', Arial;
-    border-bottom: 1px solid white;
 }
 
 .taskListDetailCell {
-    padding-top: 18px;
+    no-padding-top: 18px;
 }
 
 body {
-    background-color: lightblue;
+    background-color: gray;
 }
 
 h2 {
@@ -30,5 +29,46 @@ h2 div span {
 }
 
 h2 div::before {
-    content: url('icon-64.png');
+    content: url('images/icon-64.png');
+}
+
+small {
+    font-size: x-small;
+}
+
+
+/* Login page */
+
+.login {
+    background-image: url('images/chessboard-3d.jpg');
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    background-color: black;
+}
+
+.tableBorder {
+    border-collapse: collapse;
+    border: none;
+}
+
+.tableBorder td {
+    border-collapse: collapse;
+    border: none;
+}
+
+.tableLogin {
+    border-top: 1px solid white;
+    border-left: 1px solid white;
+    border-right: 1px solid darkslategray;
+    border-bottom: 1px solid darkslategray;
+    border-radius: 6px;
+}
+
+.button {
+    padding: 6px 12px 6px 12px;
+    border-top: 1px solid white;
+    border-left: 1px solid white;
+    border-right: 1px solid darkslategray;
+    border-bottom: 1px solid darkslategray;
+    border-radius: 3px;
 }
