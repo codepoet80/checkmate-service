@@ -1,9 +1,10 @@
-<html>
 <?php
+    setcookie("grandmaster", "", time() - 3600);
     include("common.php");
     include("web-common.php");
-    setcookie("grandmaster", "", time() - 3600);
 ?>
+
+<html>
 <head>
     <title>Check Mate - Your To Do List Anywhere</title>
     <link rel="shortcut icon" href="favicon.ico">
@@ -45,23 +46,23 @@ $errorMsg = "DEBUG...<br>";
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td width="30">&nbsp;</td>
-                                    <td width="140" align="right">Chess Move:&nbsp; </td>
-                                    <td width="270"><input type="text" id="txtMove" name="move" size="30" /></td>
+                                    <td width="20">&nbsp;</td>
+                                    <td width="150" align="right">Chess Move:&nbsp; </td>
+                                    <td width="260"><input type="text" id="txtMove" name="move" size="25" /></td>
                                 </tr>
                                 <tr>
-                                    <td width="30">&nbsp;</td>
-                                    <td width="140" align="right">Grand Master:&nbsp; </td>
-                                    <td width="270"><input type="text" id="txtGrandmaster" name="grandmaster" size="30" /></td>
+                                    <td width="20">&nbsp;</td>
+                                    <td width="150" align="right">Grand Master: </td>
+                                    <td width="260"><input type="text" id="txtGrandmaster" name="grandmaster" size="25" /></td>
                                 </tr>
                                 <tr>
-                                    <td width="30">&nbsp;</td>
+                                    <td width="20">&nbsp;</td>
                                     <td colspan="2" align="left">&nbsp;<br/><input type="checkbox" id="chkUseGet" name="useGet" /> Use GET (Less secure, but Bookmark friendly)<br/>&nbsp;</td>
                                 </tr>
                                 <tr>
-                                    <td width="30">&nbsp;</td>
+                                    <td width="20">&nbsp;</td>
                                     <td align="left" valign="bottom"><div id="divNewUser"><a href="new-user.php">New Game</a></div></td>
-                                    <td align="right" valign="bottom"><input class="button" type="submit" id="btnSubmit" value="Login"/><img src="images/spacer.gif" width="30"></td>
+                                    <td align="right" valign="bottom"><input class="button" type="submit" id="btnSubmit" value="Login"/><img src="images/spacer.gif" width="20"></td>
                                 </tr>
                                 <tr>
                                     <td colspan="3" align="center"><small><a href="privacy.html">Privacy Info</a></small><br/>&nbsp;</td>

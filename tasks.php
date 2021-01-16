@@ -25,6 +25,7 @@ else
         setcookie("grandmaster", $grandmaster, time() + (3600), "/");
     }
 }
+
 if (!isset($move) || !isset($grandmaster))
 {
     header ("Location: login.php");
@@ -49,6 +50,7 @@ $postURL.="?move=" . $move;
 
 //load existing data
 $response = load_task_data($readURL, $notationFile, $grandmaster);
+
 if (isset($response))
     $data = json_decode($response);
 
@@ -133,6 +135,7 @@ if ((isset($_GET["submit"]) && $_GET["submit"] == true) || (isset($_POST["submit
     }
     //post changes and get updated data
     $response = update_task_data($postURL, $notationFile, $grandmaster, json_encode($tasks));
+
     if (isset($response))
         $data = json_decode($response);
     //$debugMsg .= "Data now: <br>";
@@ -149,7 +152,7 @@ if ((isset($_GET["submit"]) && $_GET["submit"] == true) || (isset($_POST["submit
 <title>Check Mate - Your To Do List Anywhere</title>
 </head>
 <body>
-<h2><div><span>Check Mate - <?php echo $data->notation ?></span></div></h2>
+<h2><div><span>Check Mate<br><i><?php echo $data->notation ?></i></span></div></h2>
 
 <?php
     if ($debugMsg != "") {
@@ -161,7 +164,7 @@ if ((isset($_GET["submit"]) && $_GET["submit"] == true) || (isset($_POST["submit
 ?>
 <form action="<?php echo $actionUrl?>" method="post">
 <table cellpadding="2" cellspacing="2" border="0" width="80%">
-<tr><td colspan="3"><hr></td></tr>
+<tr><td colspan="3"><hr/></td></tr>
 <?php
     $tasks = (array)$data->tasks;
     foreach ($tasks as $task)
@@ -169,14 +172,16 @@ if ((isset($_GET["submit"]) && $_GET["submit"] == true) || (isset($_POST["submit
         echo "<tr><td><input type='checkbox' id='" . $task->guid . "' name='check[" . $task->guid . "]'";
         if ($task->completed)
             echo " checked";
-        echo "></td>\r\n";
-        echo "<td valign='top' width='100%' class='taskListDetailCell'><b>" . $task->title . "</b><br/>" . $task->notes . "<br/></td>\r\n";
-        echo "<td><a href='" . $actionUrl . "&edit=" . $task->guid . "#editfield'>Edit</a>";
-        echo "<br><a href='" . $actionUrl . "&delete=" . $task->guid . "'>Delete</td></tr>\r\n";
-        echo "<tr><td colspan='3'><img src='images/spacer.gif' height='5'/></td></tr>";
+        echo "></input></td>\r\n";
+        echo "<td valign='top' width='100%' class='taskListDetailCell'><b>" . $task->title . "</b><br/>" . $task->notes . "<br/></td>";
+        echo "<td><a href=\"" . $actionUrl . "&edit=" . $task->guid . "#editfield\">Edit</a>\r\n";
+        echo "<br/><a href='" . $actionUrl . "&delete=" . $task->guid . "'>Delete</a></td></tr>\r\n";
+        echo "<tr><td colspan='3'><img src='images/spacer.gif' height='4'/></td></tr>";
     }
 ?>
 <tr><td colspan="3"><hr></td></tr>
+</table>
+
 <?php
 if (isset($_GET['edit']) && $_GET['edit'] != ""){
     $editGUID = $_GET['edit'];
@@ -198,27 +203,26 @@ else {
     $editGUID = "new";
 }
 ?>
-<tr><td valign="top" colspan="3"><a name="editfield"><i><b><?php echo $editTitle ?></b></i></a></td></tr>
-<tr><td colspan="3" valign="top">
-    <table border="0">
-        <tr><td>&nbsp;Task Title: </td><td><input type="text" size="40" name="editTaskTitle" id="editTaskTitle" value="<?php echo $editTask->title ?>"></td></tr>
-        <tr><td>&nbsp;Task Notes: </td><td><textarea name="editTaskNotes" cols="40" rows="5" id="editTaskNotes"><?php echo $editTask->notes ?></textarea></td></tr>
-    </table>
+<a name="editfield"><i><b><?php echo $editTitle ?>
+<table width="80%" cellpadding="0" cellspacing="0" border="0"><tr>
+<tr><td valign="top">
+        &nbsp;Task Title: &nbsp;
+</td><td><input type="text" size="40" name="editTaskTitle" id="editTaskTitle" value="<?php echo $editTask->title ?>"></input></td></tr>
+<tr><td>
+        &nbsp;Task Notes: &nbsp;
+</td><td><textarea name="editTaskNotes" cols="40" rows="5" id="editTaskNotes"><?php echo $editTask->notes ?></textarea></td></tr>
 </td></tr>
-<tr>
-    <td colspan="3">
-        <table width="100%"><tr>
-            <td align="left">
-                <span id="divCancel"><a href="<?php echo $actionUrl ?>">Cancel Changes</a></span> | <span id="divLogout"><a href="login.php?logout=true">Log out</a></span> 
-            </td>
-            <td align="right">
-                <input type="hidden" name="editTaskID" value="<?php echo $editGUID?>">
-                <span id="divClear"><a href="<?php echo $actionUrl ?>">Clear Completed</a> &nbsp;</span>
-                <input type="submit" value="Save Changes" class="button">
-            </td>
-        </tr></table>
-</tr>
 </table>
+<table width="80%" cellpadding="0" cellspacing="0" border="0"><tr>
+    <td align="left">
+        <span id="divCancel"><a href="<?php echo $actionUrl ?>">Cancel Changes</a></span> | <span id="divLogout"><a href="login.php?logout=true">Log out</a></span> 
+    </td>
+    <td align="right">
+        <input type="hidden" name="editTaskID" value="<?php echo $editGUID?>">
+        <span id="divClear"><a href="<?php echo $actionUrl ?>">Clear Completed</a> &nbsp;</span>
+        <input type="submit" value="Save Changes" class="button">
+    </td>
+</tr></table>
 <input type="hidden" name="submit" value="on"/>
 </form>
 </body>
