@@ -40,7 +40,7 @@ $errorMsg = "DEBUG...<br>";
                             <table width="100%" height="100%" bgcolor="lightgray" border="0" class="tableLogin">
                                 <tr>
                                     <td colspan="3" align="center">
-                                        <img src="images/icon-64.png" /><br/>
+                                        <img src="images/icon2-64.png" style="margin-top:8px;"/><br/>
                                         <b>Check Mate - Login</b><br/>
                                         &nbsp;
                                     </td>
