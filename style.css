@@ -10,7 +10,7 @@ td {
 }
 
 body {
-    background-color: gray;
+    background-color: #dcdcdc;
 }
 
 h2 {
@@ -40,18 +40,35 @@ small {
     margin-bottom: 38px;
 }
 
-.tableEdit {
+#tableEdit {
     margin-top: 18px;
     margin-bottom: 8px;
 }
 
-.tableEdit td {
+#tableEdit td {
     font-size: smaller;
+}
+
+#editTaskTitle {
+    width: 320px;
+    font-family: sans-serif, 'Franklin Gothic Medium', 'Arial Narrow', Arial;
+    font-size: 10pt;
+}
+
+#editTaskNotes {
+    width: 320px;
+    font-family: sans-serif, 'Franklin Gothic Medium', 'Arial Narrow', Arial;
+    font-size: 10pt;
 }
 
 #tableControls td {
     font-size: smaller;
     font-weight: bold;
+}
+
+input[type="checkbox"] {
+    transform: scale(1.5, 1.5);
+    margin-right: 10px;
 }
 
 

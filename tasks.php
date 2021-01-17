@@ -143,6 +143,8 @@ if ((isset($_GET["submit"]) && $_GET["submit"] == true) || (isset($_POST["submit
 <link rel="shortcut icon" href="favicon.ico">
 <link rel="stylesheet" href="style.css">
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1" />
+<link rel="icon" href="images/icon-64png" type="image/png">
+<meta http-equiv="Pragma" content="no-cache">
 <title>Check Mate - Your To Do List Anywhere</title>
 <script>
     function swapTech()
@@ -158,6 +160,7 @@ if ((isset($_GET["submit"]) && $_GET["submit"] == true) || (isset($_POST["submit
         // Else
             //Replace edit fields with double click to edit
     }
+    
 </script>
 </head>
 <body onload="swapTech()">
@@ -173,7 +176,7 @@ if ((isset($_GET["submit"]) && $_GET["submit"] == true) || (isset($_POST["submit
 ?>
 <form action="<?php echo $actionUrl?>" method="post">
 <table cellpadding="2" cellspacing="2" border="0" width="80%">
-<tr><td colspan="3"><hr/></td></tr>
+<tr><td colspan="4"><hr/></td></tr>
 <?php
     $tasks = (array)$data->tasks;
     foreach ($tasks as $task)
@@ -192,7 +195,7 @@ if ((isset($_GET["submit"]) && $_GET["submit"] == true) || (isset($_POST["submit
         echo "<tr><td colspan='3'><img src='images/spacer.gif' height='4'/></td></tr>";
     }
 ?>
-<tr><td colspan="3"><hr></td></tr>
+<tr><td colspan="4"><hr></td></tr>
 </table>
 
 <?php
@@ -218,7 +221,7 @@ else {
 ?>
 <span class="editTitle"><a name="editfield"><i><b><?php echo $editTitle ?></span>
 
-<table class="tableEdit" width="80%" cellpadding="0" cellspacing="0" border="0"><tr>
+<table id="tableEdit" width="80%" cellpadding="0" cellspacing="0" border="0"><tr>
 <tr>
     <td valign="top" width="90">
         &nbsp;Task Title: &nbsp;
