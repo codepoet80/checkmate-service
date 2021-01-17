@@ -182,7 +182,11 @@ if ((isset($_GET["submit"]) && $_GET["submit"] == true) || (isset($_POST["submit
         if ($task->completed)
             echo " checked";
         echo "></input></td>\r\n";
-        echo "<td valign='top' width='100%' class='taskListDetailCell'><b>" . $task->title . "</b><br/>" . $task->notes . "<br/></td>";
+        echo "<td valign='middle' width='100%' class='taskListDetailCell'><b>" . $task->title . "</b>";
+        if ($task->notes != "") {
+            echo "<br/>" . $task->notes . "<br/>";
+        } 
+        echo "<td>";
         echo "<td><a href=\"" . $actionUrl . "&edit=" . $task->guid . "#editfield\">Edit</a>\r\n";
         echo "<br/><a href='" . $actionUrl . "&delete=" . $task->guid . "'>Delete</a></td></tr>\r\n";
         echo "<tr><td colspan='3'><img src='images/spacer.gif' height='4'/></td></tr>";
