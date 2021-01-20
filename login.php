@@ -10,7 +10,7 @@
     <link rel="shortcut icon" href="favicon.ico">
     <link rel="stylesheet" href="style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1" />
-    <link rel="icon" href="images/icon-64png" type="image/png">
+    <link rel="icon" href="icon.png" type="image/png">
     <script>
         function swapTech() {
             document.getElementById("divNewUser").innerHTML = "<input class='button' type='button' id='btnNew' value='New Game' onclick='createNew()'/>"
@@ -41,7 +41,7 @@ $errorMsg = "DEBUG...<br>";
                             <table width="100%" height="100%" bgcolor="lightgray" border="0" class="tableLogin">
                                 <tr>
                                     <td colspan="3" align="center">
-                                        <img src="images/icon-64.png" style="margin-top:8px;"/><br/>
+                                        <img src="images/icon3-64.png" style="margin-top:8px;"/><br/>
                                         <b>Check Mate - Login</b><br/>
                                         &nbsp;
                                     </td>

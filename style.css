@@ -29,7 +29,7 @@ h2 div span {
 }
 
 h2 div::before {
-    content: url('images/icon2-64.png');
+    content: url('images/icon3-64.png');
 }
 
 small {

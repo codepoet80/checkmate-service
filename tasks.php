@@ -143,7 +143,7 @@ if ((isset($_GET["submit"]) && $_GET["submit"] == true) || (isset($_POST["submit
 <link rel="shortcut icon" href="favicon.ico">
 <link rel="stylesheet" href="style.css">
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1" />
-<link rel="icon" href="images/icon-64png" type="image/png">
+<link rel="icon" href="icon.png" type="image/png">
 <meta http-equiv="Pragma" content="no-cache">
 <title>Check Mate - Your To Do List Anywhere</title>
 <script>
