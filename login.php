@@ -13,9 +13,10 @@
     <link rel="icon" href="icon.png" type="image/png">
     <script>
         function swapTech() {
-            document.getElementById("divNewUser").innerHTML = "<input class='button' type='button' id='btnNew' value='New Game' onclick='createNew()'/>"
+            document.getElementById("divNewUser").innerHTML = "<input class=\"button\" type=\"button\" id=\"btnNew\" value=\"New Game\" onclick=\"document.location='agreement.php'\"/>"
         }
         function createNew() {
+
             alert ("I'll create a new game for you!");
         }
         function checkSubmit() {
@@ -62,7 +63,7 @@ $errorMsg = "DEBUG...<br>";
                                 </tr>
                                 <tr>
                                     <td width="20">&nbsp;</td>
-                                    <td align="left" valign="bottom"><div id="divNewUser"><a href="new-user.php">New Game</a></div></td>
+                                    <td align="left" valign="bottom"><div id="divNewUser"><a href="agreement.php">New Game</a></div></td>
                                     <td align="right" valign="bottom"><input class="button" type="submit" id="btnSubmit" value="Login"/><img src="images/spacer.gif" width="20"></td>
                                 </tr>
                                 <tr>
