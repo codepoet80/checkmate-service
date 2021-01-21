@@ -1,0 +1,13 @@
+{
+    "notation": "Check Mate",
+    "grandmaster": "By Jonathan Wise",
+    "moves": [{
+        "guid": "999",
+        "title": "Delete this task",
+        "notes": "Welcome to Check Mate! Delete this task within 24 hours to confirm you're using the service.",
+        "completed": false,
+        "createTime": "January 1, 2020 17:39:00",
+        "completeTime": "",
+        "sortPosition": 1
+    }]
+}

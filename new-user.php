@@ -28,6 +28,11 @@ do {
     $file = "notations/". get_filename_from_move($move);
 } while (file_exists($file));
 
+//Load the template, populate this user's values, and save as a new file
+
+//Run clean-up
+//TODO: write clean-up routine
+
 class user {};
 $newuser = new user();
 $newuser->move = $move;
