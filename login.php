@@ -23,7 +23,6 @@
                 document.getElementById("txtGrandmaster").focus();
                 return false;
             }
-            //validate input
             return true;
         }
     </script>
