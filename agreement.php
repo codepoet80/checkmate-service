@@ -88,6 +88,7 @@
                                             <li>The host of this service will comply with any legal requests for logs or data. Do not use this service for illegal activity or content, your IP address will likely be visible in the logs, and the host provides no protection or idemnification.</li>
                                             <li>The host of this service reserves the right to deny service to anyone whose use of the service is not in good faith or has the appearance of being unreasonable, damaging, or irresponsible.</li>
                                             <li>This service may go down without notice, and provides no SLA.</li>
+                                            <li>If your check list goes unused for more than 30 days, it will be automatically purged.</li>
                                         </ul>
                                         </small>
                                     </td>

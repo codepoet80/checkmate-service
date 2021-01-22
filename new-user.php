@@ -1,5 +1,6 @@
 <?php
 include("common.php");
+include("web-common.php");
 
 function make_random_move() {
     $pieces = array("King", "Queen", "Rook", "Bishop", "Pawn");
@@ -25,19 +26,25 @@ function get_random_grandmaster() {
 do {
     $move = make_random_move();
     $grandmaster = get_random_grandmaster();
-    $file = "notations/". get_filename_from_move($move);
-} while (file_exists($file));
+    $newfile = try_make_move_from_input($move, true);
+    $newfile = get_filename_from_move($newfile);
+} while (file_exists($newfile));
 
 //Load the template, populate this user's values, and save as a new file
+$templatefile = file_get_contents("template.json"); 
+$templatedata = json_decode($templatefile);
+$templatedata->notation = $move;
+$templatedata->grandmaster = $grandmaster;
+file_put_contents($newfile, json_encode($templatedata, JSON_PRETTY_PRINT));
 
-//Run clean-up
+//Run clean-up routine
 //TODO: write clean-up routine
 
 class user {};
 $newuser = new user();
 $newuser->move = $move;
 $newuser->grandmaster = $grandmaster;
-$newuser->file = $file;
+$newuser->newfile = $newfile;
 
 header('Content-Type: application/json');
 print_r (json_encode($newuser));

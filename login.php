@@ -15,22 +15,13 @@
         function swapTech() {
             document.getElementById("divNewUser").innerHTML = "<input class=\"button\" type=\"button\" id=\"btnNew\" value=\"New Game\" onclick=\"document.location='agreement.php'\"/>"
         }
-        function createNew() {
-
-            alert ("I'll create a new game for you!");
-        }
         function checkSubmit() {
             //validate input
-                return true;
+            return true;
         }
     </script>
 </head>
 <body background='images/chessboard.jpg' class="login" onload="swapTech()">
-<?php
-//Debugging
-$errorMsg = "DEBUG...<br>";
-
-?> 
 <table width="100%" height="100%" border="0" id="tableLayout">
     <tr>
         <td width="100%" height="100%" border="0" id="tdLayout" align="center">
@@ -38,7 +29,6 @@ $errorMsg = "DEBUG...<br>";
                 <table width="400" height="300" border="1" class="tableBorder">
                     <tr>
                         <td>
-                            
                             <table width="100%" height="100%" bgcolor="lightgray" border="0" class="tableLogin">
                                 <tr>
                                     <td colspan="3" align="center">

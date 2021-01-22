@@ -3,7 +3,7 @@ include("common.php");
 include("web-common.php");
 
 //figure out query
-if (isset($_POST['move']) || isset($_GET['move']))
+if (isset($_POST['move']) || isset($_GET['move']))  //find the move
 {
     if (isset($_POST['move']))
         $move = try_make_move_from_input($_POST['move']);
@@ -11,26 +11,28 @@ if (isset($_POST['move']) || isset($_GET['move']))
         $move = try_make_move_from_input($_GET['move']);
 }
 
-if (isset($_COOKIE["grandmaster"]))
-{
-    $grandmaster = $_COOKIE["grandmaster"];
+if (isset($_POST['grandmaster']) || isset($_GET['grandmaster'])) //find the grandmaster
+{  
+    if (isset($_POST['grandmaster']))
+        $grandmaster = $_POST['grandmaster'];
+    if (isset($_GET['grandmaster']))
+        $grandmaster = base64url_decode($_GET['grandmaster']);
+    setcookie("grandmaster", $grandmaster, time() + (3600), "/");
 }
-else
+else //or get from a cookie
 {
-    if (isset($_POST['grandmaster']) || isset($_GET['grandmaster'])) {
-        if (isset($_POST['grandmaster']))
-            $grandmaster = $_POST['grandmaster'];
-        if (isset($_GET['grandmaster']))
-            $grandmaster = base64url_decode($_GET['grandmaster']);
-        setcookie("grandmaster", $grandmaster, time() + (3600), "/");
+    if (isset($_COOKIE["grandmaster"]))
+    {
+        $grandmaster = $_COOKIE["grandmaster"];
     }
-}
-
-if (!isset($move) || !isset($grandmaster))
+}   
+if (!isset($move) || !isset($grandmaster))  //or just go home
 {
     header ("Location: login.php");
     exit();
 }
+
+//figure out paths
 $actionUrl = get_function_endpoint("tasks");
 $actionUrl .= "?move=" . $move;
 if (isset($_POST['useGet']) || isset($_GET['useGet'])) {
@@ -41,7 +43,6 @@ if (isset($_POST['useGet']) || isset($_GET['useGet'])) {
     }
 }
 
-//figure out paths
 $readURL = get_function_endpoint("read-notation");
 $readURL.="?move=" . $move;
 
@@ -50,14 +51,15 @@ $postURL.="?move=" . $move;
 
 //load existing data
 $response = load_task_data($readURL, $notationFile, $grandmaster);
+//check for errors
+if (isset($response)) {
+    if (check_response_for_errors($response)) {
+        $data = json_decode($response);
+    }
+}
 
-if (isset($response))
-    $data = json_decode($response);
-//$debugMsg .= "Data was: <br>";
-//$debugMsg .= $response;
-//TODO: handle bad data
-
-if ((isset($_GET['delete']) && $_GET['delete'] != ""))
+//if we were loaded with a delete query
+if (isset($data) && (isset($_GET['delete']) && $_GET['delete'] != ""))
 {
     //Just the tasks
     $tasks = (array)$data->tasks;
@@ -70,12 +72,15 @@ if ((isset($_GET['delete']) && $_GET['delete'] != ""))
         }
     }
     $response = update_task_data($postURL, $notationFile, $grandmaster, json_encode($tasks));
-    if (isset($response))
-        $data = json_decode($response);
+    if (isset($response)) {
+        if (check_response_for_errors($response)) {
+            $data = json_decode($response);
+        }
+    }
 }
 
-//update data from post (if any)
-if ((isset($_GET["submit"]) && $_GET["submit"] == true) || (isset($_POST["submit"]) && $_POST["submit"] == true))
+//if we were loaded with any other kinds of data updates
+if (isset($data) && (isset($_GET["submit"]) && $_GET["submit"] == true) || (isset($_POST["submit"]) && $_POST["submit"] == true))
 {
     //Just the tasks
     $tasks = (array)$data->tasks;
@@ -130,13 +135,48 @@ if ((isset($_GET["submit"]) && $_GET["submit"] == true) || (isset($_POST["submit
     //post changes and get updated data
     $response = update_task_data($postURL, $notationFile, $grandmaster, json_encode($tasks));
 
-    if (isset($response))
-        $data = json_decode($response);
-    //TODO: handle bad data
+    if (isset($response)) {
+        if (check_response_for_errors($response)) {
+            $data = json_decode($response);
+        }
+    }
     //$debugMsg .= "Data now: <br>";
     //$debugMsg .= $response;
 }
 
+//error handling for all loads
+function check_response_for_errors($response)
+{
+    try {
+        $data = json_decode($response);
+    }
+    catch (exception $e) {
+        $GLOBALS['debugMsg'] .= "An error occurred parsing your move file: <br>";
+        $GLOBALS['debugMsg'] .= $e->getMessage();
+        return false;
+    }
+    
+    if (isset($data->error))
+    {
+        if (strpos(strtolower($data->error), "illegal move") !== false)
+        {
+            //Wrong password
+            $GLOBALS['debugMsg'] .= "Authentication failure: <br>";
+            $GLOBALS['debugMsg'] .= $data->error;
+            $GLOBALS['debugMsg'] .= "<br><a href='login.php?login=fail'>Return to Log In</a>";
+            header ("Location: login.php?login=fail");
+            exit();
+        }
+        else
+        {
+            //Some other error
+            $GLOBALS['debugMsg'] .= "An error occurred opening your data file: <br>";
+            $GLOBALS['debugMsg'] .= $data->error;
+            return false;
+        }
+    }
+    return true;
+}
 ?>
 <html>
 <head>
@@ -164,93 +204,108 @@ if ((isset($_GET["submit"]) && $_GET["submit"] == true) || (isset($_POST["submit
 </script>
 </head>
 <body onload="swapTech()">
-<h2><div><span>Check Mate<br><i><?php echo $data->notation ?></i></span></div></h2>
+<table width="80%">
+    <tr>
+        <td><img src="images/icon3-64.png"></td>
+        <td width="100%"><h2><div><span>Check Mate<br><i><?php echo $data->notation ?></i></span></div></h2></td>
+        <td><div id="divLogout" style="float:right"><a href="login.php?logout=true">Log out</a></div></td>
+    </tr>
+</table>
 
 <?php
+    //Display debugMsg if any
     if ($debugMsg != "") {
         echo "<table width=\"400\" bgcolor=\"lightgray\" border=\"1\" class=\"tableLogin\" ><tr><td class=\"tableLogin\" >" . $debugMsg . "<br>";
+        echo "<br>POST data was: ";
         print_r ($_POST);
         echo "</td></tr></table>";
         echo "<br>&nbsp;<br>";
     }
 ?>
 <form action="<?php echo $actionUrl?>" method="post">
-<table cellpadding="2" cellspacing="2" border="0" width="80%">
-<tr><td colspan="4"><hr/></td></tr>
-<?php
-    $tasks = (array)$data->tasks;
-    foreach ($tasks as $task)
-    {
-        echo "<tr><td><input type='checkbox' id='" . $task->guid . "' name='check[" . $task->guid . "]'";
-        if ($task->completed)
-            echo " checked";
-        echo "></input></td>\r\n";
-        echo "<td valign='middle' width='100%' class='taskListDetailCell'><b>" . $task->title . "</b>";
-        if ($task->notes != "") {
-            echo "<br/>" . $task->notes . "<br/>";
-        } 
-        echo "<td>";
-        echo "<td><a href=\"" . $actionUrl . "&edit=" . $task->guid . "#editfield\">Edit</a>\r\n";
-        echo "<br/><a href='" . $actionUrl . "&delete=" . $task->guid . "'>Delete</a></td></tr>\r\n";
-        echo "<tr><td colspan='3'><img src='images/spacer.gif' height='4'/></td></tr>";
-    }
-?>
-<tr><td colspan="4"><hr></td></tr>
-</table>
+    <!-- Main Tasks Table -->
+    <table cellpadding="2" cellspacing="2" border="0" width="80%">
+        <tr><td colspan="3" id="taskTableFrameTop"><hr/></td></tr>
+        <?php
+        $tasks = (array)$data->tasks;
+        foreach ($tasks as $task)
+        {
+            echo "\t\t<tr>\r\n";
+            echo "\t\t\t<td><input type='checkbox' id='" . $task->guid . "' name='check[" . $task->guid . "]'";
+            if ($task->completed)
+                echo " checked";
+            echo "/></td>\r\n";
+            echo "\t\t\t<td valign='middle' width='100%' class='taskListDetailCell'><b>" . $task->title . "</b>";
+            if ($task->notes != "") {
+                echo "<br/>" . $task->notes . "<br/>";
+            } 
+            echo "</td>\r\n";
+            echo "\t\t\t<td><a href=\"" . $actionUrl . "&edit=" . $task->guid . "#editfield\">Edit</a>\r\n";
+            echo "\t\t\t\t<a href='" . $actionUrl . "&delete=" . $task->guid . "'>Delete</a></td>\r\n";
+            echo "\t\t</tr>\r\n";
+            echo "\t\t<tr><td colspan='3'><img src='images/spacer.gif' height='4'/></td></tr>\r\n";
+        }
+        ?>
+        <tr><td colspan="3" id="taskTableFrameBottom"><hr></td></tr>
+    </table>
 
-<?php
-if (isset($_GET['edit']) && $_GET['edit'] != ""){
-    $editGUID = $_GET['edit'];
-    foreach ($tasks as $task)
-    {
-        if ($task->guid == $editGUID) {
-            $editTask = $task;
+    <?php
+    //Figure out what to put in New/Edit area for older clients
+    if (isset($_GET['edit']) && $_GET['edit'] != ""){
+        $editGUID = $_GET['edit'];
+        foreach ($tasks as $task)
+        {
+            if ($task->guid == $editGUID) {
+                $editTask = $task;
+            }
         }
     }
-}
-if (isset($editTask)) {
-    $editTitle = "Edit Task";
-}
-else {
-    $editTitle = "New Task";
-    $editTask = new stdClass();
-    $editTask->title = "";
-    $editTask->notes = "";
-    $editGUID = "new";
-}
-?>
-<span class="editTitle"><a name="editfield"><i><b><?php echo $editTitle ?></span>
+    if (isset($editTask)) {
+        $editTitle = "Edit Task";
+    }
+    else {
+        $editTitle = "New Task";
+        $editTask = new stdClass();
+        $editTask->title = "";
+        $editTask->notes = "";
+        $editGUID = "new";
+    }
+    ?>
 
-<table id="tableEdit" width="80%" cellpadding="0" cellspacing="0" border="0"><tr>
-<tr>
-    <td valign="top" width="90">
-        &nbsp;Task Title: &nbsp;
-    </td>
-    <td width="*">
-        <input type="text" size="45" name="editTaskTitle" id="editTaskTitle" value="<?php echo $editTask->title ?>"></input>
-    </td>
-</tr>
-<tr>
-    <td valign="top" width="90">
-        &nbsp;Task Notes: &nbsp;
-    </td>
-    <td width="*">
-        <textarea name="editTaskNotes" cols="40" rows="5" id="editTaskNotes"><?php echo $editTask->notes ?></textarea></td></tr>
-    </td>
-</tr>
-</table>
+    <!-- New/Edit Area for older clients -->
+    <div id="buffer"><p></p></div>
+    <span class="editTitle"><a name="editfield"><i><b><?php echo $editTitle ?></b></i></a></span>
+    <table id="tableEdit" width="80%" cellpadding="0" cellspacing="0" border="0"><tr>
+    <tr>
+        <td valign="top" width="90">
+            &nbsp;Task Title: &nbsp;
+        </td>
+        <td width="*">
+            <input type="text" size="45" name="editTaskTitle" id="editTaskTitle" value="<?php echo $editTask->title ?>"/>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top" width="90">
+            &nbsp;Task Notes: &nbsp;
+        </td>
+        <td width="*">
+            <textarea name="editTaskNotes" cols="40" rows="5" id="editTaskNotes"><?php echo $editTask->notes ?></textarea>
+        </td>
+    </tr>
+    </table>
 
-<table id="tableControls" width="80%" cellpadding="0" cellspacing="0" border="0"><tr>
-    <td align="left">
-        <span id="divCancel"><a href="<?php echo $actionUrl ?>">Cancel Changes</a></span> | <span id="divLogout"><a href="login.php?logout=true">Log out</a></span> 
-    </td>
-    <td align="right">
-        <input type="hidden" name="editTaskID" value="<?php echo $editGUID?>">
-        <span id="divClear"><a href="<?php echo $actionUrl ?>">Clear Completed</a> &nbsp;</span>
-        <input type="submit" value="Save Changes" class="button">
-    </td>
-</tr></table>
-<input type="hidden" name="submit" value="on"/>
+    <!-- Control Buttons -->
+    <table id="tableControls" width="80%" cellpadding="0" cellspacing="0" border="0"><tr>
+        <td align="left">
+            <span id="divCancel"><a href="<?php echo $actionUrl ?>">Cancel Changes</a></span>
+        </td>
+        <td align="right">
+            <input type="hidden" name="editTaskID" value="<?php echo $editGUID?>">
+            <span id="divClear"><a href="<?php echo $actionUrl ?>">Clear Completed</a></span>&nbsp;
+            <input type="submit" value="Save Changes" class="button">
+        </td>
+    </tr></table>
+    <input type="hidden" name="submit" value="on"/>
 </form>
 </body>
 </html>

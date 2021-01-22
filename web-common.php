@@ -57,7 +57,7 @@ function load_task_data($url, $notationFile, $grandmaster) {
     }
 }
 
-function try_make_move_from_input($input)
+function try_make_move_from_input($input, $new = false)
 {
     $input = strtolower($input);
     $input = str_replace(" to ", " ", $input);
@@ -81,7 +81,7 @@ function try_make_move_from_input($input)
             $count++;
         }
     }
-    if (file_exists(get_filename_from_move($move)))
+    if ($new|| file_exists(get_filename_from_move($move)))
         return $move;
     else
         return false;

@@ -28,9 +28,10 @@ h2 div span {
     margin-left: 4px;
 }
 
-h2 div::before {
+
+/*h2 div::before {
     content: url('images/icon3-64.png');
-}
+}*/
 
 small {
     font-size: x-small;

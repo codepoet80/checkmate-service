@@ -118,7 +118,7 @@ function find_next_sortPosition($oldtaskdata) {
 
 function validate_incoming_data($newtaskdata)
 {
-    //todo: validate new data before pushing
+    //TODO: validate new data before pushing
     return $newtaskdata;
 }
 ?>

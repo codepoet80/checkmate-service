@@ -46,20 +46,20 @@ function get_authorization() {
 
 function get_notation_data($file, $grandmaster) {
     if (!file_exists($file))
-        die ("Specified move was malformed or could not be opened");
+        die ("{\"error\":\"Specified move was not found or could not be opened.\"}");
 
     try {
         $notations = file_get_contents($file);
         $jsondata = json_decode($notations, true);
     }
     catch (exception $e) {
-        die ("Move file content could not be loaded");
+        die ("{\"error\":\"Notation content could not be loaded.\"}");
     }
 
     //Make sure the file belongs to the requesting user
     $owner = strtolower($jsondata['grandmaster']);
     if ($grandmaster != $owner)
-        die ("Illegal move");
+        die ("{\"error\":\"Illegal move. You are not the Grand Master.\"}");
     
     return $jsondata;
 }
