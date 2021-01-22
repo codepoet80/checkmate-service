@@ -13,6 +13,10 @@ body {
     background-color: #dcdcdc;
 }
 
+.contentTable {
+    margin-left: 5%;
+}
+
 h2 {
     padding-top: 18px;
     margin-bottom: 4px;
@@ -38,7 +42,7 @@ small {
 }
 
 .editTitle {
-    margin-bottom: 38px;
+    font-size: larger;
 }
 
 #tableEdit {

@@ -204,7 +204,7 @@ function check_response_for_errors($response)
 </script>
 </head>
 <body onload="swapTech()">
-<table width="80%">
+<table width="80%" class="contentTable">
     <tr>
         <td><img src="images/icon3-64.png"></td>
         <td width="100%"><h2><div><span>Check Mate<br><i><?php echo $data->notation ?></i></span></div></h2></td>
@@ -224,7 +224,7 @@ function check_response_for_errors($response)
 ?>
 <form action="<?php echo $actionUrl?>" method="post">
     <!-- Main Tasks Table -->
-    <table cellpadding="2" cellspacing="2" border="0" width="80%">
+    <table cellpadding="2" cellspacing="2" border="0" width="80%" class="contentTable">
         <tr><td colspan="3" id="taskTableFrameTop"><hr/></td></tr>
         <?php
         $tasks = (array)$data->tasks;
@@ -248,7 +248,7 @@ function check_response_for_errors($response)
         ?>
         <tr><td colspan="3" id="taskTableFrameBottom"><hr></td></tr>
     </table>
-
+    
     <?php
     //Figure out what to put in New/Edit area for older clients
     if (isset($_GET['edit']) && $_GET['edit'] != ""){
@@ -273,9 +273,12 @@ function check_response_for_errors($response)
     ?>
 
     <!-- New/Edit Area for older clients -->
-    <div id="buffer"><p></p></div>
-    <span class="editTitle"><a name="editfield"><i><b><?php echo $editTitle ?></b></i></a></span>
-    <table id="tableEdit" width="80%" cellpadding="0" cellspacing="0" border="0"><tr>
+    <table id="tableEdit" width="80%" cellpadding="0" cellspacing="0" border="0" class="contentTable">
+    <tr>
+        <td colspan="2">
+            <span class="editTitle"><a name="editfield"><i><b><?php echo $editTitle ?></b></i></a></span>
+            <br/>&nbsp;
+        </td>
     <tr>
         <td valign="top" width="90">
             &nbsp;Task Title: &nbsp;
@@ -293,9 +296,11 @@ function check_response_for_errors($response)
         </td>
     </tr>
     </table>
+    <img src="images/spacer.gif" height="4">
 
     <!-- Control Buttons -->
-    <table id="tableControls" width="80%" cellpadding="0" cellspacing="0" border="0"><tr>
+    <table id="tableControls" width="80%" cellpadding="0" cellspacing="0" border="0" class="contentTable">
+    <tr>
         <td align="left">
             <span id="divCancel"><a href="<?php echo $actionUrl ?>">Cancel Changes</a></span>
         </td>
@@ -304,8 +309,10 @@ function check_response_for_errors($response)
             <span id="divClear"><a href="<?php echo $actionUrl ?>">Clear Completed</a></span>&nbsp;
             <input type="submit" value="Save Changes" class="button">
         </td>
-    </tr></table>
+    </tr>
+    </table>
     <input type="hidden" name="submit" value="on"/>
+    
 </form>
 </body>
 </html>
