@@ -14,7 +14,7 @@ body {
 }
 
 .contentTable {
-	width: 90%;
+    width: 90%;
     margin-left: 0.5em;
     margin-right: 0.5em;
 }
@@ -113,4 +113,11 @@ input[type="checkbox"] {
     border-right: 1px solid darkslategray;
     border-bottom: 1px solid darkslategray;
     border-radius: 3px;
+}
+
+.button:active {
+    border-top: 1px solid darkslategray;
+    border-left: 1px solid darkslategray;
+    border-right: 1px solid white;
+    border-bottom: 1px solid white;
 }

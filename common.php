@@ -72,6 +72,35 @@ function convert_move_to_public_schema($data) {
     return $move;
 }
 
+function try_make_move_from_input($input, $new = false) {
+    $input = strtolower($input);
+    $input = str_replace(" to ", " ", $input);
+    $input = str_replace(" to", " ", $input);
+    $input = str_replace("to ", " ", $input);
+    $input = str_replace("to", " ", $input);
+    $input = str_replace(" - ", " ", $input);
+    $input = str_replace(" -", " ", $input);
+    $input = str_replace("- ", " ", $input);
+    $input = str_replace("-", " ", $input);
+    $input = str_replace("'", "", $input);
+    $inputParts = explode(" ", $input);
+    //TODO: also replace shorthands
+    if (array_count_values($inputParts) > 1) {
+        $move = $inputParts[0] . "-";
+        $count = 0;
+        foreach ($inputParts as $part)
+        {
+            if ($count > 0)
+                $move .= $part;
+            $count++;
+        }
+    }
+    if ($new|| file_exists(get_filename_from_move($move)))
+        return $move;
+    else
+        return false;
+}
+
 function base64url_encode($data)
 {
   // First of all you should encode $data to Base64 string

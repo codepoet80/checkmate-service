@@ -14,20 +14,23 @@ if (is_array($postdata)) {
     foreach ($postdata as $thistask) {
         $jsondata = get_notation_data($file, $auth['grandmaster']);
         $updatedtaskdata = update_or_create_task($thistask, $jsondata);
-        file_put_contents($file, json_encode($updatedtaskdata, JSON_PRETTY_PRINT));
+        $written = file_put_contents($file, json_encode($updatedtaskdata, JSON_PRETTY_PRINT));
     }
 }
 if (is_object($postdata)) {
     $jsondata = get_notation_data($file, $auth['grandmaster']);
     $updatedtaskdata = update_or_create_task($postdata, $jsondata);
-    file_put_contents($file, json_encode($updatedtaskdata, JSON_PRETTY_PRINT));
+    $written = file_put_contents($file, json_encode($updatedtaskdata, JSON_PRETTY_PRINT));
 }
 
 //Output the results
 header('Content-Type: application/json');
-
-$movedata = convert_move_to_public_schema($updatedtaskdata);
-print_r (json_encode($movedata));
+if (!$written) {
+    echo "{\"error\":\"failed to write to file\"}";
+} else {
+    $movedata = convert_move_to_public_schema($updatedtaskdata);
+    print_r (json_encode($movedata));    
+}
 exit();
 
 //Determine if this is a create or update

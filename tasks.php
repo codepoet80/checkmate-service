@@ -1,6 +1,6 @@
 <?php
 include("common.php");
-include("web-common.php");
+include("web-functions.php");
 
 //figure out query
 if (isset($_POST['move']) || isset($_GET['move']))  //find the move
@@ -10,7 +10,6 @@ if (isset($_POST['move']) || isset($_GET['move']))  //find the move
     if (isset($_GET['move']))
         $move = try_make_move_from_input($_GET['move']);
 }
-
 if (isset($_POST['grandmaster']) || isset($_GET['grandmaster'])) //find the grandmaster
 {  
     if (isset($_POST['grandmaster']))
@@ -25,8 +24,8 @@ else //or get from a cookie
     {
         $grandmaster = $_COOKIE["grandmaster"];
     }
-}   
-if (!isset($move) || !isset($grandmaster))  //or just go home
+} 
+if (!isset($move) || $move == "" || !isset($grandmaster))  //or just go home if there's no valid query
 {
     header ("Location: login.php");
     exit();
@@ -42,23 +41,33 @@ if (isset($_POST['useGet']) || isset($_GET['useGet'])) {
         exit();
     }
 }
-
 $readURL = get_function_endpoint("read-notation");
 $readURL.="?move=" . $move;
-
 $postURL = get_function_endpoint("update-notation");
 $postURL.="?move=" . $move;
 
-//load existing data
-$response = load_task_data($readURL, $notationFile, $grandmaster);
-//check for errors
-if (isset($response)) {
-    if (check_response_for_errors($response)) {
-        $data = json_decode($response);
+//if we were loaded with a CLEANUP query, do that first
+if (isset($_GET['cleanup']) && $_GET['cleanup'] == "complete")
+{
+    $cleanupURL = get_function_endpoint("cleanup-notation") . "?move=" . $move;
+    $response = clear_completed_tasks($cleanupURL, $grandmaster);
+    if (isset($response)) {
+        if (check_response_for_errors($response)) {
+            $data = json_decode($response);
+        }
+    }
+} else //load existing data
+{
+    $response = load_task_data($readURL, $grandmaster);
+    //check for errors
+    if (isset($response)) {
+        if (check_response_for_errors($response)) {
+            $data = json_decode($response);
+        }
     }
 }
 
-//if we were loaded with a delete query
+//if we were loaded with a DELETE query
 if (isset($data) && (isset($_GET['delete']) && $_GET['delete'] != ""))
 {
     //Just the tasks
@@ -71,7 +80,7 @@ if (isset($data) && (isset($_GET['delete']) && $_GET['delete'] != ""))
             $task->sortPosition = -1;
         }
     }
-    $response = update_task_data($postURL, $notationFile, $grandmaster, json_encode($tasks));
+    $response = update_task_data($postURL, $grandmaster, json_encode($tasks));
     if (isset($response)) {
         if (check_response_for_errors($response)) {
             $data = json_decode($response);
@@ -133,7 +142,7 @@ if (isset($data) && (isset($_GET["submit"]) && $_GET["submit"] == true) || (isse
         }
     }
     //post changes and get updated data
-    $response = update_task_data($postURL, $notationFile, $grandmaster, json_encode($tasks));
+    $response = update_task_data($postURL, $grandmaster, json_encode($tasks));
 
     if (isset($response)) {
         if (check_response_for_errors($response)) {
@@ -147,6 +156,11 @@ if (isset($data) && (isset($_GET["submit"]) && $_GET["submit"] == true) || (isse
 //error handling for all loads
 function check_response_for_errors($response)
 {
+    if (strpos(strtolower($response), "{\"error\":\"failed to write to file\"}")) {
+        $GLOBALS['debugMsg'] .= "The notation file could not be written.<br>";
+        $GLOBALS['debugMsg'] .= "Administrator: ensure your notations folder and all contents are writeable by the web server user.";
+        return false;
+    }
     try {
         $data = json_decode($response);
     }
@@ -192,7 +206,7 @@ function check_response_for_errors($response)
         document.getElementById("tableControls").style.marginTop = "14px";
         document.getElementById("divCancel").innerHTML = "<input type=\"button\" value=\"Cancel Changes\" class=\"button\" onclick=\"document.location='<?php echo $actionUrl?>'\"/>";
         document.getElementById("divLogout").innerHTML = "<input type=\"button\" value=\"Log Out\" class=\"button\" onclick=\"document.location='login.php'\"/>";
-        document.getElementById("divClear").innerHTML = "<input type=\"button\" value=\"Clear Completed\" class=\"button\"/>";
+        document.getElementById("divCleanup").innerHTML = "<input type=\"button\" value=\"Cleanup\" class=\"button\" onclick=\"document.location='<?php echo $actionUrl?>&cleanup=complete'\"/>";
         //TODO: 
         // Replace delete link with button
         // If !XMLHTTPRequest
@@ -215,11 +229,11 @@ function check_response_for_errors($response)
 <?php
     //Display debugMsg if any
     if ($debugMsg != "") {
-        echo "<table width=\"400\" bgcolor=\"lightgray\" border=\"1\" class=\"tableLogin\" ><tr><td class=\"tableLogin\" >" . $debugMsg . "<br>";
+        echo "<br><table width=\"400\" bgcolor=\"pink\" border=\"1\" class=\"tableLogin\" align=\"center\"><tr><td class=\"tableLogin\" >" . $debugMsg . "<br>";
         echo "<br>POST data was: ";
         print_r ($_POST);
         echo "</td></tr></table>";
-        echo "<br>&nbsp;<br>";
+        echo "<br>";
     }
 ?>
 <form action="<?php echo $actionUrl?>" method="post">
@@ -306,7 +320,7 @@ function check_response_for_errors($response)
         </td>
         <td align="right">
             <input type="hidden" name="editTaskID" value="<?php echo $editGUID?>">
-            <span id="divClear"><a href="<?php echo $actionUrl ?>">Clear Completed</a></span>&nbsp;
+            <span id="divCleanup"><a href="<?php echo $actionUrl ?>?cleanup=complete">Clean-up</a></span>&nbsp;
             <input type="submit" value="Save Changes" class="button">
         </td>
     </tr>

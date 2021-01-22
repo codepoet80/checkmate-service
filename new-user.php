@@ -1,6 +1,5 @@
 <?php
 include("common.php");
-include("web-common.php");
 
 function make_random_move() {
     $pieces = array("King", "Queen", "Rook", "Bishop", "Pawn");
@@ -35,7 +34,7 @@ $templatefile = file_get_contents("template.json");
 $templatedata = json_decode($templatefile);
 $templatedata->notation = $move;
 $templatedata->grandmaster = $grandmaster;
-file_put_contents($newfile, json_encode($templatedata, JSON_PRETTY_PRINT));
+$written = file_put_contents($newfile, json_encode($templatedata, JSON_PRETTY_PRINT));
 
 //Run clean-up routine
 //TODO: write clean-up routine
@@ -47,5 +46,10 @@ $newuser->grandmaster = $grandmaster;
 $newuser->newfile = $newfile;
 
 header('Content-Type: application/json');
-print_r (json_encode($newuser));
+if (!$written) {
+    echo "{\"error\":\"failed to write to file\"}";
+} else {
+    print_r (json_encode($newuser));  
+}
+
 ?>

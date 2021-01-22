@@ -1,7 +1,7 @@
 <?php
     setcookie("grandmaster", "", time() - 3600);
     include("common.php");
-    include("web-common.php");
+    include("web-functions.php");
 ?>
 
 <html>
@@ -56,7 +56,13 @@
     {
         $readURL = get_function_endpoint("new-user");
         $json = file_get_contents($readURL); 
-        $data = json_decode($json);
+        if (strpos(strtolower($json), "{\"error\":\"failed to write to file\"}")) {
+            $debugMsg .= "The notation file could not be written.<br>";
+            $debugMsg .= "Administrator: ensure your notations folder and all contents are writeable by the web server user.";
+            echo $debugMsg;
+        } else {
+            $data = json_decode($json);
+        }
     }
     ?>
 </head>
@@ -95,6 +101,9 @@
                                     <td width="20">&nbsp;</td>
                                 </tr>
                                 <?php
+                                if (isset($debugMsg)) {
+                                    echo "<tr><td colspan='4' align='center' bgcolor='pink' border='1'><b>Error: " . $debugMsg . "</b></td></tr>";
+                                }
                                 if (isset($_POST["agreedBy"]) && isset($data) && isset($data->move) && isset($data->grandmaster)) {
                                 //Never do PHP + HTML like this. Very spaghetti.
                                 ?>

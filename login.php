@@ -1,7 +1,6 @@
 <?php
     setcookie("grandmaster", "", time() - 3600);
     include("common.php");
-    include("web-common.php");
 ?>
 
 <html>
@@ -16,6 +15,14 @@
             document.getElementById("divNewUser").innerHTML = "<input class=\"button\" type=\"button\" id=\"btnNew\" value=\"New Game\" onclick=\"document.location='agreement.php'\"/>"
         }
         function checkSubmit() {
+            if (document.getElementById("txtMove").value == "") {
+                document.getElementById("txtMove").focus();
+                return false;
+            }
+            if (document.getElementById("txtGrandmaster").value == "") {
+                document.getElementById("txtGrandmaster").focus();
+                return false;
+            }
             //validate input
             return true;
         }
