@@ -26,7 +26,7 @@ if (is_object($postdata)) {
 //Output the results
 header('Content-Type: application/json');
 if (!$written) {
-    echo "{\"error\":\"failed to write to file\"}";
+    die ("{\"error\":\"failed to write to file\"}");
 } else {
     $movedata = convert_move_to_public_schema($updatedtaskdata);
     print_r (json_encode($movedata));    
@@ -36,30 +36,34 @@ exit();
 //Determine if this is a create or update
 function update_or_create_task($newtaskitem, $oldtaskdata){
     $newtaskitem = validate_incoming_data($newtaskitem);
-    $updatedtaskdata = "";
-    if(strtolower($newtaskitem->guid) == "new")
-    {
-        $updatedtaskdata = create_new_task($newtaskitem, $oldtaskdata, false);
+    if (!$newtaskitem) {
+        die ("{\"error\":\"incoming task data could not be validated: " . json_encode($newtaskitem) . "\"}");
     }
-    else
-    {
-        $existingtasks = $oldtaskdata['moves'];
-        $found = false;
-        foreach ($existingtasks as $existingtask)
+    else {
+        $updatedtaskdata = "";
+        if(strtolower($newtaskitem->guid) == "new")
         {
-            if ($existingtask['guid'] == $newtaskitem->guid)
+            $updatedtaskdata = create_new_task($newtaskitem, $oldtaskdata, false);
+        }
+        else
+        {
+            $existingtasks = $oldtaskdata['moves'];
+            $found = false;
+            foreach ($existingtasks as $existingtask)
             {
-                $found = true;
+                if ($existingtask['guid'] == $newtaskitem->guid)
+                {
+                    $found = true;
+                }
+            }
+
+            if (!$found && $new) {  
+                $updatedtaskdata = create_new_task($newtaskitem, $oldtaskdata, false);
+            } else {
+                $updatedtaskdata = update_existing_task($newtaskitem, $oldtaskdata);
             }
         }
-
-        if (!$found && $new) {  
-            $updatedtaskdata = create_new_task($newtaskitem, $oldtaskdata, false);
-        } else {
-            $updatedtaskdata = update_existing_task($newtaskitem, $oldtaskdata);
-        }
     }
-
     return $updatedtaskdata;
 }
 
@@ -121,7 +125,16 @@ function find_next_sortPosition($oldtaskdata) {
 
 function validate_incoming_data($newtaskdata)
 {
-    //TODO: validate new data before pushing
-    return $newtaskdata;
+    if (isset($newtaskdata->guid) && isset($newtaskdata->title) && isset($newtaskdata->notes)) {
+        $cleanedTask = new stdClass();
+        $cleanedTask->guid = strip_tags($newtaskdata->guid);
+        $cleanedTask->title = strip_tags($newtaskdata->title);
+        $cleanedTask->notes = strip_tags($newtaskdata->notes);    
+        $cleanedTask->sortPosition = $newtaskdata->sortPosition;
+        return $cleanedTask;
+    }
+    else {
+        return false;
+    }
 }
 ?>
