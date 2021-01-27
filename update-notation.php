@@ -129,7 +129,10 @@ function validate_incoming_data($newtaskdata)
         $cleanedTask = new stdClass();
         $cleanedTask->guid = strip_tags($newtaskdata->guid);
         $cleanedTask->title = strip_tags($newtaskdata->title);
-        $cleanedTask->notes = strip_tags($newtaskdata->notes);    
+        $cleanedTask->notes = strip_tags($newtaskdata->notes);
+        $cleanedTask->completed = $newtaskdata->completed;
+        $cleanedTask->createTime = $newtaskdata->createTime;
+        $cleanedTask->completeTime = $newtaskdata->completeTime;
         $cleanedTask->sortPosition = $newtaskdata->sortPosition;
         return $cleanedTask;
     }
