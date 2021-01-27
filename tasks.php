@@ -27,7 +27,7 @@ else //or get from a cookie
 } 
 if (!isset($move) || $move == "" || !isset($grandmaster))  //or just go home if there's no valid query
 {
-    header ("Location: login.php");
+    header ("Location: index.php");
     exit();
 }
 
@@ -177,8 +177,8 @@ function check_response_for_errors($response)
             //Wrong password
             $GLOBALS['debugMsg'] .= "Authentication failure: <br>";
             $GLOBALS['debugMsg'] .= $data->error;
-            $GLOBALS['debugMsg'] .= "<br><a href='login.php?login=fail'>Return to Log In</a>";
-            header ("Location: login.php?login=fail");
+            $GLOBALS['debugMsg'] .= "<br><a href='index.php?login=fail'>Return to Log In</a>";
+            header ("Location: index.php?login=fail");
             exit();
         }
         else
@@ -196,16 +196,17 @@ function check_response_for_errors($response)
 <head>
 <link rel="shortcut icon" href="favicon.ico">
 <link rel="stylesheet" href="style.css">
+<link rel="icon" href="images/icon.png" type="image/png">
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1" />
-<link rel="icon" href="icon.png" type="image/png">
-<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="pragma" content="no-cache">
 <title>Check Mate - Your To Do List Anywhere</title>
 <script>
     function swapTech()
     {
+        document.getElementById("imgIcon").src = "images/icon.png";
         document.getElementById("tableControls").style.marginTop = "14px";
         document.getElementById("divCancel").innerHTML = "<input type=\"button\" value=\"Cancel Changes\" class=\"button\" onclick=\"document.location='<?php echo $actionUrl?>'\"/>";
-        document.getElementById("divLogout").innerHTML = "<input type=\"button\" value=\"Log Out\" class=\"button\" onclick=\"document.location='login.php'\"/>";
+        document.getElementById("divLogout").innerHTML = "<input type=\"button\" value=\"Log Out\" class=\"button\" onclick=\"document.location='index.php'\"/>";
         document.getElementById("divCleanup").innerHTML = "<input type=\"button\" value=\"Cleanup\" class=\"button\" onclick=\"document.location='<?php echo $actionUrl?>&cleanup=complete'\"/>";
         //TODO: 
         // Replace delete link with button
@@ -220,9 +221,9 @@ function check_response_for_errors($response)
 <body onload="swapTech()">
 <table width="80%" class="contentTable">
     <tr>
-        <td><img src="images/icon3-64.png"></td>
+        <td><img src="images/icon.gif" id="imgIcon"></td>
         <td width="100%"><h2><div><span>Check Mate<br><i><?php echo $data->notation ?></i></span></div></h2></td>
-        <td><div id="divLogout" style="float:right"><a href="login.php?logout=true">Log out</a></div></td>
+        <td><div id="divLogout" style="float:right"><a href="index.php?logout=true">Log out</a></div></td>
     </tr>
 </table>
 

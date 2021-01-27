@@ -16,11 +16,12 @@
     </style>
     <script>
         function swapTech() {
+            document.getElementById("imgIcon").src = "images/icon.png";
             if (document.getElementById("divDisagree")) {
-                document.getElementById("divDisagree").innerHTML = "<input class=\"button\" type=\"button\" id=\"btnDisagree\" value=\"Disagree\" onclick=\"document.location='login.php'\"/>"
+                document.getElementById("divDisagree").innerHTML = "<input class=\"button\" type=\"button\" id=\"btnDisagree\" value=\"Disagree\" onclick=\"document.location='index.php'\"/>"
             }
             if (document.getElementById("divLogin")) {
-                document.getElementById("divLogin").innerHTML = "<input class=\"button\" type=\"button\" id=\"btnLogin\" value=\"Log-in\" onclick=\"document.location='login.php'\"/>"
+                document.getElementById("divLogin").innerHTML = "<input class=\"button\" type=\"button\" id=\"btnLogin\" value=\"Log-in\" onclick=\"document.location='index.php'\"/>"
             }
         }
     </script>
@@ -78,7 +79,7 @@
                             <table width="100%" height="100%" bgcolor="lightgray" border="0" class="tableLogin" cellpadding="5">
                                 <tr>
                                     <td colspan="4" align="center">
-                                        <img src="images/icon3-64.png" style="margin-top:8px;"/><br/>
+                                        <img src="images/icon.gif" style="margin-top:8px;" id="imgIcon"/><br/>
                                         <b>Check Mate - User Agreement</b><br/>
                                         &nbsp;
                                     </td>
@@ -123,7 +124,7 @@
                                 <tr>
                                     <td width="20">&nbsp;</td>
                                     <td colspan="2" align="center">
-                                        <div id="divLogin"><a href="login.php">Log-In</a></div>
+                                        <div id="divLogin"><a href="index.php">Log-In</a></div>
                                     </td>
                                     <td width="20">&nbsp;</td>
                                 </tr>
@@ -138,7 +139,7 @@
                                 </tr>
                                 <tr>
                                     <td width="20">&nbsp;<input type="hidden" name="agreedBy" value="<?php echo getUserIP() ?>"/></td>
-                                    <td align="left" valign="bottom"><div id="divDisagree"><a href="login.php">Disagree</a></div></td>
+                                    <td align="left" valign="bottom"><div id="divDisagree"><a href="index.php">Disagree</a></div></td>
                                     <td align="right" valign="bottom"><input class="button" type="submit" id="btnSubmit" value="Agree"/><img src="images/spacer.gif" width="20"></td>
                                     <td width="20">&nbsp;</td>
                                 </tr>
