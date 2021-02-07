@@ -194,9 +194,15 @@ function check_response_for_errors($response)
 ?>
 <html>
 <head>
+<link rel="shortcut icon" sizes="192x192" href="nice-highres.png"> (recommended)
+<link rel="shortcut icon" sizes="128x128" href="niceicon.png">
+<link rel="apple-touch-icon" sizes="128x128" href="niceicon.png">
+<link rel="apple-touch-icon-precomposed" sizes="128x128" href="niceicon.png">
+
+<link rel="shortcut icon" sizes="256x256" href="images/icon-256.png"> (recommended)
 <link rel="shortcut icon" href="favicon.ico">
-<link rel="stylesheet" href="style.css">
 <link rel="icon" href="images/icon.png" type="image/png">
+<link rel="stylesheet" href="style.css">
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1" />
 <meta http-equiv="pragma" content="no-cache">
 <title>Check Mate - Your To Do List Anywhere</title>
