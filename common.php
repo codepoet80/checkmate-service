@@ -8,7 +8,7 @@ function get_filename_from_move($move) {
 function get_function_endpoint($functionName) {
     if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on')   
         $url = "https://";
-    else  
+    else
         $url = "http://";
     $url.= $_SERVER['HTTP_HOST'];   
     $url.= $_SERVER['REQUEST_URI'];  
@@ -24,6 +24,7 @@ function get_authorization() {
     if (!isset($_GET["move"]))
         die ("Move not specified");
     $move = $_GET["move"];
+    $move = try_make_move_from_input($move);
 
     if (!isset($_GET["grandmaster"])){
         $request_headers = getallheaders();
