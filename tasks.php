@@ -202,7 +202,7 @@ function check_response_for_errors($response)
 <link rel="apple-touch-icon" href="images/icon.png"/>
 <link rel="apple-touch-startup-image" href="images/icon-256.png">
 <meta name="apple-mobile-web-app-capable" content="yes" />
-<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="apple-mobile-web-app-status-bar-style" content="white" />
 
 <link rel="stylesheet" href="style.css">
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1" />
