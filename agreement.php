@@ -90,7 +90,9 @@
                                         Checkmate is free to use, and free to host. If you want to host it yourself, visit the <a href="https://github.com/codepoet80/checkmate-service">GitHub repo</a> for more information.<br>
                                         If you want to use this version, there are a few things you need to agree to...
                                         <small>
+                                        <?php
                                         echo file_get_contents("tandc.html");
+                                        ?>
                                         </small>
                                     </td>
                                     <td width="20">&nbsp;</td>
