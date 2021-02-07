@@ -90,13 +90,7 @@
                                         Checkmate is free to use, and free to host. If you want to host it yourself, visit the <a href="https://github.com/codepoet80/checkmate-service">GitHub repo</a> for more information.<br>
                                         If you want to use this version, there are a few things you need to agree to...
                                         <small>
-                                        <ul>
-                                            <li>There is no guarantee of privacy or performance. This is a shared server, and because this service was designed for retro devices user content is not encrypted, and the only protection is through obfuscation -- no modern security is possible.</li>
-                                            <li>The host of this service will comply with any legal requests for logs or data. Do not use this service for illegal activity or content, your IP address will likely be visible in the logs, and the host provides no protection or idemnification.</li>
-                                            <li>The host of this service reserves the right to deny service to anyone whose use of the service is not in good faith or has the appearance of being unreasonable, damaging, or irresponsible.</li>
-                                            <li>This service may go down without notice, and provides no SLA.</li>
-                                            <li>If your check list goes unused for more than 30 days, it will be automatically purged.</li>
-                                        </ul>
+                                        echo file_get_contents("tandc.html");
                                         </small>
                                     </td>
                                     <td width="20">&nbsp;</td>
