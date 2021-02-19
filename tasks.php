@@ -232,6 +232,7 @@ function check_response_for_errors($response)
             var audio = new Audio('sounds/flick1.mp3');
         }
         audio.play();
+        document.formTasks.submit();
     }
     
 </script>
@@ -255,7 +256,7 @@ function check_response_for_errors($response)
         echo "<br>";
     }
 ?>
-<form action="<?php echo $actionUrl?>" method="post">
+<form id="formTasks" name="formTasks" action="<?php echo $actionUrl?>" method="post">
     <!-- Main Tasks Table -->
     <table cellpadding="2" cellspacing="2" border="0" width="80%" class="contentTable">
         <tr><td colspan="3" id="taskTableFrameTop"><hr/></td></tr>
