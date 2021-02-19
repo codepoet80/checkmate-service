@@ -223,6 +223,16 @@ function check_response_for_errors($response)
         // Else
             //Replace edit fields with double click to edit
     }
+
+    function checkTask(checkbox)
+    {
+        if (checkbox.checked) {
+            var audio = new Audio('sounds/completed1.mp3');
+        } else {
+            var audio = new Audio('sounds/flick1.mp3');
+        }
+        audio.play();
+    }
     
 </script>
 </head>
@@ -257,7 +267,7 @@ function check_response_for_errors($response)
             echo "\t\t\t<td><input type='checkbox' id='" . $task->guid . "' name='check[" . $task->guid . "]'";
             if ($task->completed)
                 echo " checked";
-            echo "/></td>\r\n";
+            echo " onchange='checkTask(this)'/></td>\r\n";
             echo "\t\t\t<td valign='middle' width='100%' class='taskListDetailCell'><b>" . $task->title . "</b>";
             if ($task->notes != "") {
                 echo "<br/>" . $task->notes . "<br/>";
