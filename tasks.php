@@ -89,7 +89,7 @@ if (isset($data) && (isset($_GET['delete']) && $_GET['delete'] != ""))
 }
 
 //if we were loaded with any other kinds of data updates
-if (isset($data) && (isset($_GET["submit"]) && $_GET["submit"] == true) || (isset($_POST["submit"]) && $_POST["submit"] == true))
+if (isset($data) && (isset($_GET["dosubmit"]) && $_GET["dosubmit"] == true) || (isset($_POST["dosubmit"]) && $_POST["dosubmit"] == true))
 {
     //Just the tasks
     $tasks = (array)$data->tasks;
@@ -346,7 +346,7 @@ function check_response_for_errors($response)
         </td>
     </tr>
     </table>
-    <input type="hidden" name="submit" value="on"/>
+    <input type="hidden" name="dosubmit" value="on"/>
     
 </form>
 </body>
