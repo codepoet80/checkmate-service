@@ -232,7 +232,7 @@ function check_response_for_errors($response)
             var audio = new Audio('sounds/flick1.mp3');
         }
         audio.play();
-        document.getElementById("formTasks").submit();
+        document.forms["formTasks"].submit();
     }
     
 </script>
