@@ -232,9 +232,10 @@ function check_response_for_errors($response)
             var audio = new Audio('sounds/flick1.mp3');
         }
         audio.play();
+        //TODO: Change this to AJAX
         setTimeout(() => {
             document.getElementById('formTasks').submit();            
-        }, 500);
+        }, 1000);
     }
     
 </script>
