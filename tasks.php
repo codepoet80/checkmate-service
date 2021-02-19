@@ -232,7 +232,8 @@ function check_response_for_errors($response)
             var audio = new Audio('sounds/flick1.mp3');
         }
         audio.play();
-        document.forms["formTasks"].submit();
+        var theForm = document.getElementById('formTasks');
+        theForm.submit();
     }
     
 </script>
