@@ -34,11 +34,6 @@ h2 div span {
     margin-left: 4px;
 }
 
-
-/*h2 div::before {
-    content: url('images/icon3-64.png');
-}*/
-
 small {
     font-size: x-small;
 }
@@ -76,6 +71,39 @@ small {
 input[type="checkbox"] {
     transform: scale(1.5, 1.5);
     margin-right: 10px;
+}
+
+.editLink {
+    display: none;
+}
+
+.editImageWrapper {
+    display: block;
+    margin-top: 8px;
+}
+
+.editImage {
+    height: 16px;
+    width: 16px;
+}
+
+.deleteLink {
+    display: none;
+}
+
+.deleteImageWrapper {
+    display: block;
+    margin-top: 8px;
+}
+
+.deleteImage {
+    height: 16px;
+    width: 16px;
+}
+
+.controlButton {
+    height: 32px;
+    width: 32px;
 }
 
 
