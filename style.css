@@ -78,8 +78,8 @@ input[type="checkbox"] {
 }
 
 .editImageWrapper {
-    display: block;
-    margin-top: 8px;
+    not-display: block;
+    margin-left: 10px;
 }
 
 .editImage {
@@ -92,8 +92,8 @@ input[type="checkbox"] {
 }
 
 .deleteImageWrapper {
-    display: block;
-    margin-top: 8px;
+    not-display: block;
+    margin-left: 10px;
 }
 
 .deleteImage {

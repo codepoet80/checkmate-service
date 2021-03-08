@@ -39,7 +39,7 @@
         //TODO: Detect AJAX and change
 
         setTimeout(() => {
-            document.getElementById('formTasks').submit();            
+            document.getElementById('formTasks').submit();
         }, 1000);
     }
 
@@ -50,18 +50,20 @@
     }
 
     function doTaskDelete(taskId) {
-        var audio = new Audio('sounds/delete1.mp3');
-        audio.play();
+	if (window.confirm("Are you sure you want to delete this task?")) {
+        	var audio = new Audio('sounds/delete1.mp3');
+        	audio.play();
 
-        //TODO: Detect AJAX and change
-        setTimeout(() => {
-            var newURL = actionUrl + "&delete=" + taskId + "#editfield";
-        document.location = newURL;    
-        }, 1000);
+        	//TODO: Detect AJAX and change
+        	setTimeout(() => {
+            		var newURL = actionUrl + "&delete=" + taskId + "#editfield";
+        		document.location = newURL;
+        	}, 1000);
 
-        //Works with AJAX
-        var taskRow = document.getElementById("taskRow" + taskId);
-        taskRow.parentNode.removeChild(taskRow);
+        	//Works with AJAX
+        	var taskRow = document.getElementById("taskRow" + taskId);
+        	taskRow.parentNode.removeChild(taskRow);
+	}
     }
 
     function doCleanup() {
@@ -71,7 +73,7 @@
         //TODO: Detect AJAX and change
         setTimeout(() => {
             var newURL = actionUrl + "&cleanup=complete";
-        document.location = newURL;    
+        document.location = newURL;
         }, 1000);
     }
 
@@ -79,7 +81,6 @@
         document.getElementById('formTasks').submit();
         //TODO: Detect AJAX and change
     }
-    
 </script>
 </head>
 <body onload="swapTech()">
@@ -116,10 +117,10 @@
             echo " onchange='checkTask(this)'/></td>\r\n";
             echo "\t\t\t<td valign='middle' width='100%' class='taskListDetailCell'><b>" . $task->title . "</b>";
             if ($task->notes != "") {
-                echo "<br/>" . $task->notes . "<br/>";
+                echo "&nbsp; <img src='images/note.png' title='" . htmlentities($task->notes) . "' alt='" . htmlentities($task->notes) . "'/>";
             } 
             echo "</td>\r\n";
-            echo "\t\t\t<td>\r\n";
+            echo "\t\t\t<td style='min-width: 60px;'>\r\n";
             echo "\t\t\t\t<span class=\"editLink\">  <a href=\"" . $actionUrl . "&edit=" . $task->guid . "#editfield\">Edit</a></span>\r\n";
             echo "\t\t\t\t<span class=\"editImageWrapper\"><img src=\"images\pencil.png\" class=\"editImage\" onclick=\"doTaskEdit('" . $task->guid . "')\"></span>\r\n";
             echo "\t\t\t\t<span class=\"deleteLink\"><a href=\"" . $actionUrl . "&delete=" . $task->guid . "\">Delete</a></span>\r\n";
