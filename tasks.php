@@ -122,9 +122,9 @@
             echo "</td>\r\n";
             echo "\t\t\t<td style='min-width: 60px;'>\r\n";
             echo "\t\t\t\t<span class=\"editLink\">  <a href=\"" . $actionUrl . "&edit=" . $task->guid . "#editfield\">Edit</a></span>\r\n";
-            echo "\t\t\t\t<span class=\"editImageWrapper\"><img src=\"images\pencil.png\" class=\"editImage\" onclick=\"doTaskEdit('" . $task->guid . "')\"></span>\r\n";
+            echo "\t\t\t\t<span class=\"editImageWrapper\"><img src=\"images/pencil.png\" class=\"editImage\" onclick=\"doTaskEdit('" . $task->guid . "')\"></span>\r\n";
             echo "\t\t\t\t<span class=\"deleteLink\"><a href=\"" . $actionUrl . "&delete=" . $task->guid . "\">Delete</a></span>\r\n";
-            echo "\t\t\t\t<span class=\"deleteImageWrapper\"><img src=\"images\delete.png\" class=\"deleteImage\" onclick=\"doTaskDelete('" . $task->guid . "')\"></span>\r\n";
+            echo "\t\t\t\t<span class=\"deleteImageWrapper\"><img src=\"images/delete.png\" class=\"deleteImage\" onclick=\"doTaskDelete('" . $task->guid . "')\"></span>\r\n";
             echo "\t\t\t</td>\r\n\t\t</tr>\r\n";
             echo "\t\t<tr><td colspan='3'><img src='images/spacer.gif' height='4'/></td></tr>\r\n";
         }
