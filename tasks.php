@@ -94,7 +94,7 @@
 
 <?php
     //Display debugMsg if any
-    if ($debugMsg != "") {
+    if (isset($debugMsg) && $debugMsg != "") {
         echo "<br><table width=\"400\" bgcolor=\"pink\" border=\"1\" class=\"tableLogin\" align=\"center\"><tr><td class=\"tableLogin\" >" . $debugMsg . "<br>";
         echo "<br>POST data was: ";
         print_r ($_POST);
