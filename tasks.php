@@ -150,7 +150,7 @@
             echo " onchange='checkTask(this)'/></td>\r\n";
             echo "\t\t\t<td valign='middle' width='100%' class='taskListDetailCell'><b>" . $task->title . "</b>";
             if ($task->notes != "") {
-                echo "&nbsp; <img src='images/note.png' title='" . htmlentities($task->notes) . "' alt='" . htmlentities($task->notes) . "'/>";
+                echo "&nbsp; <img src='images/note.gif' title='" . htmlentities($task->notes) . "' alt='" . htmlentities($task->notes) . "'/>";
             } 
             echo "</td>\r\n";
             echo "\t\t\t<td style='min-width: 60px;'>\r\n";
