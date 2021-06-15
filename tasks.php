@@ -8,7 +8,7 @@
 <?php
     include("web-meta.php");
 ?>
-<script type="text/javascript" src="checkmate-ajax.js"></script> 
+<script type="text/javascript" src="checkmate-ajax.js?nocache=<?php echo uniqid(); ?>"></script> 
 <script>
     var actionUrl = "<?php echo $actionUrl ?>";
     checkmate.actionUrl = actionUrl;

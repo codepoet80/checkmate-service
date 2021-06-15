@@ -7,7 +7,7 @@
 <link rel="apple-touch-startup-image" href="images/icon-256.png">
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="white" />
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?nocache=<?php echo uniqid(); ?>">
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1" />
 <meta http-equiv="pragma" content="no-cache">
 <title>Check Mate - Your To Do List Anywhere</title>
