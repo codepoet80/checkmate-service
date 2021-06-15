@@ -11,9 +11,13 @@
 <script type="text/javascript" src="checkmate-ajax.js"></script> 
 <script>
     var actionUrl = "<?php echo $actionUrl ?>";
+    checkmate.actionUrl = actionUrl;
     var usegm = "<?php echo base64_encode ($grandmaster) ?>";
+    var usenotation = "<?php echo $data->notation ?>";
+    var taskdata = JSON.parse("<?php echo addslashes(json_encode($data->tasks)); ?>");
     var xhr = checkmate.detectXHR();
-    xhr = false;
+    //alert ("xhr is: " + xhr);
+    //xhr = false;
 
     function swapTech()
     {
@@ -28,19 +32,48 @@
             //TODO: Invent pop-up UI
     }
 
-    function checkTask(checkbox)
-    {
+    function checkTask(checkbox){
         if (checkbox.checked) {
             var audio = new Audio('sounds/completed1.mp3');
         } else {
             var audio = new Audio('sounds/flick1.mp3');
         }
         audio.play();
-        //TODO: Detect AJAX and change
 
-        setTimeout(() => {
-            document.getElementById('formTasks').submit();
-        }, 1000);
+        //TODO: Detect AJAX and change
+        if (xhr) {
+            console.log("Updating task " + checkbox.id);
+            for (var i=0;i<taskdata.length; i++) {
+                if (taskdata[i].guid == checkbox.id) {
+                    updatetask = taskdata[i];
+                }
+            }
+            if (updatetask) {
+                updatetask.completed = checkbox.checked;
+                checkmate.updateTask(usegm, usenotation, updatetask, function(response) {
+                    if (!response) {
+                        alert ("Error: No response from server!");
+                    } else {
+                        if (JSON.parse(response)) {
+                            response = JSON.parse(response);
+                            if (response.error) {
+                                alert (response.error)
+                            } else {
+                                taskdata = response;
+                            }
+                        } else {
+                            alert ("Error: Could not parse server response!");
+                        }
+                    }
+                });
+            } else {
+                alert ("Error: Could not find task data to update!");
+            }
+        } else {
+            setTimeout(() => {
+                document.getElementById('formTasks').submit();
+            }, 1000);
+        }
     }
 
     function doTaskEdit(taskId) {
@@ -50,20 +83,20 @@
     }
 
     function doTaskDelete(taskId) {
-	if (window.confirm("Are you sure you want to delete this task?")) {
-        	var audio = new Audio('sounds/delete1.mp3');
-        	audio.play();
+        if (window.confirm("Are you sure you want to delete this task?")) {
+                var audio = new Audio('sounds/delete1.mp3');
+                audio.play();
 
-        	//TODO: Detect AJAX and change
-        	setTimeout(() => {
-            		var newURL = actionUrl + "&delete=" + taskId + "#editfield";
-        		document.location = newURL;
-        	}, 1000);
+                //TODO: Detect AJAX and change
+                setTimeout(() => {
+                        var newURL = actionUrl + "&delete=" + taskId + "#editfield";
+                    document.location = newURL;
+                }, 1000);
 
-        	//Works with AJAX
-        	var taskRow = document.getElementById("taskRow" + taskId);
-        	taskRow.parentNode.removeChild(taskRow);
-	}
+                //Works with AJAX
+                var taskRow = document.getElementById("taskRow" + taskId);
+                taskRow.parentNode.removeChild(taskRow);
+        }
     }
 
     function doCleanup() {
