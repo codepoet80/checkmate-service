@@ -1,5 +1,7 @@
 var taskModel = {
-    taskData: ""
+    taskData: "",
+    grandmaster: "",
+    notation: ""
 }
 
 taskModel.doCheckTask = function(checkbox) {
@@ -17,7 +19,7 @@ taskModel.doCheckTask = function(checkbox) {
         taskToUpdate = this.findTaskDataFromId(taskId)
         if (taskToUpdate) {
             taskToUpdate.completed = checkbox.checked;
-            checkmate.updateTask(usegm, usenotation, taskToUpdate, this.handleServerResponse);
+            checkmate.updateTask(this.grandmaster, this.notation, taskToUpdate, this.handleServerResponse);
         } else {
             alert ("Error: Could not find task data to update!");
         }
@@ -39,16 +41,17 @@ taskModel.doTaskDelete = function(taskId) {
         //Immediate feedback
         var audio = new Audio('sounds/delete1.mp3');
         audio.play();
-
-        var taskRow = document.getElementById("taskRow" + taskId);
-        taskRow.parentNode.removeChild(taskRow);
-
         if (xhr) {
             console.log("Deleting task " + taskId);
+
+            //remove affected row
+            var taskRow = document.getElementById("taskRow" + taskId);
+            taskRow.parentNode.removeChild(taskRow);
+
             taskToUpdate = this.findTaskDataFromId (taskId)
             if (taskToUpdate) {
                 taskToUpdate.sortPosition = -1;
-                checkmate.updateTask(usegm, usenotation, taskToUpdate, this.handleServerResponse);
+                checkmate.updateTask(this.grandmaster, this.notation, taskToUpdate, this.handleServerResponse);
             } else {
                 alert ("Error: Could not find task data to update!");
             }
@@ -61,7 +64,7 @@ taskModel.doTaskDelete = function(taskId) {
     }
 }
 
-taskModel.findTaskDataFromId = function (taskId) {
+taskModel.findTaskDataFromId = function(taskId) {
     console.log("finding " + taskId + " in " + JSON.stringify(this.taskData));
     var taskToUpdate;
     for (var i=0;i<this.taskData.length; i++) {
@@ -70,6 +73,25 @@ taskModel.findTaskDataFromId = function (taskId) {
         }
     }
     return taskToUpdate;
+}
+
+taskModel.doCleanup = function() {
+    if (window.confirm("Are you sure you want to remove all completed tasks?")) {
+        //Immediate feedback
+        var audio = new Audio('sounds/trash1.mp3');
+        audio.play();
+
+        if (xhr) {
+            //TODO: Need to remove affected rows
+            
+            checkmate.clearCompletedTasks(this.grandmaster, this.notation, this.handleServerResponse)
+        } else {
+            setTimeout(() => {
+                var newURL = actionUrl + "&cleanup=complete";
+            document.location = newURL;
+            }, 1000);
+        }
+    }
 }
 
 taskModel.handleServerResponse = function (response) {

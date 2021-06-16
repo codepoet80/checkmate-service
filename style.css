@@ -51,6 +51,14 @@ small {
     font-size: smaller;
 }
 
+#dragHandle {
+
+}
+
+.taskrow.dragging { background-color: #fea; }
+
+.taskrow.active { background: #ffd4d4; }
+
 #editTaskTitle {
     width: 320px;
     font-family: sans-serif, 'Franklin Gothic Medium', 'Arial Narrow', Arial;

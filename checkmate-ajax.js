@@ -1,6 +1,5 @@
 var checkmate = {
-    //globals
-    actionUrl: ""
+    actionUrl: "",    
 }
 
 checkmate.buildURL = function(actionType) {
@@ -32,6 +31,22 @@ checkmate.updateTask = function(grandmaster, notation, taskData, callback) {
     xmlhttp.onreadystatechange = function() {
         if (xmlhttp.readyState == XMLHttpRequest.DONE) {
             console.log ("Got Update response from service: " + xmlhttp.responseText);
+            if (callback)
+                callback(xmlhttp.responseText);
+        }
+    };
+}
+
+checkmate.clearCompletedTasks = function(grandmaster, notation, callback) {
+    var theQuery = this.buildURL("cleanup-notation") + "?move=" + notation;
+    console.log ("Clear completed tasks at URL: " + theQuery);
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("GET", theQuery);
+    xmlhttp.setRequestHeader("grandmaster", atob(grandmaster));
+    xmlhttp.send();
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+            console.log ("Got Clear completed tasks response from service: " + xmlhttp.responseText);
             if (callback)
                 callback(xmlhttp.responseText);
         }
