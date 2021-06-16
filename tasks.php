@@ -1,26 +1,24 @@
 <?php
     include("common.php");
     include("web-functions.php");
-    include("tasks-functions.php");
+    include("task-functions.php");
 ?>
 <html>
 <head>
 <?php
     include("web-meta.php");
 ?>
-<script type="text/javascript" src="checkmate-ajax.js?nocache=<?php echo uniqid(); ?>"></script> 
+<script type="text/javascript" src="checkmate-ajax.js?nocache=<?php echo uniqid(); ?>"></script>
+<script type="text/javascript" src="task-model.js?nocache=<?php echo uniqid(); ?>"></script> 
 <script>
     var actionUrl = "<?php echo $actionUrl ?>";
     checkmate.actionUrl = actionUrl;
     var usegm = "<?php echo base64_encode ($grandmaster) ?>";
     var usenotation = "<?php echo $data->notation ?>";
-    var taskdata = JSON.parse("<?php echo addslashes(json_encode($data->tasks)); ?>");
+    taskModel.taskData = JSON.parse("<?php echo addslashes(json_encode($data->tasks)); ?>");
     var xhr = checkmate.detectXHR();
-    //alert ("xhr is: " + xhr);
-    //xhr = false;
 
-    function swapTech()
-    {
+    function swapTech() {
         document.getElementById("imgIcon").src = "images/icon.png";
         document.getElementById("tableControls").style.marginTop = "14px";
         document.getElementById("divLogout").innerHTML = "<input type=\"button\" value=\"Log Out\" class=\"button\" onclick=\"document.location='index.php'\"/>";
@@ -31,73 +29,7 @@
         //TODO: Detect sufficient CSS and remove edit box, in favor of some pop-up UI
             //TODO: Invent pop-up UI
     }
-
-    function checkTask(checkbox){
-        if (checkbox.checked) {
-            var audio = new Audio('sounds/completed1.mp3');
-        } else {
-            var audio = new Audio('sounds/flick1.mp3');
-        }
-        audio.play();
-
-        //TODO: Detect AJAX and change
-        if (xhr) {
-            console.log("Updating task " + checkbox.id);
-            for (var i=0;i<taskdata.length; i++) {
-                if (taskdata[i].guid == checkbox.id) {
-                    updatetask = taskdata[i];
-                }
-            }
-            if (updatetask) {
-                updatetask.completed = checkbox.checked;
-                checkmate.updateTask(usegm, usenotation, updatetask, function(response) {
-                    if (!response) {
-                        alert ("Error: No response from server!");
-                    } else {
-                        if (JSON.parse(response)) {
-                            response = JSON.parse(response);
-                            if (response.error) {
-                                alert (response.error)
-                            } else {
-                                taskdata = response;
-                            }
-                        } else {
-                            alert ("Error: Could not parse server response!");
-                        }
-                    }
-                });
-            } else {
-                alert ("Error: Could not find task data to update!");
-            }
-        } else {
-            setTimeout(() => {
-                document.getElementById('formTasks').submit();
-            }, 1000);
-        }
-    }
-
-    function doTaskEdit(taskId) {
-        //TODO: Detect AJAX and change
-        var newURL = actionUrl + "&edit=" + taskId + "#editfield";
-        document.location = newURL;
-    }
-
-    function doTaskDelete(taskId) {
-        if (window.confirm("Are you sure you want to delete this task?")) {
-                var audio = new Audio('sounds/delete1.mp3');
-                audio.play();
-
-                //TODO: Detect AJAX and change
-                setTimeout(() => {
-                        var newURL = actionUrl + "&delete=" + taskId + "#editfield";
-                    document.location = newURL;
-                }, 1000);
-
-                //Works with AJAX
-                var taskRow = document.getElementById("taskRow" + taskId);
-                taskRow.parentNode.removeChild(taskRow);
-        }
-    }
+    
 
     function doCleanup() {
         var audio = new Audio('sounds/trash1.mp3');
@@ -114,6 +46,8 @@
         document.getElementById('formTasks').submit();
         //TODO: Detect AJAX and change
     }
+
+
 </script>
 </head>
 <body onload="swapTech()">
@@ -143,23 +77,23 @@
         $tasks = (array)$data->tasks;
         foreach ($tasks as $task)
         {
-            echo "\t\t<tr id=\"taskRow" . $task->guid . "\">\r\n";
-            echo "\t\t\t<td><input type='checkbox' id='" . $task->guid . "' name='check[" . $task->guid . "]'";
+            echo "<tr id=\"taskRow" . $task->guid . "\">\r\n";
+            echo "\t\t\t<td><input type=\"checkbox\" id=\"$task->guid\" name=\"check$task->guid\"";
             if ($task->completed)
                 echo " checked";
-            echo " onchange='checkTask(this)'/></td>\r\n";
-            echo "\t\t\t<td valign='middle' width='100%' class='taskListDetailCell'><b>" . $task->title . "</b>";
+            echo " onchange=\"taskModel.doCheckTask(this)\"/></td>\r\n";
+            echo "\t\t\t<td valign=\"middle\" width=\"100%\" class=\"taskListDetailCell\"><b>" . $task->title . "</b>";
             if ($task->notes != "") {
-                echo "&nbsp; <img src='images/note.gif' title='" . htmlentities($task->notes) . "' alt='" . htmlentities($task->notes) . "'/>";
+                echo "&nbsp; <img src=\"images/note.gif\" title=\"" . htmlentities($task->notes) . "\" alt=\"" . htmlentities($task->notes) . "\"/>";
             } 
             echo "</td>\r\n";
-            echo "\t\t\t<td style='min-width: 60px;'>\r\n";
-            echo "\t\t\t\t<span class=\"editLink\">  <a href=\"" . $actionUrl . "&edit=" . $task->guid . "#editfield\">Edit</a></span>\r\n";
-            echo "\t\t\t\t<span class=\"editImageWrapper\"><img src=\"images/pencil.gif\" class=\"editImage\" onclick=\"doTaskEdit('" . $task->guid . "')\"></span>\r\n";
-            echo "\t\t\t\t<span class=\"deleteLink\"><a href=\"" . $actionUrl . "&delete=" . $task->guid . "\">Delete</a></span>\r\n";
-            echo "\t\t\t\t<span class=\"deleteImageWrapper\"><img src=\"images/delete.gif\" class=\"deleteImage\" onclick=\"doTaskDelete('" . $task->guid . "')\"></span>\r\n";
+            echo "\t\t\t<td style=\"min-width: 60px;\">\r\n";
+            echo "\t\t\t\t<span class=\"editLink\">  <a href=\"$actionUrl&edit=$task->guid#editfield\">Edit</a></span>\r\n";
+            echo "\t\t\t\t<span class=\"editImageWrapper\"><img src=\"images/pencil.gif\" class=\"editImage\" onclick=\"taskModel.doTaskEdit('$task->guid')\"></span>\r\n";
+            echo "\t\t\t\t<span class=\"deleteLink\"><a href=\"$actionUrl&delete=$task->guid\">Delete</a></span>\r\n";
+            echo "\t\t\t\t<span class=\"deleteImageWrapper\"><img src=\"images/delete.gif\" class=\"deleteImage\" onclick=\"taskModel.doTaskDelete('$task->guid')\"></span>\r\n";
             echo "\t\t\t</td>\r\n\t\t</tr>\r\n";
-            echo "\t\t<tr><td colspan='3'><img src='images/spacer.gif' height='4'/></td></tr>\r\n";
+            echo "\t\t<tr><td colspan=\"3\"><img src=\"images/spacer.gif\" height=\"4\"/></td></tr>\r\n";
         }
         ?>
         <tr><td colspan="3" id="taskTableFrameBottom"><hr></td></tr>
@@ -230,5 +164,12 @@
     <input type="hidden" name="dosubmit" value="on"/>
     
 </form>
+
+<audio preload="auto" style="display:none">
+  <source src="sounds/completed1.mp3" type="audio/mp3">
+  <source src="sounds/delete1.mp3" type="audio/mp3">
+  <source src="sounds/flick1.mp3" type="audio/mp3">
+  <source src="sounds/trash1.mp3" type="audio/mp3">
+</audio> 
 </body>
 </html>
