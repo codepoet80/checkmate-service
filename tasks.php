@@ -136,17 +136,18 @@
         foreach ($tasks as $task)
         {
             echo "<tr class=\"taskrow\" id=\"taskRow" . $task->guid . "\">\r\n";
-            echo "\t\t\t<td><input type='checkbox' id='" . $task->guid . "' name='check[" . $task->guid . "]'";
+            echo "\t\t\t<td valign=\"middle\" width=\"100%\">";
+            echo "\t\t\t\t<img src=\"images/handle.gif\" id=\"drag$task->guid\" ondragenter=\"dragEnter(event)\" ondragleave=\"dragLeave(event)\" ondragstart=\"dragStart(event)\" draggable=\"true\">\r\n";
+            echo "<input type='checkbox' id='" . $task->guid . "' name='check[" . $task->guid . "]'";
             if ($task->completed)
                 echo " checked";
-            echo " onchange=\"taskModel.doCheckTask(this)\"/></td>\r\n";
-            echo "\t\t\t<td valign=\"middle\" width=\"100%\" class=\"taskListDetailCell\"><b>" . $task->title . "</b>";
+            echo " onchange=\"taskModel.doCheckTask(this)\"/>\r\n";
+            echo "\t\t\t<span class=\"taskListDetailCell\"><b>" . $task->title . "</b>";
             if ($task->notes != "") {
                 echo "&nbsp; <img src=\"images/note.gif\" title=\"" . htmlentities($task->notes) . "\" alt=\"" . htmlentities($task->notes) . "\"/>";
             } 
-            echo "</td>\r\n";
+            echo "</span></td>\r\n";
             echo "\t\t\t<td style=\"border:1px solid blue;min-width: 90px;\" ondragover=\"allowDrop(event)\" ondrop=\"drop(event)\">\r\n";
-            //echo "\t\t\t\t<span class=\"dragHandle\"><img src=\"images/handle.gif\" id=\"drag$task->guid\" ondragenter=\"dragEnter(event)\" ondragleave=\"dragLeave(event)\" ondragstart=\"dragStart(event)\" draggable=\"true\"></span>\r\n";
             echo "\t\t\t\t<span class=\"editLink\"><a href=\"$actionUrl&edit=$task->guid#editfield\">Edit</a></span>\r\n";
             echo "\t\t\t\t<span class=\"editImageWrapper\"><img src=\"images/pencil.gif\" class=\"editImage\" onclick=\"taskModel.doTaskEdit('$task->guid')\"></span>\r\n";
             echo "\t\t\t\t<span class=\"deleteLink\"><a href=\"$actionUrl&delete=$task->guid\">Delete</a></span>\r\n";
