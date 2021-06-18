@@ -111,6 +111,17 @@ taskModel.findTaskDataFromId = function(taskId) {
     return taskToUpdate;
 }
 
+taskModel.findTaskIndexFromId = function(taskId) {
+    console.log("finding " + taskId + " in " + JSON.stringify(this.taskData));
+    var taskIndex;
+    for (var i=0;i<this.taskData.length; i++) {
+        if (this.taskData[i].guid == taskId) {
+            taskIndex = i;
+        }
+    }
+    return taskIndex;
+}
+
 taskModel.doCleanup = function() {
     if (window.confirm("Are you sure you want to remove all completed tasks?")) {
         //Immediate feedback

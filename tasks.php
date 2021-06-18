@@ -15,7 +15,7 @@
     var updateInt;
 </script>
 <script type="text/javascript" src="checkmate-ajax.js?nocache=<?php echo uniqid(); ?>"></script>
-<script type="text/javascript" src="task-model.js?nocache=<?php echo uniqid(); ?>"></script> 
+<script type="text/javascript" src="web-taskmodel.js?nocache=<?php echo uniqid(); ?>"></script> 
 <script type="text/javascript" src="web-dragdrop.js?nocache=<?php echo uniqid(); ?>"></script>
 <script>
     var actionUrl = "<?php echo $actionUrl ?>";
