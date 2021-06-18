@@ -52,9 +52,12 @@ small {
 .dragContainer {
     min-width: 30px;
 }
-@media only screen and (max-device-width : 640px) {
+@media only screen and (max-device-width : 480px) {
     .dragContainer {
         display: none;
+    }
+    .taskChecker {
+        padding-left: 4px;
     }
 }
 

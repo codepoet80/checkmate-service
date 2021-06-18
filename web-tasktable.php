@@ -17,7 +17,7 @@ function drawTaskTable($tasks) {
             echo "\t\t\t<td class=\"dragContainer\" width=\"30\">\r\n";
             echo "\t\t\t\t<img class=\"dragHandle\" src=\"images/spacer.gif\" id=\"drag$task->guid\" ondragenter=\"dragEnter(event)\" ondragleave=\"dragLeave(event)\" ondragstart=\"dragStart(event)\" draggable=\"true\">\r\n";
             echo "\t\t\t</td>\r\n";
-            echo "\t\t\t<td style=\"width:30px\" width=\"30\">\r\n";
+            echo "\t\t\t<td class=\"taskChecker\" style=\"width:30px\" width=\"30\">\r\n";
             echo "\t\t\t\t<input type='checkbox' id='" . $task->guid . "' name='check[" . $task->guid . "]'";
             if ($task->completed)
                 echo " checked";
