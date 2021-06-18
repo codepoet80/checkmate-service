@@ -11,21 +11,28 @@
 <script type="text/javascript" src="checkmate-ajax.js?nocache=<?php echo uniqid(); ?>"></script>
 <script type="text/javascript" src="task-model.js?nocache=<?php echo uniqid(); ?>"></script> 
 <script>
+    var xhr = false;
     var actionUrl = "<?php echo $actionUrl ?>";
-    checkmate.actionUrl = actionUrl;
-    taskModel.grandmaster = "<?php echo base64_encode ($grandmaster) ?>";
-    taskModel.notation = "<?php echo $data->notation ?>";
-    taskModel.taskData = JSON.parse("<?php echo addslashes(json_encode($data->tasks)); ?>");
-    var xhr = checkmate.detectXHR();
+    if (taskModel) {
+        checkmate.actionUrl = actionUrl;
+        taskModel.grandmaster = "<?php echo base64_encode ($grandmaster) ?>";
+        taskModel.notation = "<?php echo $data->notation ?>";
+        taskModel.taskData = JSON.parse("<?php echo addslashes(json_encode($data->tasks)); ?>");
+        xhr = checkmate.detectXHR();
+    } else {
+        alert ("compatibility mode");
+    }
 
     function swapTech() {
         document.getElementById("imgIcon").src = "images/icon.png";
         document.getElementById("tableControls").style.marginTop = "14px";
         document.getElementById("divLogout").innerHTML = "<input type=\"button\" value=\"Log Out\" class=\"button\" onclick=\"document.location='index.php'\"/>";
         document.getElementById("divCancel").innerHTML = "<img src=\"images/refresh.png\" class=\"controlButton\" onclick=\"document.location='<?php echo $actionUrl?>'\"/>";
-        document.getElementById("divCleanup").innerHTML = "<img src=\"images/sweep.png\" class=\"controlButton\" onclick=\"taskModel.doCleanup()\"/>";
-        document.getElementById("btnSubmit").style.display = "none";
-        document.getElementById("divSave").insertAdjacentHTML("beforeend", "<img src=\"images/save.png\" class=\"controlButton\" onclick=\"doSave()\"/>");
+        if (taskModel) {
+            document.getElementById("divCleanup").innerHTML = "<img src=\"images/sweep.png\" class=\"controlButton\" onclick=\"taskModel.doCleanup()\"/>";
+            document.getElementById("btnSubmit").style.display = "none";
+            document.getElementById("divSave").insertAdjacentHTML("beforeend", "<img src=\"images/save.png\" class=\"controlButton\" onclick=\"doSave()\"/>");
+        }
         //TODO: Detect sufficient CSS and remove edit box, in favor of some pop-up UI
             //TODO: Invent pop-up UI
     }
@@ -118,9 +125,9 @@
                 echo "&nbsp; <img src=\"images/note.gif\" title=\"" . htmlentities($task->notes) . "\" alt=\"" . htmlentities($task->notes) . "\"/>";
             } 
             echo "</td>\r\n";
-            echo "\t\t\t<td style=\"min-width: 80px;\" ondragover=\"allowDrop(event)\" ondrop=\"drop(event)\">\r\n";
+            echo "\t\t\t<td style=\"min-width: 90px;\" ondragover=\"allowDrop(event)\" ondrop=\"drop(event)\">\r\n";
             echo "\t\t\t\t<span class=\"dragHandle\"><img src=\"images/handle.gif\" id=\"drag$task->guid\" ondragenter=\"dragEnter(event)\" ondragleave=\"dragLeave(event)\" ondragstart=\"dragStart(event)\" draggable=\"true\"></span>\r\n";
-            echo "\t\t\t\t<span class=\"editLink\">  <a href=\"$actionUrl&edit=$task->guid#editfield\">Edit</a></span>\r\n";
+            echo "\t\t\t\t<span class=\"editLink\"><a href=\"$actionUrl&edit=$task->guid#editfield\">Edit</a></span>\r\n";
             echo "\t\t\t\t<span class=\"editImageWrapper\"><img src=\"images/pencil.gif\" class=\"editImage\" onclick=\"taskModel.doTaskEdit('$task->guid')\"></span>\r\n";
             echo "\t\t\t\t<span class=\"deleteLink\"><a href=\"$actionUrl&delete=$task->guid\">Delete</a></span>\r\n";
             echo "\t\t\t\t<span class=\"deleteImageWrapper\"><img src=\"images/delete.gif\" class=\"deleteImage\" onclick=\"taskModel.doTaskDelete('$task->guid')\"></span>\r\n";
