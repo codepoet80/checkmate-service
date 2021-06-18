@@ -142,7 +142,7 @@
             echo "\r\n";
             echo "\t\t<tr class=\"taskrow\" id=\"taskRow" . $task->guid . "\">\r\n";
             echo "\t\t\t<td valign=\"middle\" width=\"100%\">\r\n";
-            echo "\t\t\t\t<img class=\"dragHandle\" id=\"drag$task->guid\" ondragenter=\"dragEnter(event)\" ondragleave=\"dragLeave(event)\" ondragstart=\"dragStart(event)\" draggable=\"true\">\r\n";
+            echo "\t\t\t\t<img class=\"dragHandle\" src=\"images/spacer.gif\" id=\"drag$task->guid\" ondragenter=\"dragEnter(event)\" ondragleave=\"dragLeave(event)\" ondragstart=\"dragStart(event)\" draggable=\"true\">\r\n";
             echo "\t\t\t\t<input type='checkbox' id='" . $task->guid . "' name='check[" . $task->guid . "]'";
             if ($task->completed)
                 echo " checked";
