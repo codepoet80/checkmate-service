@@ -1,4 +1,5 @@
 var taskModel = {
+    init: true,
     taskData: "",
     grandmaster: "",
     notation: ""

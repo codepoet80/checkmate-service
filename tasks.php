@@ -13,7 +13,7 @@
 <script>
     var xhr = false;
     var actionUrl = "<?php echo $actionUrl ?>";
-    if (taskModel) {
+    if (taskModel != undefined && taskModel.init == true) {
         checkmate.actionUrl = actionUrl;
         taskModel.grandmaster = "<?php echo base64_encode ($grandmaster) ?>";
         taskModel.notation = "<?php echo $data->notation ?>";
