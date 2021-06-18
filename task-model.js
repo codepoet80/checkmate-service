@@ -82,9 +82,12 @@ taskModel.doCleanup = function() {
         audio.play();
 
         if (xhr) {
-            //TODO: Need to remove affected rows
-            
-            checkmate.clearCompletedTasks(this.grandmaster, this.notation, this.handleServerResponse)
+            checkmate.clearCompletedTasks(this.grandmaster, this.notation, this.handleServerResponse);
+            //TODO: Need to remove affected rows, will reload the page for now
+            setTimeout(() => {
+                var newURL = actionUrl + "&cleanup=complete";
+            document.location = newURL;
+            }, 1000);
         } else {
             setTimeout(() => {
                 var newURL = actionUrl + "&cleanup=complete";

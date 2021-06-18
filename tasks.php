@@ -73,7 +73,7 @@
 </script>
 </head>
 <body onload="swapTech()">
-<table width="80%" class="contentTable">
+<table class="contentTable" width="95%">
     <tr>
         <td><img src="images/icon.gif" id="imgIcon"></td>
         <td width="100%"><h2><div><span>Check Mate<br><i><?php echo $data->notation ?></i></span></div></h2></td>
@@ -93,7 +93,7 @@
 ?>
 <form id="formTasks" name="formTasks" action="<?php echo $actionUrl?>" method="post">
     <!-- Main Tasks Table -->
-    <table cellpadding="2" cellspacing="2" border="0" width="90%" class="contentTable">
+    <table cellpadding="2" cellspacing="2" border="0" class="contentTable">
         <tr><td colspan="3" id="taskTableFrameTop"><hr/></td></tr>
         <?php
         $tasks = (array)$data->tasks;
@@ -149,7 +149,7 @@
     ?>
 
     <!-- New/Edit Area for older clients -->
-    <table id="tableEdit" width="80%" cellpadding="0" cellspacing="0" border="0" class="contentTable">
+    <table id="tableEdit" width="100%" cellpadding="0" cellspacing="0" border="0" class="contentTable">
     <tr>
         <td colspan="2">
             <span class="editTitle"><a name="editfield"><i><b><?php echo $editTitle ?></b></i></a></span>
@@ -175,7 +175,7 @@
     <img src="images/spacer.gif" height="4">
 
     <!-- Control Buttons -->
-    <table id="tableControls" width="80%" cellpadding="0" cellspacing="0" border="0" class="contentTable">
+    <table id="tableControls" width="95%" cellpadding="0" cellspacing="0" border="0" class="contentTable">
     <tr>
         <td align="left">
             <span id="divCancel"><a href="<?php echo $actionUrl ?>">Cancel Changes</a></span>
