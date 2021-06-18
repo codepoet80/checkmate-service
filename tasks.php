@@ -55,6 +55,7 @@
 </table>
 
 <?php
+    //echo $actionUrl;
     //Display debugMsg if any
     if (isset($debugMsg) && $debugMsg != "") {
         echo "<br><table width=\"400\" bgcolor=\"pink\" border=\"1\" class=\"tableLogin\" align=\"center\"><tr><td class=\"tableLogin\" >" . $debugMsg . "<br>";

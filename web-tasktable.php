@@ -9,6 +9,7 @@ if (isset($postjson)) {
 
 function drawTaskTable($tasks) {
     echo "<tr><td colspan=\"4\" id=\"taskTableFrameTop\"><hr/></td></tr>";
+    $currUrl = currentUrl();
     if (isset($tasks)) {
         foreach ($tasks as $task)
         {
@@ -30,14 +31,25 @@ function drawTaskTable($tasks) {
             echo "</span>\r\n";
             echo "\t\t\t</td>\r\n";
             echo "\t\t\t<td class=\"taskButtons\" style=\"min-width: 75px;\">\r\n";
-            echo "\t\t\t\t<span class=\"editLink\"><a href=\"$actionUrl&edit=$task->guid#editfield\">Edit</a></span>\r\n";
+            echo "\t\t\t\t<span class=\"editLink\"><a href=\"$currUrl&edit=$task->guid#editfield\">Edit</a></span>\r\n";
             echo "\t\t\t\t<span class=\"editImageWrapper\"><img src=\"images/spacer.gif\" class=\"editImage\" onclick=\"taskModel.doTaskEdit('$task->guid')\"></span>\r\n";
-            echo "\t\t\t\t<span class=\"deleteLink\"><a href=\"$actionUrl&delete=$task->guid\">Delete</a></span>\r\n";
+            echo "\t\t\t\t<span class=\"deleteLink\"><a href=\"$currUrl&delete=$task->guid\">Delete</a></span>\r\n";
             echo "\t\t\t\t<span class=\"deleteImageWrapper\"><img src=\"images/spacer.gif\" class=\"deleteImage\" onclick=\"taskModel.doTaskDelete('$task->guid')\"></span>\r\n";
             echo "\t\t\t</td>\r\n\t\t</tr>\r\n";
             echo "\t\t<tr><td colspan=\"3\"><img src=\"images/spacer.gif\" height=\"4\"/></div></td></tr>\r\n";
         }
     }
     echo "<tr><td colspan=\"4\" id=\"taskTableFrameBottom\"><hr></td></tr>";
+}
+
+function currentUrl( ) {
+    $pageURL = (isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] == 'on') ? "//" : "//";
+    $pageURL .= $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"];
+    if( ! $trim_query_string ) {
+        return $pageURL;
+    } else {
+        $url = explode( '?', $pageURL );
+        return $url[0];
+    }
 }
 ?>
