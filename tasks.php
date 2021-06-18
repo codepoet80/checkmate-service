@@ -22,6 +22,7 @@
         taskModel.notation = "<?php echo $data->notation ?>";
         taskModel.taskData = JSON.parse("<?php echo addslashes(json_encode($data->tasks)); ?>");
         xhr = checkmate.detectXHR();
+        //show icons
     } else {
         alert ("compatibility mode");
     }
@@ -35,6 +36,14 @@
             document.getElementById("divCleanup").innerHTML = "<img src=\"images/sweep.png\" class=\"controlButton\" onclick=\"taskModel.doCleanup()\"/>";
             document.getElementById("btnSubmit").style.display = "none";
             document.getElementById("divSave").insertAdjacentHTML("beforeend", "<img src=\"images/save.png\" class=\"controlButton\" onclick=\"doSave()\"/>");
+            var links = document.getElementsByClassName("editLink");
+            for (var i = 0; i < links.length; i++) {
+                links[i].style.display = "none";
+            }
+            links = document.getElementsByClassName("deleteLink");
+            for (var i = 0; i < links.length; i++) {
+                links[i].style.display = "none";
+            }
         }
         //TODO: Detect sufficient CSS and remove edit box, in favor of some pop-up UI
             //TODO: Invent pop-up UI
@@ -128,8 +137,8 @@
                 echo "&nbsp; <img src=\"images/note.gif\" title=\"" . htmlentities($task->notes) . "\" alt=\"" . htmlentities($task->notes) . "\"/>";
             } 
             echo "</td>\r\n";
-            echo "\t\t\t<td style=\"min-width: 90px;\" ondragover=\"allowDrop(event)\" ondrop=\"drop(event)\">\r\n";
-            echo "\t\t\t\t<span class=\"dragHandle\"><img src=\"images/handle.gif\" id=\"drag$task->guid\" ondragenter=\"dragEnter(event)\" ondragleave=\"dragLeave(event)\" ondragstart=\"dragStart(event)\" draggable=\"true\"></span>\r\n";
+            echo "\t\t\t<td style=\"border:1px solid blue;min-width: 90px;\" ondragover=\"allowDrop(event)\" ondrop=\"drop(event)\">\r\n";
+            //echo "\t\t\t\t<span class=\"dragHandle\"><img src=\"images/handle.gif\" id=\"drag$task->guid\" ondragenter=\"dragEnter(event)\" ondragleave=\"dragLeave(event)\" ondragstart=\"dragStart(event)\" draggable=\"true\"></span>\r\n";
             echo "\t\t\t\t<span class=\"editLink\"><a href=\"$actionUrl&edit=$task->guid#editfield\">Edit</a></span>\r\n";
             echo "\t\t\t\t<span class=\"editImageWrapper\"><img src=\"images/pencil.gif\" class=\"editImage\" onclick=\"taskModel.doTaskEdit('$task->guid')\"></span>\r\n";
             echo "\t\t\t\t<span class=\"deleteLink\"><a href=\"$actionUrl&delete=$task->guid\">Delete</a></span>\r\n";

@@ -82,11 +82,11 @@ input[type="checkbox"] {
 }
 
 .editLink {
-    display: none;
+    display: block;
 }
 
 .editImageWrapper {
-    not-display: block;
+    display: block;
     margin-left: 10px;
 }
 
@@ -96,7 +96,7 @@ input[type="checkbox"] {
 }
 
 .deleteLink {
-    display: none;
+    display: block;
 }
 
 .deleteImageWrapper {
