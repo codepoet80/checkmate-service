@@ -49,10 +49,11 @@ small {
     font-size: smaller;
 }
 
-#dragHandle {
-
+@media only screen and (max-device-width : 640px) {
+    .dragHandle {
+        display: none;
+    }
 }
-
 .taskrow.dragging { background-color: #fea; }
 
 .taskrow.active { background: #ffd4d4; }

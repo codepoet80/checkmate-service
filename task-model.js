@@ -4,6 +4,42 @@ var taskModel = {
     notation: ""
 }
 
+taskModel.upgradeUX = function() {
+    document.getElementById("divCancel").innerHTML = "<img src=\"images/refresh.png\" class=\"controlButton\" onclick=\"taskModel.doRefresh()\"/>";
+    document.getElementById("divCleanup").innerHTML = "<img src=\"images/sweep.png\" class=\"controlButton\" onclick=\"taskModel.doCleanup()\"/>";
+    document.getElementById("divSave").innerHTML = "<img src=\"images/save.png\" class=\"controlButton\" onclick=\"doSave()\"/>";
+    var draggers = document.getElementsByClassName("dragHandle");
+    for (var i = 0; i < draggers.length; i++) {
+        draggers[i].src = "images/handle.gif";
+    }
+    var links = document.getElementsByClassName("editLink");
+    for (var i = 0; i < links.length; i++) {
+        links[i].style.display = "none";
+    }
+    var imageWraps = document.getElementsByClassName("editImageWrapper");
+    for (var i = 0; i < imageWraps.length; i++) {
+        imageWraps[i].style.display = "block";
+        imageWraps[i].style.textAlign = "right";
+    }
+    var images = document.getElementsByClassName("editImage");
+    for (var i = 0; i < images.length; i++) {
+        images[i].src = "images/pencil.gif";
+    }
+    links = document.getElementsByClassName("deleteLink");
+    for (var i = 0; i < links.length; i++) {
+        links[i].style.display = "none";
+    }
+    var imageWraps = document.getElementsByClassName("deleteImageWrapper");
+    for (var i = 0; i < imageWraps.length; i++) {
+        imageWraps[i].style.display = "block";
+        imageWraps[i].style.textAlign = "right";
+    }
+    images = document.getElementsByClassName("deleteImage");
+    for (var i = 0; i < images.length; i++) {
+        images[i].src = "images/delete.gif";
+    }
+}
+
 taskModel.doCheckTask = function(checkbox) {
     //Immediate feedback
     if (checkbox.checked) {
@@ -82,12 +118,13 @@ taskModel.doCleanup = function() {
         audio.play();
 
         if (xhr) {
-            checkmate.clearCompletedTasks(this.grandmaster, this.notation, this.handleServerResponse);
-            //TODO: Need to remove affected rows, will reload the page for now
-            setTimeout(() => {
-                var newURL = actionUrl + "&cleanup=complete";
-            document.location = newURL;
-            }, 1000);
+            checkmate.clearCompletedTasks(this.grandmaster, this.notation, function(response){
+                if (JSON.parse(response)) {
+                    response = JSON.parse(response);
+                    this.taskData = response;
+                    checkmate.redrawTaskTable(response.tasks);
+                }
+            });
         } else {
             setTimeout(() => {
                 var newURL = actionUrl + "&cleanup=complete";
@@ -95,6 +132,16 @@ taskModel.doCleanup = function() {
             }, 1000);
         }
     }
+}
+
+taskModel.doRefresh = function() {
+    checkmate.getTasks(this.grandmaster, this.notation, function(response){
+        if (JSON.parse(response)) {
+            response = JSON.parse(response);
+            this.taskData = response;
+            checkmate.redrawTaskTable(response.tasks);
+        }
+    });
 }
 
 taskModel.handleServerResponse = function (response) {

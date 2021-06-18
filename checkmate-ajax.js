@@ -52,3 +52,33 @@ checkmate.clearCompletedTasks = function(grandmaster, notation, callback) {
         }
     };
 }
+
+checkmate.getTasks = function(grandmaster, notation, callback) {
+    var theQuery = this.buildURL("read-notation") + "?move=" + notation;
+    console.log ("Get tasks at URL: " + theQuery);
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("GET", theQuery);
+    xmlhttp.setRequestHeader("grandmaster", atob(grandmaster));
+    xmlhttp.send();
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+            console.log ("Got Get tasks response from service: " + xmlhttp.responseText);
+            if (callback)
+                callback(xmlhttp.responseText);
+        }
+    };
+}
+
+checkmate.redrawTaskTable = function(taskData) {
+    var theQuery = this.buildURL("web-tasktable");
+    console.log("redraw task table with " + theQuery + " and data " + JSON.stringify(taskData));
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("POST", theQuery);
+    xmlhttp.send(JSON.stringify(taskData));
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+            document.getElementById("tableTasks").innerHTML = xmlhttp.responseText;
+            swapTech();
+        }
+    };
+}

@@ -1,6 +1,7 @@
 <?php
     include("common.php");
     include("web-functions.php");
+    include("web-tasktable.php");
     include("task-functions.php");
 ?>
 <html>
@@ -11,6 +12,7 @@
 <script>
     var xhr = false;
     var taskModel = false;
+    var updateInt;
 </script>
 <script type="text/javascript" src="checkmate-ajax.js?nocache=<?php echo uniqid(); ?>"></script>
 <script type="text/javascript" src="task-model.js?nocache=<?php echo uniqid(); ?>"></script> 
@@ -29,39 +31,9 @@
         document.getElementById("imgIcon").src = "images/icon.png";
         document.getElementById("tableControls").style.marginTop = "14px";
         document.getElementById("divLogout").innerHTML = "<input type=\"button\" value=\"Log Out\" class=\"button\" onclick=\"document.location='index.php'\"/>";
-        document.getElementById("divCancel").innerHTML = "<img src=\"images/refresh.png\" class=\"controlButton\" onclick=\"document.location='<?php echo $actionUrl?>'\"/>";
         if (taskModel) { // client needs to be able to load an external javascript
-            document.getElementById("divCleanup").innerHTML = "<img src=\"images/sweep.png\" class=\"controlButton\" onclick=\"taskModel.doCleanup()\"/>";
-            document.getElementById("btnSubmit").style.display = "none";
-            document.getElementById("divSave").insertAdjacentHTML("beforeend", "<img src=\"images/save.png\" class=\"controlButton\" onclick=\"doSave()\"/>");
-            var draggers = document.getElementsByClassName("dragHandle");
-            for (var i = 0; i < draggers.length; i++) {
-                draggers[i].src = "images/handle.gif";
-            }
-            var links = document.getElementsByClassName("editLink");
-            for (var i = 0; i < links.length; i++) {
-                links[i].style.display = "none";
-            }
-            var imageWraps = document.getElementsByClassName("editImageWrapper");
-            for (var i = 0; i < imageWraps.length; i++) {
-                imageWraps[i].style.display = "block";
-            }
-            var images = document.getElementsByClassName("editImage");
-            for (var i = 0; i < images.length; i++) {
-                images[i].src = "images/pencil.gif";
-            }
-            links = document.getElementsByClassName("deleteLink");
-            for (var i = 0; i < links.length; i++) {
-                links[i].style.display = "none";
-            }
-            var imageWraps = document.getElementsByClassName("deleteImageWrapper");
-            for (var i = 0; i < imageWraps.length; i++) {
-                imageWraps[i].style.display = "block";
-            }
-            images = document.getElementsByClassName("deleteImage");
-            for (var i = 0; i < images.length; i++) {
-                images[i].src = "images/delete.gif";
-            }
+            taskModel.upgradeUX();
+            updateInt = setInterval("taskModel.doRefresh()", 10000)
         }
     }
 
@@ -93,36 +65,11 @@
 ?>
 <form id="formTasks" name="formTasks" action="<?php echo $actionUrl?>" method="post">
     <!-- Main Tasks Table -->
-    <table cellpadding="2" cellspacing="2" border="0" class="contentTable">
-        <tr><td colspan="3" id="taskTableFrameTop"><hr/></td></tr>
+    <table cellpadding="2" cellspacing="2" border="0" width="95%" class="contentTable" id="tableTasks">
         <?php
-        $tasks = (array)$data->tasks;
-        foreach ($tasks as $task)
-        {
-            echo "\r\n";
-            echo "\t\t<tr class=\"taskrow\" id=\"taskRow" . $task->guid . "\">\r\n";
-            echo "\t\t\t<td valign=\"middle\" width=\"100%\" ondragover=\"allowDrop(event)\" ondrop=\"drop(event)\">\r\n";
-            echo "\t\t\t\t<img class=\"dragHandle\" src=\"images/spacer.gif\" id=\"drag$task->guid\" ondragenter=\"dragEnter(event)\" ondragleave=\"dragLeave(event)\" ondragstart=\"dragStart(event)\" draggable=\"true\">\r\n";
-            echo "\t\t\t\t<input type='checkbox' id='" . $task->guid . "' name='check[" . $task->guid . "]'";
-            if ($task->completed)
-                echo " checked";
-            echo " onchange=\"taskModel.doCheckTask(this)\"/>\r\n";
-            echo "\t\t\t\t<span class=\"taskListDetailCell\"><b>" . $task->title . "</b>";
-            if ($task->notes != "") {
-                echo "&nbsp; <img src=\"images/note.gif\" title=\"" . htmlentities($task->notes) . "\" alt=\"" . htmlentities($task->notes) . "\"/>";
-            } 
-            echo "</span>\r\n";
-            echo "\t\t\t</td>\r\n";
-            echo "\t\t\t<td style=\"min-width: 90px;\">\r\n";
-            echo "\t\t\t\t<span class=\"editLink\"><a href=\"$actionUrl&edit=$task->guid#editfield\">Edit</a></span>\r\n";
-            echo "\t\t\t\t<span class=\"editImageWrapper\"><img src=\"images/spacer.gif\" class=\"editImage\" onclick=\"taskModel.doTaskEdit('$task->guid')\"></span>\r\n";
-            echo "\t\t\t\t<span class=\"deleteLink\"><a href=\"$actionUrl&delete=$task->guid\">Delete</a></span>\r\n";
-            echo "\t\t\t\t<span class=\"deleteImageWrapper\"><img src=\"images/spacer.gif\" class=\"deleteImage\" onclick=\"taskModel.doTaskDelete('$task->guid')\"></span>\r\n";
-            echo "\t\t\t</td>\r\n\t\t</tr>\r\n";
-            echo "\t\t<tr><td colspan=\"3\"><img src=\"images/spacer.gif\" height=\"4\"/></div></td></tr>\r\n";
-        }
+        $tasks = (array)$data->tasks;;
+        drawTaskTable($tasks);
         ?>
-        <tr><td colspan="3" id="taskTableFrameBottom"><hr></td></tr>
     </table>
     
     <?php
@@ -149,7 +96,7 @@
     ?>
 
     <!-- New/Edit Area for older clients -->
-    <table id="tableEdit" width="100%" cellpadding="0" cellspacing="0" border="0" class="contentTable">
+    <table id="tableEdit" width="95%" cellpadding="0" cellspacing="0" border="0" class="contentTable">
     <tr>
         <td colspan="2">
             <span class="editTitle"><a name="editfield"><i><b><?php echo $editTitle ?></b></i></a></span>
@@ -157,7 +104,7 @@
         </td>
     <tr>
         <td valign="top" width="90">
-            &nbsp;Task Title: &nbsp;
+            &nbsp;Title: &nbsp;
         </td>
         <td width="*">
             <input type="text" size="45" name="editTaskTitle" id="editTaskTitle" value="<?php echo $editTask->title ?>"/>
@@ -165,7 +112,7 @@
     </tr>
     <tr>
         <td valign="top" width="90">
-            &nbsp;Task Notes: &nbsp;
+            &nbsp;Notes: &nbsp;
         </td>
         <td width="*">
             <textarea name="editTaskNotes" cols="40" rows="5" id="editTaskNotes"><?php echo $editTask->notes ?></textarea>
@@ -188,7 +135,7 @@
     </tr>
     </table>
     <input type="hidden" name="dosubmit" value="on"/>
-    
+
 </form>
 
 <audio preload="auto" style="display:none">
