@@ -8,12 +8,15 @@
 <?php
     include("web-meta.php");
 ?>
+<script>
+    var xhr = false;
+    var taskModel = false;
+</script>
 <script type="text/javascript" src="checkmate-ajax.js?nocache=<?php echo uniqid(); ?>"></script>
 <script type="text/javascript" src="task-model.js?nocache=<?php echo uniqid(); ?>"></script> 
 <script>
-    var xhr = false;
     var actionUrl = "<?php echo $actionUrl ?>";
-    if (taskModel != undefined && taskModel.init == true) {
+    if (taskModel) {
         checkmate.actionUrl = actionUrl;
         taskModel.grandmaster = "<?php echo base64_encode ($grandmaster) ?>";
         taskModel.notation = "<?php echo $data->notation ?>";
