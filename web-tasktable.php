@@ -8,19 +8,21 @@ if (isset($postjson)) {
 }
 
 function drawTaskTable($tasks) {
-    echo "<tr><td colspan=\"3\" id=\"taskTableFrameTop\"><hr/></td></tr>";
+    echo "<tr><td colspan=\"4\" id=\"taskTableFrameTop\"><hr/></td></tr>";
     if (isset($tasks)) {
         foreach ($tasks as $task)
         {
             echo "\r\n";
             echo "\t\t<tr class=\"taskrow\" id=\"taskRow" . $task->guid . "\" ondragover=\"allowDrop(event)\" ondrop=\"drop(event)\">\r\n";
-            echo "\t\t\t<td class=\"dragContainer\" >\r\n";
+            echo "\t\t\t<td class=\"dragContainer\" width=\"30\">\r\n";
             echo "\t\t\t\t<img class=\"dragHandle\" src=\"images/spacer.gif\" id=\"drag$task->guid\" ondragenter=\"dragEnter(event)\" ondragleave=\"dragLeave(event)\" ondragstart=\"dragStart(event)\" draggable=\"true\">\r\n";
-            echo "</td><td valign=\"middle\" width=\"100%\" >";
+            echo "\t\t\t</td>\r\n";
+            echo "\t\t\t<td style=\"width:30px\" width=\"30\">\r\n";
             echo "\t\t\t\t<input type='checkbox' id='" . $task->guid . "' name='check[" . $task->guid . "]'";
             if ($task->completed)
                 echo " checked";
             echo " onchange=\"taskModel.doCheckTask(this)\"/>\r\n";
+            echo "\t\t\t<td valign=\"middle\" width=\"100%\">\r\n";
             echo "\t\t\t\t<span class=\"taskListDetailCell\"><b>" . $task->title . "</b>";
             if ($task->notes != "") {
                 echo "&nbsp; <img src=\"images/note.gif\" title=\"" . htmlentities($task->notes) . "\" alt=\"" . htmlentities($task->notes) . "\"/>";
@@ -36,6 +38,6 @@ function drawTaskTable($tasks) {
             echo "\t\t<tr><td colspan=\"3\"><img src=\"images/spacer.gif\" height=\"4\"/></div></td></tr>\r\n";
         }
     }
-    echo "<tr><td colspan=\"3\" id=\"taskTableFrameBottom\"><hr></td></tr>";
+    echo "<tr><td colspan=\"4\" id=\"taskTableFrameBottom\"><hr></td></tr>";
 }
 ?>
