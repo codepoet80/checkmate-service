@@ -41,6 +41,10 @@
             for (var i = 0; i < links.length; i++) {
                 links[i].style.display = "none";
             }
+            var imageWraps = document.getElementsByClassName("editImageWrapper");
+            for (var i = 0; i < imageWraps.length; i++) {
+                imageWraps[i].style.display = "block";
+            }
             var images = document.getElementsByClassName("editImage");
             for (var i = 0; i < images.length; i++) {
                 images[i].src = "images/pencil.gif";
@@ -48,6 +52,10 @@
             links = document.getElementsByClassName("deleteLink");
             for (var i = 0; i < links.length; i++) {
                 links[i].style.display = "none";
+            }
+            var imageWraps = document.getElementsByClassName("deleteImageWrapper");
+            for (var i = 0; i < imageWraps.length; i++) {
+                imageWraps[i].style.display = "block";
             }
             images = document.getElementsByClassName("deleteImage");
             for (var i = 0; i < images.length; i++) {
