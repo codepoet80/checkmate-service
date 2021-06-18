@@ -14,6 +14,7 @@
 </script>
 <script type="text/javascript" src="checkmate-ajax.js?nocache=<?php echo uniqid(); ?>"></script>
 <script type="text/javascript" src="task-model.js?nocache=<?php echo uniqid(); ?>"></script> 
+<script type="text/javascript" src="web-dragdrop.js?nocache=<?php echo uniqid(); ?>"></script>
 <script>
     var actionUrl = "<?php echo $actionUrl ?>";
     if (taskModel) {
@@ -29,7 +30,7 @@
         document.getElementById("tableControls").style.marginTop = "14px";
         document.getElementById("divLogout").innerHTML = "<input type=\"button\" value=\"Log Out\" class=\"button\" onclick=\"document.location='index.php'\"/>";
         document.getElementById("divCancel").innerHTML = "<img src=\"images/refresh.png\" class=\"controlButton\" onclick=\"document.location='<?php echo $actionUrl?>'\"/>";
-        if (taskModel) {
+        if (taskModel) { // client needs to be able to load an external javascript
             document.getElementById("divCleanup").innerHTML = "<img src=\"images/sweep.png\" class=\"controlButton\" onclick=\"taskModel.doCleanup()\"/>";
             document.getElementById("btnSubmit").style.display = "none";
             document.getElementById("divSave").insertAdjacentHTML("beforeend", "<img src=\"images/save.png\" class=\"controlButton\" onclick=\"doSave()\"/>");
@@ -62,58 +63,12 @@
                 images[i].src = "images/delete.gif";
             }
         }
-        //TODO: Detect sufficient CSS and remove edit box, in favor of some pop-up UI
-            //TODO: Invent pop-up UI
     }
 
     function doSave() {
         document.getElementById('formTasks').submit();
         //TODO: Detect AJAX and change
     }
-
-    /* Drag and Drop */
-
-    function dragStart(event) {
-        console.log("dragging " + event.target.id);
-        var rowId = event.target.id.replace("drag", "taskRow");
-        var row = document.getElementById(rowId);
-        row.classList.add("dragging");
-        event.dataTransfer.setData("Text", event.target.id);
-    }
-
-    function dragEnter(event) {
-        console.log("entering " + event.target.id);
-        var rowId = event.target.id.replace("drag", "taskRow");
-        var row = document.getElementById(rowId);
-        row.classList.add("active");
-    }
-
-    function dragLeave(event) {
-        console.log("exiting " + event.target.id);
-        var rowId = event.target.id.replace("drag", "taskRow");
-        var row = document.getElementById(rowId);
-        row.classList.remove("active");
-    }
-
-    function allowDrop(event) {
-        event.preventDefault();
-    }
-
-    function drop(event) {
-        event.preventDefault();
-        var data = event.dataTransfer.getData("Text");
-        console.log("dropped " + data + " on " + event.target.id);
-        //original row
-        var rowId = data.replace("drag", "taskRow");
-        var row = document.getElementById(rowId);
-        row.classList.remove("dragging");
-        //target row
-        rowId = event.target.id.replace("drag", "taskRow");
-        row = document.getElementById(rowId);
-        row.classList.remove("active");
-    }
-
-    /* End Drag and Drop */
 
 </script>
 </head>
@@ -138,7 +93,7 @@
 ?>
 <form id="formTasks" name="formTasks" action="<?php echo $actionUrl?>" method="post">
     <!-- Main Tasks Table -->
-    <table cellpadding="2" cellspacing="2" border="0" width="80%" class="contentTable">
+    <table cellpadding="2" cellspacing="2" border="0" width="90%" class="contentTable">
         <tr><td colspan="3" id="taskTableFrameTop"><hr/></td></tr>
         <?php
         $tasks = (array)$data->tasks;
