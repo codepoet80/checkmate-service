@@ -22,9 +22,6 @@
         taskModel.notation = "<?php echo $data->notation ?>";
         taskModel.taskData = JSON.parse("<?php echo addslashes(json_encode($data->tasks)); ?>");
         xhr = checkmate.detectXHR();
-        //show icons
-    } else {
-        alert ("compatibility mode");
     }
 
     function swapTech() {
@@ -44,17 +41,17 @@
             for (var i = 0; i < links.length; i++) {
                 links[i].style.display = "none";
             }
-            var images = document.getElementsByClassName("editImageWrapper");
+            var images = document.getElementsByClassName("editImage");
             for (var i = 0; i < images.length; i++) {
-                images[i].style.display = "block";
+                images[i].src = "images/pencil.gif";
             }
             links = document.getElementsByClassName("deleteLink");
             for (var i = 0; i < links.length; i++) {
                 links[i].style.display = "none";
             }
-            images = document.getElementsByClassName("deleteImageWrapper");
+            images = document.getElementsByClassName("deleteImage");
             for (var i = 0; i < images.length; i++) {
-                images[i].style.display = "block";
+                images[i].src = "images/delete.gif";
             }
         }
         //TODO: Detect sufficient CSS and remove edit box, in favor of some pop-up UI
@@ -141,7 +138,7 @@
         {
             echo "\r\n";
             echo "\t\t<tr class=\"taskrow\" id=\"taskRow" . $task->guid . "\">\r\n";
-            echo "\t\t\t<td valign=\"middle\" width=\"100%\">\r\n";
+            echo "\t\t\t<td valign=\"middle\" width=\"100%\" ondragover=\"allowDrop(event)\" ondrop=\"drop(event)\">\r\n";
             echo "\t\t\t\t<img class=\"dragHandle\" src=\"images/spacer.gif\" id=\"drag$task->guid\" ondragenter=\"dragEnter(event)\" ondragleave=\"dragLeave(event)\" ondragstart=\"dragStart(event)\" draggable=\"true\">\r\n";
             echo "\t\t\t\t<input type='checkbox' id='" . $task->guid . "' name='check[" . $task->guid . "]'";
             if ($task->completed)
@@ -153,11 +150,11 @@
             } 
             echo "</span>\r\n";
             echo "\t\t\t</td>\r\n";
-            echo "\t\t\t<td style=\"border:1px solid blue;min-width: 90px;\" ondragover=\"allowDrop(event)\" ondrop=\"drop(event)\">\r\n";
+            echo "\t\t\t<td style=\"min-width: 90px;\">\r\n";
             echo "\t\t\t\t<span class=\"editLink\"><a href=\"$actionUrl&edit=$task->guid#editfield\">Edit</a></span>\r\n";
-            echo "\t\t\t\t<span class=\"editImageWrapper\"><img src=\"images/pencil.gif\" class=\"editImage\" onclick=\"taskModel.doTaskEdit('$task->guid')\"></span>\r\n";
+            echo "\t\t\t\t<span class=\"editImageWrapper\"><img src=\"images/spacer.gif\" class=\"editImage\" onclick=\"taskModel.doTaskEdit('$task->guid')\"></span>\r\n";
             echo "\t\t\t\t<span class=\"deleteLink\"><a href=\"$actionUrl&delete=$task->guid\">Delete</a></span>\r\n";
-            echo "\t\t\t\t<span class=\"deleteImageWrapper\"><img src=\"images/delete.gif\" class=\"deleteImage\" onclick=\"taskModel.doTaskDelete('$task->guid')\"></span>\r\n";
+            echo "\t\t\t\t<span class=\"deleteImageWrapper\"><img src=\"images/spacer.gif\" class=\"deleteImage\" onclick=\"taskModel.doTaskDelete('$task->guid')\"></span>\r\n";
             echo "\t\t\t</td>\r\n\t\t</tr>\r\n";
             echo "\t\t<tr><td colspan=\"3\"><img src=\"images/spacer.gif\" height=\"4\"/></div></td></tr>\r\n";
         }
