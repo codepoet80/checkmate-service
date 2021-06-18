@@ -40,9 +40,17 @@
             for (var i = 0; i < links.length; i++) {
                 links[i].style.display = "none";
             }
+            var images = document.getElementsByClassName("editImageWrapper");
+            for (var i = 0; i < images.length; i++) {
+                images[i].style.display = "block";
+            }
             links = document.getElementsByClassName("deleteLink");
             for (var i = 0; i < links.length; i++) {
                 links[i].style.display = "none";
+            }
+            images = document.getElementsByClassName("deleteImageWrapper");
+            for (var i = 0; i < images.length; i++) {
+                images[i].style.display = "block";
             }
         }
         //TODO: Detect sufficient CSS and remove edit box, in favor of some pop-up UI
