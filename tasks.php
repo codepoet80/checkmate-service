@@ -35,6 +35,8 @@
         //TODO: Detect AJAX and change
     }
 
+    /* Drag and Drop */
+
     function dragStart(event) {
         console.log("dragging " + event.target.id);
         var rowId = event.target.id.replace("drag", "taskRow");
@@ -75,6 +77,7 @@
         row.classList.remove("active");
     }
 
+    /* End Drag and Drop */
 
 </script>
 </head>
@@ -106,7 +109,7 @@
         foreach ($tasks as $task)
         {
             echo "<tr class=\"taskrow\" id=\"taskRow" . $task->guid . "\">\r\n";
-            echo "\t\t\t<td><input type=\"checkbox\" id=\"$task->guid\" name=\"check$task->guid\"";
+            echo "\t\t\t<td><input type='checkbox' id='" . $task->guid . "' name='check[" . $task->guid . "]'";
             if ($task->completed)
                 echo " checked";
             echo " onchange=\"taskModel.doCheckTask(this)\"/></td>\r\n";

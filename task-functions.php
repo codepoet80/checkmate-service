@@ -89,7 +89,7 @@ if (isset($data) && (isset($_GET['delete']) && $_GET['delete'] != ""))
 if (isset($data) && (isset($_GET["dosubmit"]) && $_GET["dosubmit"] == true) || (isset($_POST["dosubmit"]) && $_POST["dosubmit"] == true))
 {
     //Just the tasks
-    $tasks = (array)$data->tasks;
+    $tasks = (array)$data->tasks; 
     //Look for changed completion status
     foreach ($tasks as $task) {
         if ($task->completed) { //If this was a completed task, check if its been un-completed

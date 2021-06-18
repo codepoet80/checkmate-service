@@ -18,7 +18,7 @@ taskModel.doCheckTask = function(checkbox) {
         console.log("Updating task " + taskId);
         taskToUpdate = this.findTaskDataFromId(taskId)
         if (taskToUpdate) {
-            taskToUpdate.completed = checkbox.checked;
+            taskToUpdate.completed = Boolean(checkbox.checked);
             checkmate.updateTask(this.grandmaster, this.notation, taskToUpdate, this.handleServerResponse);
         } else {
             alert ("Error: Could not find task data to update!");
