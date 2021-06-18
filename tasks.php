@@ -227,7 +227,7 @@
         </td>
         <td align="right">
             <input type="hidden" name="editTaskID" value="<?php echo $editGUID?>">
-            <span id="divCleanup"><a href="<?php echo $actionUrl ?>?cleanup=complete">Clean-up</a></span>&nbsp;
+            <span id="divCleanup"><a href="<?php echo $actionUrl ?>&cleanup=complete">Clean-up</a></span>&nbsp;
             <span id="divSave"><input id="btnSubmit" type="submit" value="Save Changes" class="button"></span>
         </td>
     </tr>
