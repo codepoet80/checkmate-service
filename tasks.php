@@ -36,6 +36,10 @@
             document.getElementById("divCleanup").innerHTML = "<img src=\"images/sweep.png\" class=\"controlButton\" onclick=\"taskModel.doCleanup()\"/>";
             document.getElementById("btnSubmit").style.display = "none";
             document.getElementById("divSave").insertAdjacentHTML("beforeend", "<img src=\"images/save.png\" class=\"controlButton\" onclick=\"doSave()\"/>");
+            var draggers = document.getElementsByClassName("dragHandle");
+            for (var i = 0; i < draggers.length; i++) {
+                draggers[i].src = "images/handle.gif";
+            }
             var links = document.getElementsByClassName("editLink");
             for (var i = 0; i < links.length; i++) {
                 links[i].style.display = "none";
@@ -135,18 +139,20 @@
         $tasks = (array)$data->tasks;
         foreach ($tasks as $task)
         {
-            echo "<tr class=\"taskrow\" id=\"taskRow" . $task->guid . "\">\r\n";
-            echo "\t\t\t<td valign=\"middle\" width=\"100%\">";
-            echo "\t\t\t\t<img src=\"images/handle.gif\" id=\"drag$task->guid\" ondragenter=\"dragEnter(event)\" ondragleave=\"dragLeave(event)\" ondragstart=\"dragStart(event)\" draggable=\"true\">\r\n";
-            echo "<input type='checkbox' id='" . $task->guid . "' name='check[" . $task->guid . "]'";
+            echo "\r\n";
+            echo "\t\t<tr class=\"taskrow\" id=\"taskRow" . $task->guid . "\">\r\n";
+            echo "\t\t\t<td valign=\"middle\" width=\"100%\">\r\n";
+            echo "\t\t\t\t<img class=\"dragHandle\" id=\"drag$task->guid\" ondragenter=\"dragEnter(event)\" ondragleave=\"dragLeave(event)\" ondragstart=\"dragStart(event)\" draggable=\"true\">\r\n";
+            echo "\t\t\t\t<input type='checkbox' id='" . $task->guid . "' name='check[" . $task->guid . "]'";
             if ($task->completed)
                 echo " checked";
             echo " onchange=\"taskModel.doCheckTask(this)\"/>\r\n";
-            echo "\t\t\t<span class=\"taskListDetailCell\"><b>" . $task->title . "</b>";
+            echo "\t\t\t\t<span class=\"taskListDetailCell\"><b>" . $task->title . "</b>";
             if ($task->notes != "") {
                 echo "&nbsp; <img src=\"images/note.gif\" title=\"" . htmlentities($task->notes) . "\" alt=\"" . htmlentities($task->notes) . "\"/>";
             } 
-            echo "</span></td>\r\n";
+            echo "</span>\r\n";
+            echo "\t\t\t</td>\r\n";
             echo "\t\t\t<td style=\"border:1px solid blue;min-width: 90px;\" ondragover=\"allowDrop(event)\" ondrop=\"drop(event)\">\r\n";
             echo "\t\t\t\t<span class=\"editLink\"><a href=\"$actionUrl&edit=$task->guid#editfield\">Edit</a></span>\r\n";
             echo "\t\t\t\t<span class=\"editImageWrapper\"><img src=\"images/pencil.gif\" class=\"editImage\" onclick=\"taskModel.doTaskEdit('$task->guid')\"></span>\r\n";
