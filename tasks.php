@@ -33,6 +33,7 @@
         document.getElementById("divLogout").innerHTML = "<input type=\"button\" value=\"Log Out\" class=\"button\" onclick=\"document.location='index.php'\"/>";
         if (taskModel) { // client needs to be able to load an external javascript
             taskModel.upgradeUX();
+            clearInterval(updateInt);
             updateInt = setInterval("taskModel.doRefresh()", 10000)
         }
     }
@@ -65,7 +66,7 @@
 ?>
 <form id="formTasks" name="formTasks" action="<?php echo $actionUrl?>" method="post">
     <!-- Main Tasks Table -->
-    <table cellpadding="2" cellspacing="2" border="0" width="95%" class="contentTable" id="tableTasks">
+    <table cellpadding="0" cellspacing="0" border="0" width="95%" class="contentTable" style="padding:2px; margin: 2px;" id="tableTasks">
         <?php
         $tasks = (array)$data->tasks;;
         drawTaskTable($tasks);

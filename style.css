@@ -49,14 +49,18 @@ small {
     font-size: smaller;
 }
 
+.dragContainer {
+    min-width: 30px;
+}
 @media only screen and (max-device-width : 640px) {
-    .dragHandle {
+    .dragContainer {
         display: none;
     }
 }
-.taskrow.dragging { background-color: #fea; }
 
-.taskrow.active { background: #ffd4d4; }
+.taskrow.dragging { background-color: #e6e6e6; }
+
+.taskrow.active { background: #cecdcd; }
 
 #editTaskTitle {
     width: 320px;
@@ -78,6 +82,18 @@ small {
 input[type="checkbox"] {
     transform: scale(1.5, 1.5);
     margin-right: 10px;
+}
+
+.taskButtons {
+    padding-right: 4px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+@media only screen and (max-device-width : 640px) {
+    .taskButtons span {
+        padding-top: 4px;
+        padding-bottom: 6px;
+    }
 }
 
 .editLink {
