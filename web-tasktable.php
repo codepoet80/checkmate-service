@@ -42,7 +42,7 @@ function drawTaskTable($tasks) {
     echo "<tr><td colspan=\"4\" id=\"taskTableFrameBottom\"><hr></td></tr>";
 }
 
-function currentUrl( ) {
+function currentUrl($trim_query_string) {
     $pageURL = (isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] == 'on') ? "//" : "//";
     $pageURL .= $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"];
     if( ! $trim_query_string ) {
