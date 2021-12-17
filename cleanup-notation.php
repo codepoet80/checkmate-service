@@ -1,7 +1,12 @@
 <?php
 include("common.php");
+$visitorip = get_visitor_ip();
 
 $auth = get_authorization();
+if (!isset($_SERVER['HTTP_USER_AGENT']) || empty($_SERVER['HTTP_USER_AGENT'])) {
+    error_log("Check Mate Error: Anomalous cleanup call from " . $visitorIP . " with auth: " . json_encode($auth));
+    die ("{\"error\":\"this is an anomalous cleanup call, and will be rejected and logged.\"}");
+}
 
 //Make sure the file exists and can be loaded
 $file = get_filename_from_move($auth['move']);
