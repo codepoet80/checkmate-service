@@ -4,8 +4,8 @@ $visitorip = get_visitor_ip();
 
 $auth = get_authorization();
 if (!isset($_SERVER['HTTP_USER_AGENT']) || empty($_SERVER['HTTP_USER_AGENT'])) {
-    error_log("Check Mate Error: Anomalous cleanup call from " . $visitorIP . " with auth: " . json_encode($auth));
-    die ("{\"error\":\"this is an anomalous cleanup call, and will be rejected and logged.\"}");
+    error_log("Check Mate Error: Anomalous update call from " . $visitorIP . " with auth: " . json_encode($auth));
+    die ("{\"error\":\"this is an anomalous update call, and will be rejected and logged. User agent was " . $_SERVER['HTTP_USER_AGENT'] ."\"}");
 }
 //Make sure we can get the input
 $postjson = file_get_contents('php://input'); 
