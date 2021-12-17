@@ -134,10 +134,14 @@ function validate_incoming_data($newtaskdata)
         $cleanedTask->guid = strip_tags($newtaskdata->guid);
         $cleanedTask->title = strip_tags($newtaskdata->title);
         $cleanedTask->notes = strip_tags($newtaskdata->notes);
-        $cleanedTask->completed = $newtaskdata->completed;
-        $cleanedTask->createTime = $newtaskdata->createTime;
-        $cleanedTask->completeTime = $newtaskdata->completeTime;
-        $cleanedTask->sortPosition = $newtaskdata->sortPosition;
+        if (isset($newtaskdata->completed))
+            $cleanedTask->completed = $newtaskdata->completed;
+        if (isset($newtaskdata->createTime))
+            $cleanedTask->createTime = $newtaskdata->createTime;
+        if (isset($newtaskdata->completeTime))
+            $cleanedTask->completeTime = $newtaskdata->completeTime;
+        if (isset($newtaskdata->sortPosition))
+            $cleanedTask->sortPosition = $newtaskdata->sortPosition;
         return $cleanedTask;
     }
     else {
