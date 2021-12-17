@@ -20,12 +20,12 @@ function drawTaskTable($tasks) {
             echo "\t\t\t</td>\r\n";
             echo "\t\t\t<td class=\"taskChecker\" style=\"width:30px\" width=\"30\">\r\n";
             echo "\t\t\t\t<input type='checkbox' id='" . $task->guid . "' name='check[" . $task->guid . "]'";
-            if ($task->completed)
+            if (isset($task->completed) && $task->completed)
                 echo " checked";
             echo " onchange=\"taskModel.doCheckTask(this)\"/>\r\n";
             echo "\t\t\t<td valign=\"middle\" width=\"100%\">\r\n";
             echo "\t\t\t\t<span class=\"taskListDetailCell\"><b>" . $task->title . "</b>";
-            if ($task->notes != "") {
+            if (isset($task->notes) && $task->notes != "") {
                 echo "&nbsp; <img src=\"images/note.gif\" title=\"" . htmlentities($task->notes) . "\" alt=\"" . htmlentities($task->notes) . "\"/>";
             } 
             echo "</span>\r\n";
