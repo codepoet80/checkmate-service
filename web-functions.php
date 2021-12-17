@@ -11,6 +11,7 @@ function load_task_data($url, $grandmaster) {
         CURLOPT_MAXREDIRS => 0,
         CURLOPT_TIMEOUT => 30,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_USERAGENT => "CHECKMATE-WEB; " . $_SERVER['HTTP_USER_AGENT'],
         CURLOPT_CUSTOMREQUEST => "GET",
         CURLOPT_HTTPHEADER => array(
             "cache-control: no-cache",
@@ -42,6 +43,7 @@ function update_task_data($url, $grandmaster, $jsonData)
         CURLOPT_MAXREDIRS => 10,
         CURLOPT_TIMEOUT => 30,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_USERAGENT => "CHECKMATE-WEB; " . $_SERVER['HTTP_USER_AGENT'],
         CURLOPT_CUSTOMREQUEST => "POST",
         CURLOPT_POSTFIELDS => $jsonData,
         CURLOPT_HTTPHEADER => array(
@@ -68,6 +70,7 @@ function clear_completed_tasks($url, $grandmaster)
         CURLOPT_MAXREDIRS => 0,
         CURLOPT_TIMEOUT => 30,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_USERAGENT => "CHECKMATE-WEB; " . $_SERVER['HTTP_USER_AGENT'],
         CURLOPT_CUSTOMREQUEST => "GET",
         CURLOPT_HTTPHEADER => array(
             "cache-control: no-cache",
