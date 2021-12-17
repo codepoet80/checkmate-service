@@ -33,7 +33,7 @@ function remove_completed_tasks($oldtaskdata){
     $existingtasks = $oldtaskdata['moves'];
     foreach ($existingtasks as $existingtask)
     {
-        if ($existingtask['completed'] != true)
+        if (isset($existingtask['completed']) && $existingtask['completed'] != true)
         {
             array_push($updatedtasks, $existingtask);
         }
