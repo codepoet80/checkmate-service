@@ -1,6 +1,6 @@
 <?php
 include("common.php");
-$visitorip = get_visitor_ip();
+$visitorIP = get_visitor_ip();
 
 $auth = get_authorization();
 if (!isset($_SERVER['HTTP_USER_AGENT']) || empty($_SERVER['HTTP_USER_AGENT'])) {
