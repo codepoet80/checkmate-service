@@ -3,6 +3,7 @@
     include("web-functions.php");
     include("web-tasktable.php");
     include("task-functions.php");
+    $debugMsg = "";
 ?>
 <html>
 <head>

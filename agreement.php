@@ -2,6 +2,7 @@
     setcookie("grandmaster", "", time() - 3600);
     include("common.php");
     include("web-functions.php");
+    $debugMsg = "";
 ?>
 
 <html>
@@ -98,7 +99,7 @@
                                     <td width="20">&nbsp;</td>
                                 </tr>
                                 <?php
-                                if (isset($debugMsg)) {
+                                if (isset($debugMsg) && $debugMsg != "") {
                                     echo "<tr><td colspan='4' align='center' bgcolor='pink' border='1'><b>Error: " . $debugMsg . "</b></td></tr>";
                                 }
                                 if (isset($_POST["agreedBy"]) && isset($data) && isset($data->move) && isset($data->grandmaster)) {
