@@ -92,7 +92,7 @@ if (isset($data) && (isset($_GET["dosubmit"]) && $_GET["dosubmit"] == true) || (
     $tasks = (array)$data->tasks; 
     //Look for changed completion status
     foreach ($tasks as $task) {
-        if ($task->completed) { //If this was a completed task, check if its been un-completed
+        if (isset($task->completed) && $task->completed) { //If this was a completed task, check if its been un-completed
             if (isset($_POST['check'])) {
                 $found = false;
                 foreach($_POST['check'] as $index => $value) {
