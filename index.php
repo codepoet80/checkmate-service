@@ -1,20 +1,47 @@
 <?php
     setcookie("grandmaster", "", time() - 3600);
     include("common.php");
+    if (file_exists("app/index.html"))
+        echo "<script>var modernURL='app'</script>";
 ?>
 
 <html>
 <head>
     <title>Check Mate - Your To Do List Anywhere</title>
     <link rel="shortcut icon" href="favicon.ico">
-    <link rel="stylesheet" href="style.css">
     <link rel="icon" href="images/icon.png" type="image/png">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="notifications/notifications.css">
+    <script src="notifications/notifications.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1" />
     <meta http-equiv="pragma" content="no-cache">
     <script>
         function swapTech() {
             document.getElementById("divNewUser").innerHTML = "<input class=\"button\" type=\"button\" id=\"btnNew\" value=\"New Game\" onclick=\"document.location='agreement.php'\"/>";
             document.getElementById("imgIcon").src = "images/icon.png";
+
+            if (modernURL=="app") {
+                try {
+                    var prefix = (Array.prototype.slice
+                    .call(window.getComputedStyle(document.documentElement, ""))
+                    .join("") 
+                    .match(/-(moz|webkit|ms)-/))[1];
+                    console.log("Found browser prefix: " + prefix);
+                    if (["moz","webkit"].indexOf(prefix) != -1) {
+                        modernURL = window.location.href.split("?")[0].replace("index.php", "");
+                        modernURL = (modernURL + "/app").replace("//app", "/app").replace("http://", "https://");
+                        var myNotification = window.createNotification({});
+                        myNotification({ 
+                            title: 'Hello Modern Browser!',
+                            displayCloseButton: true,
+                            theme: 'info',
+                            message: 'You\'re viewing the retro-friendly landing. Did you know there\'s a modern web app you can use, after you sign up?\r\n\nJust go to ' + modernURL 
+                        });
+                    }
+                } catch (e) {
+                    //oh well
+                }
+            }
         }
         function checkSubmit() {
             if (document.getElementById("txtMove").value == "") {
