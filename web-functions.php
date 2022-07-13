@@ -2,6 +2,7 @@
 
 function load_task_data($url, $grandmaster) {
     //make outbound request to service
+    $url = str_replace("https://", "http://", strtolower($url));    //TODO: fix this hack cause
     $curl = curl_init();
     curl_setopt_array($curl, array(
         CURLOPT_PORT => 80,
@@ -33,8 +34,8 @@ function load_task_data($url, $grandmaster) {
 
 function update_task_data($url, $grandmaster, $jsonData)
 {
+    $url = str_replace("https://", "http://", strtolower($url));    //TODO: fix this hack cause
     $curl = curl_init();
-
     curl_setopt_array($curl, array(
         CURLOPT_PORT => 80,
         CURLOPT_URL => $url,
@@ -61,6 +62,7 @@ function update_task_data($url, $grandmaster, $jsonData)
 
 function clear_completed_tasks($url, $grandmaster)
 {
+    $url = str_replace("https://", "http://", strtolower($url));    //TODO: fix this hack cause
     $curl = curl_init();
     curl_setopt_array($curl, array(
         CURLOPT_PORT => 80,
