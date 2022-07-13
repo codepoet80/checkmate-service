@@ -45,7 +45,7 @@ function get_authorization() {
     if (!isset($_GET["grandmaster"])){
         $request_headers = getallheaders();
         if (array_key_exists('grandmaster', $request_headers)) {
-            $grandmaster = $request_headers['grandmaster'];
+            $grandmaster = base64_decode($request_headers['grandmaster']);
         } else {
             die ("Grandmaster not specified");
         }
