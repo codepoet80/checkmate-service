@@ -4,22 +4,19 @@
 
     if (file_exists("app/index.html"))
         echo "<script>var modernURL='app'</script>";
-    if (is_200("/app"))
+    if (is_found("app"))
         echo "<script>var modernURL='app'</script>";
 
-function is_200($page)
+function is_found($page)
 {
-    if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on')   
-         $url = "https://";   
-    else  
-         $url = "http://";   
-    // Append the host(domain name, ip) to the URL.   
-    $url.= $_SERVER['HTTP_HOST'];   
-    
-    // Append the requested resource location to the URL   
-    $url.= $_SERVER['REQUEST_URI'];    
+    if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on')
+         $url = "https://";
+    else
+         $url = "http://";
+    $url.= $_SERVER['HTTP_HOST'];
+    $url.= $_SERVER['REQUEST_URI'];
     $url.=$page;
-    
+
     $options['http'] = array(
         'method' => "HEAD",
         'ignore_errors' => 1,
@@ -27,7 +24,7 @@ function is_200($page)
     );
     $body = file_get_contents($url, NULL, stream_context_create($options));
     sscanf($http_response_header[0], 'HTTP/%*d.%*d %d', $code);
-    return $code === 200;
+    return $code === 200 || $code === 301;
 }
 ?>
 
