@@ -1,8 +1,34 @@
 <?php
     setcookie("grandmaster", "", time() - 3600);
     include("common.php");
+
     if (file_exists("app/index.html"))
         echo "<script>var modernURL='app'</script>";
+    if (is_200("/app"))
+        echo "<script>var modernURL='app'</script>";
+
+function is_200($page)
+{
+    if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on')   
+         $url = "https://";   
+    else  
+         $url = "http://";   
+    // Append the host(domain name, ip) to the URL.   
+    $url.= $_SERVER['HTTP_HOST'];   
+    
+    // Append the requested resource location to the URL   
+    $url.= $_SERVER['REQUEST_URI'];    
+    $url.=$page;
+    
+    $options['http'] = array(
+        'method' => "HEAD",
+        'ignore_errors' => 1,
+        'max_redirects' => 0
+    );
+    $body = file_get_contents($url, NULL, stream_context_create($options));
+    sscanf($http_response_header[0], 'HTTP/%*d.%*d %d', $code);
+    return $code === 200;
+}
 ?>
 
 <html>
