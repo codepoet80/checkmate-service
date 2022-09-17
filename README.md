@@ -3,6 +3,8 @@ A simple, retro-device friendly Task List utility with a chess theme
 
 Don't @ me cause the built-in client uses tables for layout -- it works and looks great on OmniWeb 1.0 from 1996 through to the latest Google Chrome -- your fancy CSS can't do that. If you prefer a more modern client, check out [enyo2-checkmate](https://www.github.com/codepoet80/enyo2-checkmate)
 
+There's also a client for legacy mobile webOS devices [here](https://www.github.com/codepoet80/webos-checkmate)
+
 ## System Requirements
 requires `php-curl`
 
@@ -13,7 +15,7 @@ This service supports a number of remote client apps. If you intend to support w
 
 ```
 <VirtualHost *:80>
-	ServerName checkmate.webosarchive.com
+	ServerName checkmate.cloud
 	DocumentRoot /var/www/checkmate
 	<Directory /var/www/checkmate>
 		Header set Access-Control-Allow-Origin "*"
