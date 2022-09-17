@@ -1,5 +1,24 @@
 <?php
 
+//Support nginx, which doesn't have this function
+if (!function_exists('getallheaders'))  {
+    function getallheaders()
+    {
+        if (!is_array($_SERVER)) {
+            return array();
+        }
+
+        $headers = array();
+        foreach ($_SERVER as $name => $value) {
+            if (substr($name, 0, 5) == 'HTTP_') {
+                $headers[str_replace(' ', '-', strtolower(str_replace('_', ' ', substr($name, 5))))] = $value;
+            }
+        }
+        return $headers;
+    }
+}
+
+
 function get_visitor_ip() {
     if (isset($_SERVER['HTTP_CLIENT_IP']) && !empty($_SERVER['HTTP_CLIENT_IP']))   //check ip from share internet
     {
@@ -44,14 +63,14 @@ function get_authorization() {
 
     if (!isset($_GET["grandmaster"])){
         $request_headers = getallheaders();
-        if (array_key_exists('grandmaster', $request_headers)) {
-            $grandmaster = $request_headers['grandmaster'];
+        if (array_key_exists('Grandmaster', $request_headers)) {
+            $grandmaster = $request_headers['Grandmaster'];
         } else {
             die ("Grandmaster not specified");
         }
     }
     else {
-        $grandmaster = $_GET["grandmaster"];
+        $grandmaster = base64_decode($_GET["grandmaster"]);
     }
     $grandmaster = strtolower($grandmaster);
 

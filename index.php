@@ -1,8 +1,31 @@
 <?php
     setcookie("grandmaster", "", time() - 3600);
     include("common.php");
+
     if (file_exists("app/index.html"))
         echo "<script>var modernURL='app'</script>";
+    if (is_found("app"))
+        echo "<script>var modernURL='app'</script>";
+
+function is_found($page)
+{
+    if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on')
+         $url = "https://";
+    else
+         $url = "http://";
+    $url.= $_SERVER['HTTP_HOST'];
+    $url.= $_SERVER['REQUEST_URI'];
+    $url.=$page;
+
+    $options['http'] = array(
+        'method' => "HEAD",
+        'ignore_errors' => 1,
+        'max_redirects' => 0
+    );
+    $body = file_get_contents($url, NULL, stream_context_create($options));
+    sscanf($http_response_header[0], 'HTTP/%*d.%*d %d', $code);
+    return $code === 200 || $code === 301;
+}
 ?>
 
 <html>
