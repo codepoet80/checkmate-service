@@ -9,6 +9,8 @@
 
 function is_found($page)
 {
+    /* TODO: This seems to be crashing the server, find a better way to do this */
+    /*
     if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on')
          $url = "https://";
     else
@@ -25,6 +27,7 @@ function is_found($page)
     $body = file_get_contents($url, NULL, stream_context_create($options));
     sscanf($http_response_header[0], 'HTTP/%*d.%*d %d', $code);
     return $code === 200 || $code === 301;
+    */
 }
 ?>
 
