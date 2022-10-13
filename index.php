@@ -118,7 +118,7 @@ function is_found($page)
                                     <td align="right" valign="bottom"><input class="button" type="submit" id="btnSubmit" value="Login"/><img src="images/spacer.gif" width="20"></td>
                                 </tr>
                                 <tr>
-                                    <td colspan="3" align="center"><small>Copyright 2021, Jonathan Wise.<br/><a href="https://github.com/codepoet80/checkmate-service">License and Open Source Info</a></small><br/>&nbsp;</td>
+                                    <td colspan="3" align="center"><small>Copyright 2022, Jon W.<br/><a href="https://github.com/codepoet80/checkmate-service">License and Open Source Info</a></small><br/>&nbsp;</td>
                                 </tr>
                             </table>
                         </td>
