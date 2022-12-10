@@ -1,36 +1,7 @@
 <?php
     setcookie("grandmaster", "", time() - 3600);
     include("common.php");
-
-    if (file_exists("app/index.html"))
-        echo "<script>var modernURL='app'</script>";
-    if (is_found("app"))
-        echo "<script>var modernURL='app'</script>";
-
-function is_found($page)
-{
-    /* TODO: This seems to be crashing the server, find a better way to do this */
-    /*
-    if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on')
-         $url = "https://";
-    else
-         $url = "http://";
-    $url.= $_SERVER['HTTP_HOST'];
-    $url.= $_SERVER['REQUEST_URI'];
-    $url.=$page;
-
-    $options['http'] = array(
-        'method' => "HEAD",
-        'ignore_errors' => 1,
-        'max_redirects' => 0
-    );
-    $body = file_get_contents($url, NULL, stream_context_create($options));
-    sscanf($http_response_header[0], 'HTTP/%*d.%*d %d', $code);
-    return $code === 200 || $code === 301;
-    */
-}
 ?>
-
 <html>
 <head>
     <title>Check Mate - Your To Do List Anywhere</title>
@@ -39,35 +10,14 @@ function is_found($page)
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="notifications/notifications.css">
     <script src="notifications/notifications.js"></script>
+    <script src="notifications/notify-modern.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1" />
     <meta http-equiv="pragma" content="no-cache">
     <script>
         function swapTech() {
+            notifyModern();
             document.getElementById("divNewUser").innerHTML = "<input class=\"button\" type=\"button\" id=\"btnNew\" value=\"New Game\" onclick=\"document.location='agreement.php'\"/>";
             document.getElementById("imgIcon").src = "images/icon.png";
-
-            if (modernURL=="app") {
-                try {
-                    var prefix = (Array.prototype.slice
-                    .call(window.getComputedStyle(document.documentElement, ""))
-                    .join("") 
-                    .match(/-(moz|webkit|ms)-/))[1];
-                    console.log("Found browser prefix: " + prefix);
-                    if (["moz","webkit"].indexOf(prefix) != -1) {
-                        modernURL = window.location.href.split("?")[0].replace("index.php", "");
-                        modernURL = (modernURL + "/app").replace("//app", "/app").replace("http://", "https://");
-                        var myNotification = window.createNotification({});
-                        myNotification({ 
-                            title: 'Hello Modern Browser!',
-                            displayCloseButton: true,
-                            theme: 'info',
-                            message: 'You\'re viewing the retro-friendly landing. Did you know there\'s a modern web app you can use, after you sign up?\r\n\nJust go to ' + modernURL 
-                        });
-                    }
-                } catch (e) {
-                    //oh well
-                }
-            }
         }
         function checkSubmit() {
             if (document.getElementById("txtMove").value == "") {
