@@ -3,7 +3,6 @@
     <title>Check Mate - Your To Do List Anywhere</title>
     <link rel="shortcut icon" href="favicon.ico">
     <link rel="icon" href="images/icon.png" type="image/png">
-    <link rel="stylesheet" href="style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1" />
     <meta http-equiv="pragma" content="no-cache">
 </head>
@@ -19,7 +18,7 @@
       $REQUEST_PROTOCOL = "http";
     }
 ?>
-    <div style="margin:15px;">
+    <div style="font-family:arial,helvetica,sans-serif;margin:15px;">
     <table><tr><td><img src="images/icon.gif"></td><td><h1>Check Mate</h1></tr></table>
     <p>Check Mate is a retro-friendly, cross platform app, provided by <a href="http://www.webosarchive.org">webOS Archive</a>. Choose the experience that's best for your platform...</p>
     <ul>
