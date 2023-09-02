@@ -8,6 +8,18 @@
     <meta http-equiv="pragma" content="no-cache">
 </head>
 <body>
+<?php
+    //Figure out what protocol the client wanted
+    if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
+      echo file_get_contents("https://www.webosarchive.org/menu.php?content=maps");
+      $REQUEST_PROTOCOL = "https";
+    }
+    else {
+      echo file_get_contents("http://www.webosarchive.org/menu.php?content=maps");
+      $REQUEST_PROTOCOL = "http";
+    }
+?>
+    <div style="margin:15px;">
     <table><tr><td><img src="images/icon.gif"></td><td><h1>Check Mate</h1></tr></table>
     <p>Check Mate is a retro-friendly, cross platform app, provided by <a href="http://www.webosarchive.org">webOS Archive</a>. Choose the experience that's best for your platform...</p>
     <ul>
@@ -22,5 +34,6 @@
         <li><b><a href="https://github.com/codepoet80/enyo2-checkmate">PWA code, including Android, webOS and LuneOS</a></li>
         <li><b><a href="https://github.com/codepoet80/webos-checkmate">Mojo version for webOS only</a></li>
     </ul>
+    </div>
 </body>
 </html>
