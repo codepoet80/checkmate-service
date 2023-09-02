@@ -24,7 +24,7 @@ else //or get from a cookie
 } 
 if (!isset($move) || $move == "" || !isset($grandmaster))  //or just go home if there's no valid query
 {
-    header ("Location: index.php");
+    header ("Location: retro.php");
     exit();
 }
 
@@ -174,8 +174,8 @@ function check_response_for_errors($response)
             //Wrong password
             $GLOBALS['debugMsg'] .= "Authentication failure: <br>";
             $GLOBALS['debugMsg'] .= $data->error;
-            $GLOBALS['debugMsg'] .= "<br><a href='index.php?login=fail'>Return to Log In</a>";
-            header ("Location: index.php?login=fail");
+            $GLOBALS['debugMsg'] .= "<br><a href='retro.php?login=fail'>Return to Log In</a>";
+            header ("Location: retro.php?login=fail");
             exit();
         }
         else

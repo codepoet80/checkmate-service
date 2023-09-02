@@ -1,7 +1,3 @@
-<?php
-    setcookie("grandmaster", "", time() - 3600);
-    include("common.php");
-?>
 <html>
 <head>
     <title>Check Mate - Your To Do List Anywhere</title>
@@ -13,70 +9,20 @@
     <script src="notifications/notify-modern.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1" />
     <meta http-equiv="pragma" content="no-cache">
-    <script>
-        function swapTech() {
-            notifyModern();
-            document.getElementById("divNewUser").innerHTML = "<input class=\"button\" type=\"button\" id=\"btnNew\" value=\"New Game\" onclick=\"document.location='agreement.php'\"/>";
-            document.getElementById("imgIcon").src = "images/icon.png";
-        }
-        function checkSubmit() {
-            if (document.getElementById("txtMove").value == "") {
-                document.getElementById("txtMove").focus();
-                return false;
-            }
-            if (document.getElementById("txtGrandmaster").value == "") {
-                document.getElementById("txtGrandmaster").focus();
-                return false;
-            }
-            return true;
-        }
-    </script>
 </head>
-<body background='images/chessboard.jpg' class="login" onload="swapTech()">
-<table width="100%" height="100%" border="0" id="tableLayout">
-    <tr>
-        <td width="100%" height="100%" border="0" id="tdLayout" align="center">
-            <form method="POST" action="tasks.php" onsubmit="return checkSubmit()">
-                <table width="400" height="300" border="1" class="tableBorder">
-                    <tr>
-                        <td>
-                            <table width="100%" height="100%" bgcolor="lightgray" border="0" class="tableLogin">
-                                <tr>
-                                    <td colspan="3" align="center">
-                                        <img src="images/icon.gif" style="margin-top:8px;" id="imgIcon"/><br/>
-                                        <b>Check Mate - Login</b><br/>
-                                        &nbsp;
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td width="20">&nbsp;</td>
-                                    <td width="150" align="right">Chess Move:&nbsp; </td>
-                                    <td width="260"><input type="text" id="txtMove" name="move" size="25" /></td>
-                                </tr>
-                                <tr>
-                                    <td width="20">&nbsp;</td>
-                                    <td width="150" align="right">Grand Master: </td>
-                                    <td width="260"><input type="text" id="txtGrandmaster" name="grandmaster" size="25" /></td>
-                                </tr>
-                                <tr>
-                                    <td width="20">&nbsp;</td>
-                                    <td colspan="2" align="left">&nbsp;<br/><input type="checkbox" id="chkUseGet" name="useGet" /> Use GET (Less secure, but Bookmark friendly)<br/>&nbsp;</td>
-                                </tr>
-                                <tr>
-                                    <td width="20">&nbsp;</td>
-                                    <td align="left" valign="bottom"><div id="divNewUser"><a href="agreement.php">New Game</a></div></td>
-                                    <td align="right" valign="bottom"><input class="button" type="submit" id="btnSubmit" value="Login"/><img src="images/spacer.gif" width="20"></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3" align="center"><small>Copyright 2022, Jon W.<br/><a href="https://github.com/codepoet80/checkmate-service">License and Open Source Info</a></small><br/>&nbsp;</td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                </table>
-            </form>
-        </td>
-    </tr>
-</table>
+<body>
+    <table><tr><td><img src="images/icon.gif"></td><td><h1>Check Mate</h1></tr></table>
+    <p>Check Mate is a retro-friendly, cross platform app. Choose the experience that's best for your platform...</p>
+    <ul>
+        <li><b><a href="retro.php">Retro:</a></b> best for pre-HTML5 browsers, as far back as OmniWeb, Netscape and Internet Explorer!</li>
+        <li><b><a href="/app">PWA:</a></b> Progressive Web Apps work on modern browsers, and can be pinned to your homescreen, dock or Start Menu on modern platforms.</li>
+        <li><b><a href="https://play.google.com/store/apps/details?id=com.webosarchive.checkmatehd">Android:</a></b> The PWA, bundled for distribution on Google Play.</li>
+        <li><b><a href="https://appcatalog.webosarchive.org/showMuseum.php?search=check+mate">webOS/LuneOS:</a></b> Versions built for legacy (mobile) webOS and modern LuneOS.</li>
+    </ul>
+    <p>Check Mate is open source! Code and releases can be found here:
+    <ul>
+        <li><b><a href="https://github.com/codepoet80/checkmate-service">Back-end code (including the retro web interface)</a></li>
+        <li><b><a href="https://github.com/codepoet80/enyo2-checkmate">PWA code, including Android, webOS and LuneOS</a></li>
+        <li><b><a href="https://github.com/codepoet80/webos-checkmate">Mojo version for webOS only</a></li>
 </body>
-</html> 
+</html>

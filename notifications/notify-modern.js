@@ -1,7 +1,7 @@
 function notifyModern() {
     var request = new XMLHttpRequest();
     if (request) {
-        modernURL = window.location.href.split("?")[0].replace("index.php", "");
+        modernURL = window.location.href.split("?")[0].replace("retro.php", "");
         request.open('GET', modernURL + "/app", false);
         request.send();
         if (request.status == 200) {
@@ -11,7 +11,7 @@ function notifyModern() {
                     .join("")
                     .match(/-(moz|webkit|ms)-/))[1];
                 if (["moz", "webkit"].indexOf(prefix) != -1) {
-                    modernURL = window.location.href.split("?")[0].replace("index.php", "");
+                    modernURL = window.location.href.split("?")[0].replace("retro.php", "");
                     modernURL = (modernURL + "/app").replace("//app", "/app").replace("http://", "https://");
                     var myNotification = window.createNotification({});
                     myNotification({

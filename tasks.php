@@ -31,7 +31,7 @@
     function swapTech() {
         document.getElementById("imgIcon").src = "images/icon.png";
         document.getElementById("tableControls").style.marginTop = "14px";
-        document.getElementById("divLogout").innerHTML = "<input type=\"button\" value=\"Log Out\" class=\"button\" onclick=\"document.location='index.php'\"/>";
+        document.getElementById("divLogout").innerHTML = "<input type=\"button\" value=\"Log Out\" class=\"button\" onclick=\"document.location='retro.php'\"/>";
         if (taskModel) { // client needs to be able to load an external javascript
             taskModel.upgradeUX();
             clearInterval(updateInt);
@@ -51,7 +51,7 @@
     <tr>
         <td><img src="images/icon.gif" id="imgIcon"></td>
         <td width="100%"><h2><div><span>Check Mate<br><i><?php echo $data->notation ?></i></span></div></h2></td>
-        <td><div id="divLogout" style="float:right"><a href="index.php?logout=true">Log out</a></div></td>
+        <td><div id="divLogout" style="float:right"><a href="retro.php?logout=true">Log out</a></div></td>
     </tr>
 </table>
 

@@ -19,10 +19,10 @@
         function swapTech() {
             document.getElementById("imgIcon").src = "images/icon.png";
             if (document.getElementById("divDisagree")) {
-                document.getElementById("divDisagree").innerHTML = "<input class=\"button\" type=\"button\" id=\"btnDisagree\" value=\"Disagree\" onclick=\"document.location='index.php'\"/>"
+                document.getElementById("divDisagree").innerHTML = "<input class=\"button\" type=\"button\" id=\"btnDisagree\" value=\"Disagree\" onclick=\"document.location='retro.php'\"/>"
             }
             if (document.getElementById("divLogin")) {
-                document.getElementById("divLogin").innerHTML = "<input class=\"button\" type=\"button\" id=\"btnLogin\" value=\"Log-in\" onclick=\"document.location='index.php'\"/>"
+                document.getElementById("divLogin").innerHTML = "<input class=\"button\" type=\"button\" id=\"btnLogin\" value=\"Log-in\" onclick=\"document.location='retro.php'\"/>"
             }
         }
     </script>
@@ -121,7 +121,7 @@
                                 <tr>
                                     <td width="20">&nbsp;</td>
                                     <td colspan="2" align="center">
-                                        <div id="divLogin"><a href="index.php">Log-In</a></div>
+                                        <div id="divLogin"><a href="retro.php">Log-In</a></div>
                                     </td>
                                     <td width="20">&nbsp;</td>
                                 </tr>
@@ -136,7 +136,7 @@
                                 </tr>
                                 <tr>
                                     <td width="20">&nbsp;<input type="hidden" name="agreedBy" value="<?php echo getUserIP() ?>"/></td>
-                                    <td align="left" valign="bottom"><div id="divDisagree"><a href="index.php">Disagree</a></div></td>
+                                    <td align="left" valign="bottom"><div id="divDisagree"><a href="retro.php">Disagree</a></div></td>
                                     <td align="right" valign="bottom"><input class="button" type="submit" id="btnSubmit" value="Agree"/><img src="images/spacer.gif" width="20"></td>
                                     <td width="20">&nbsp;</td>
                                 </tr>
