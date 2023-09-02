@@ -20,7 +20,7 @@
 ?>
     <div style="font-family:arial,helvetica,sans-serif;margin:15px;">
     <table><tr><td><img src="images/icon.gif"></td><td><h1>Check Mate</h1></tr></table>
-    <p>Check Mate is a retro-friendly, cross platform app, provided by <a href="http://www.webosarchive.org">webOS Archive</a>. Choose the experience that's best for your platform...</p>
+    <p>Check Mate is a retro-friendly, cross platform, to-do list web app provided by <a href="http://www.webosarchive.org">webOS Archive</a>. Choose the experience that's best for your platform...</p>
     <ul>
         <li><b><a href="retro.php">Retro</a>:</b> best for pre-HTML5 browsers, as far back as OmniWeb, Netscape and Internet Explorer!</li>
         <li><b><a href="/app">PWA</a>:</b> Progressive Web Apps work on modern browsers, and can be pinned to your home screen, dock or Start Menu on modern platforms.</li>
