@@ -1,22 +1,15 @@
-<html>
-<head>
-    <title>Check Mate - Your To Do List Anywhere</title>
-    <link rel="shortcut icon" href="favicon.ico">
-    <link rel="icon" href="images/icon.png" type="image/png">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1" />
-    <meta http-equiv="pragma" content="no-cache">
-</head>
-<body>
 <?php
-    //Figure out what protocol the client wanted
-    if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
-      echo file_get_contents("https://www.webosarchive.org/menu.php?content=maps");
-      $REQUEST_PROTOCOL = "https";
-    }
-    else {
-      echo file_get_contents("http://www.webosarchive.org/menu.php?content=maps");
-      $REQUEST_PROTOCOL = "http";
-    }
+//This file is only used for advertising on a hosting webserver
+
+//Figure out what protocol the client wanted
+if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
+	$PROTOCOL = "https";
+} else {
+	$PROTOCOL = "http";
+}
+$docRoot = "./";
+$appTitle = "Check Mate";
+echo file_get_contents("https://www.webosarchive.org/app-template/header.php?docRoot=" . $docRoot . "&appTitle=" . $appTitle . "&protocol=" . $PROTOCOL);
 ?>
     <div style="font-family:arial,helvetica,sans-serif;margin:15px;">
     <table><tr><td><img src="images/icon.gif"></td><td><h1>Check Mate</h1></tr></table>
