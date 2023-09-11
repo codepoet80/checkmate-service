@@ -5,9 +5,9 @@ td {
     font-family: sans-serif, 'Franklin Gothic Medium', 'Arial Narrow', Arial;
 }
 
-.taskListDetailCell {
-    no-padding-top: 18px;
-}
+a { color:red; text-decoration: none; }
+a:hover { color: darkred; }
+
 
 body {
     background-color: #dcdcdc;
