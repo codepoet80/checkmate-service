@@ -18,10 +18,10 @@ echo file_get_contents("https://www.webosarchive.org/app-template/header.php?doc
     <p>Check Mate is a cross platform to-do list app created by provided by <a href="http://www.webosarchive.org">webOS Archive</a> for retro and modern devices.<br/>
     Choose the experience that's best for your platform...</p>
     <table style="margin-left:15%;margin-right:20%;font-size:small;">
-        <tr><td width="200" align="right"><b><a href="retro.php">Retro</a></b></td><td style="padding-left:18px">Best for pre-HTML5 browsers, as far back as OmniWeb, Netscape and Internet Explorer!</td></tr>
-        <tr><td width="200" align="right"><b><a href="/app">PWA</a></b></td><td style="padding-left:18px">Progressive Web Apps work on modern browsers, and can be pinned to your home screen or dock on modern platforms.</td>
-	    <tr><td width="200" align="right"><b><a href="https://play.google.com/store/apps/details?id=com.webosarchive.checkmatehd">Android</a></b></td><td style="padding-left:18px">The PWA bundled for distribution on Google Play.</td></tr>
-        <tr><td width="200" align="right"><b><a href="https://appcatalog.webosarchive.org/showMuseum.php?search=check+mate">webOS/LuneOS</a></b></td><td style="padding-left:18px">Versions built for legacy (mobile) webOS and modern LuneOS.</td></tr>
+        <tr><td width="22%" align="right"><b><a href="retro.php">Retro</a></b></td><td style="padding-left:18px">Best for pre-HTML5 browsers, as far back as OmniWeb, Netscape and Internet Explorer!</td></tr>
+        <tr><td width="22%" align="right"><b><a href="/app">PWA</a></b></td><td style="padding-left:18px">Progressive Web Apps work on modern browsers, and can be pinned to your home screen or dock on modern platforms.</td>
+	    <tr><td width="22%" align="right"><b><a href="https://play.google.com/store/apps/details?id=com.webosarchive.checkmatehd">Android</a></b></td><td style="padding-left:18px">The PWA bundled for distribution on Google Play.</td></tr>
+        <tr><td width="22%" align="right"><b><a href="https://appcatalog.webosarchive.org/showMuseum.php?search=check+mate">webOS/LuneOS</a></b></td><td style="padding-left:18px">Versions built for legacy (mobile) webOS and modern LuneOS.</td></tr>
     </table>
     <p>Check Mate is open source! Code and Releases can be found here:
     <table style="margin-left:20%;margin-right:20%;font-size:small;">
