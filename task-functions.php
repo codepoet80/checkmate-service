@@ -13,13 +13,28 @@ if (isset($_POST['grandmaster']) || isset($_GET['grandmaster'])) //find the gran
         $grandmaster = $_POST['grandmaster'];
     if (isset($_GET['grandmaster']))
         $grandmaster = base64url_decode($_GET['grandmaster']);
-    setcookie("grandmaster", $grandmaster, time() + (3600), "/");
+    
+    // Enhanced secure cookie settings
+    $cookie_options = array(
+        'expires' => time() + 3600, // 1 hour expiration
+        'path' => '/',
+        'domain' => '',
+        'secure' => isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on', // Only send over HTTPS if available
+        'httponly' => true, // Prevent XSS access to cookies
+        'samesite' => 'Strict' // CSRF protection
+    );
+    setcookie("grandmaster", $grandmaster, $cookie_options);
 }
 else //or get from a cookie
 {
     if (isset($_COOKIE["grandmaster"]))
     {
-        $grandmaster = $_COOKIE["grandmaster"];
+        // Validate cookie data before use
+        $cookie_grandmaster = $_COOKIE["grandmaster"];
+        if (strlen($cookie_grandmaster) > 0 && strlen($cookie_grandmaster) <= 100 && 
+            preg_match('/^[a-zA-Z0-9\s\.\-_]+$/', $cookie_grandmaster)) {
+            $grandmaster = $cookie_grandmaster;
+        }
     }
 } 
 if (!isset($move) || $move == "" || !isset($grandmaster))  //or just go home if there's no valid query

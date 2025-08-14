@@ -131,17 +131,66 @@ function validate_incoming_data($newtaskdata)
 {
     if (isset($newtaskdata->guid) && isset($newtaskdata->title) && isset($newtaskdata->notes)) {
         $cleanedTask = new stdClass();
-        $cleanedTask->guid = strip_tags($newtaskdata->guid);
-        $cleanedTask->title = strip_tags($newtaskdata->title);
-        $cleanedTask->notes = strip_tags($newtaskdata->notes);
-        if (isset($newtaskdata->completed))
-            $cleanedTask->completed = $newtaskdata->completed;
-        if (isset($newtaskdata->createTime))
-            $cleanedTask->createTime = $newtaskdata->createTime;
-        if (isset($newtaskdata->completeTime))
-            $cleanedTask->completeTime = $newtaskdata->completeTime;
-        if (isset($newtaskdata->sortPosition))
-            $cleanedTask->sortPosition = $newtaskdata->sortPosition;
+        
+        // Enhanced validation for GUID
+        $guid = strip_tags(trim($newtaskdata->guid));
+        if ($guid === "new" || (strlen($guid) >= 6 && strlen($guid) <= 50 && preg_match('/^[a-zA-Z0-9_-]+$/', $guid))) {
+            $cleanedTask->guid = $guid;
+        } else {
+            return false;
+        }
+        
+        // Enhanced validation for title
+        $title = strip_tags(trim($newtaskdata->title));
+        if (strlen($title) > 0 && strlen($title) <= 200) {
+            $cleanedTask->title = htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
+        } else {
+            return false;
+        }
+        
+        // Enhanced validation for notes
+        $notes = strip_tags(trim($newtaskdata->notes));
+        if (strlen($notes) <= 1000) {
+            $cleanedTask->notes = htmlspecialchars($notes, ENT_QUOTES, 'UTF-8');
+        } else {
+            return false;
+        }
+        
+        // Validate completed field
+        if (isset($newtaskdata->completed)) {
+            $cleanedTask->completed = filter_var($newtaskdata->completed, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+            if ($cleanedTask->completed === null) {
+                $cleanedTask->completed = false;
+            }
+        }
+        
+        // Validate timestamps
+        if (isset($newtaskdata->createTime)) {
+            $createTime = strip_tags(trim($newtaskdata->createTime));
+            if (strlen($createTime) <= 50 && preg_match('/^[a-zA-Z0-9\s,:-]+$/', $createTime)) {
+                $cleanedTask->createTime = $createTime;
+            }
+        }
+        
+        if (isset($newtaskdata->completeTime)) {
+            $completeTime = strip_tags(trim($newtaskdata->completeTime));
+            if (strlen($completeTime) <= 50 && preg_match('/^[a-zA-Z0-9\s,:-]*$/', $completeTime)) {
+                $cleanedTask->completeTime = $completeTime;
+            }
+        }
+        
+        // Validate sort position
+        if (isset($newtaskdata->sortPosition)) {
+            $sortPos = filter_var($newtaskdata->sortPosition, FILTER_VALIDATE_INT, array(
+                "options" => array("min_range" => -1, "max_range" => 10000)
+            ));
+            if ($sortPos !== false) {
+                $cleanedTask->sortPosition = $sortPos;
+            } else {
+                return false;
+            }
+        }
+        
         return $cleanedTask;
     }
     else {

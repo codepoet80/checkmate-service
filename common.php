@@ -36,7 +36,18 @@ function get_visitor_ip() {
 }
 
 function get_filename_from_move($move) {
-    $file = $move . ".json";
+    // Validate move to prevent directory traversal
+    if (strpos($move, '..') !== false || strpos($move, '/') !== false || strpos($move, '\\') !== false) {
+        die ("{\"error\":\"Invalid move format - path traversal detected\"}");
+    }
+    
+    // Additional validation for filename safety
+    $clean_move = preg_replace('/[^a-zA-Z0-9\-_]/', '', $move);
+    if (strlen($clean_move) === 0 || strlen($clean_move) > 100) {
+        die ("{\"error\":\"Invalid move format - unsafe characters\"}");
+    }
+    
+    $file = $clean_move . ".json";
     return "notations/" . $file;
 }
 
@@ -58,19 +69,36 @@ function get_authorization() {
     //Make sure we got a valid query
     if (!isset($_GET["move"]))
         die ("Move not specified");
-    $move = $_GET["move"];
-    $move = try_make_move_from_input($move);
+    
+    // Validate move input
+    $raw_move = $_GET["move"];
+    if (strlen($raw_move) > 200 || !preg_match('/^[a-zA-Z0-9\s\-\'\.]+$/', $raw_move)) {
+        die ("{\"error\":\"Invalid move format\"}");
+    }
+    $move = try_make_move_from_input($raw_move);
 
     if (!isset($_GET["grandmaster"])){
         $request_headers = getallheaders();
         if (array_key_exists('Grandmaster', $request_headers)) {
             $grandmaster = $request_headers['Grandmaster'];
+            // Validate header input
+            if (strlen($grandmaster) > 100 || !preg_match('/^[a-zA-Z0-9\s\.\-_]+$/', $grandmaster)) {
+                die ("{\"error\":\"Invalid grandmaster format\"}");
+            }
         } else {
             die ("Grandmaster not specified");
         }
     }
     else {
-        $grandmaster = base64_decode($_GET["grandmaster"]);
+        $encoded_grandmaster = $_GET["grandmaster"];
+        // Validate base64 input before decoding
+        if (strlen($encoded_grandmaster) > 200 || !preg_match('/^[a-zA-Z0-9+\/=\-_]+$/', $encoded_grandmaster)) {
+            die ("{\"error\":\"Invalid grandmaster encoding\"}");
+        }
+        $grandmaster = base64_decode($encoded_grandmaster);
+        if ($grandmaster === false || strlen($grandmaster) > 100 || !preg_match('/^[a-zA-Z0-9\s\.\-_]+$/', $grandmaster)) {
+            die ("{\"error\":\"Invalid grandmaster format\"}");
+        }
     }
     $grandmaster = strtolower($grandmaster);
 
