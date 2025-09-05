@@ -1,5 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
 <?php
 //This file is only used for advertising on a hosting webserver
+
+//App Details
+$description = "Check Mate is a cross platform to-do list app created and provided by webOS Archive for retro and modern devices.";
+$title = "Check Mate";
+$subtitle = " | Your To-Do List Anywhere!";
+$github = "https://github.com/codepoet80/checkmate-service";
+$pwaLink = "https://store.app/checkmate-wosa-link";
+$githubLink = "https://github.com/codepoet80/enyo2-checkmate/releases";
+$museumLink = "https://appcatalog.webosarchive.org/showMuseum.php?search=checkmate";
+$icon = "assets/icon.png";
 
 //Figure out what protocol the client wanted
 if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
@@ -7,27 +19,71 @@ if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
 } else {
 	$PROTOCOL = "http";
 }
-$docRoot = "./";
-$appTitle = "Check Mate";
-echo file_get_contents("https://www.webosarchive.org/app-template/header.php?docRoot=" . $docRoot . "&appTitle=" . $appTitle . "&protocol=" . $PROTOCOL);
 ?>
-    <style>
-        body { background-color: white;}
-    </style>
-    <div style="font-family:arial,helvetica,sans-serif;margin:15px;" align="center">
-    <p>Check Mate is a cross platform to-do list app created by provided by <a href="http://www.webosarchive.org">webOS Archive</a> for retro and modern devices.<br/>
-    Choose the experience that's best for your platform...</p>
-    <table style="margin-left:15%;margin-right:20%;font-size:small;">
-        <tr><td width="22%" align="right"><b><a href="retro.php">Retro</a></b></td><td style="padding-left:18px">Best for pre-HTML5 browsers, as far back as OmniWeb, Netscape and Internet Explorer!</td></tr>
-        <tr><td width="22%" align="right"><b><a href="/app" target="_blank">PWA</a></b></td><td style="padding-left:18px">Progressive Web Apps work on modern browsers, and can be pinned to your home screen or dock on modern platforms.</td>
-        <tr><td width="22%" align="right"><b><a href="https://play.google.com/store/apps/details?id=com.webosarchive.checkmatehd">Android</a></b></td><td style="padding-left:18px">The PWA bundled for distribution on Google Play.</td></tr>
-        <tr><td width="22%" align="right"><b><a href="https://appcatalog.webosarchive.org/showMuseum.php?search=check+mate">webOS</a></b></td><td style="padding-left:18px">Versions built for legacy (mobile) webOS and modern LuneOS.</td></tr>
-    </table>
-    <p>Check Mate is open source! Code and Releases can be found here:
-    <table style="margin-left:20%;margin-right:20%;font-size:small;">
-        <tr><td align="center"><a href="https://github.com/codepoet80/checkmate-service">Back-end code (including the retro web interface)</a></td></tr>
-        <tr><td align="center"><a href="https://github.com/codepoet80/enyo2-checkmate">PWA code, including Android, webOS and LuneOS</a></td></tr>
-        <tr><td align="center"><a href="https://github.com/codepoet80/webos-checkmate">Mojo version for webOS only</a></td></tr>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  <meta name="description" content="<?php echo $description; ?>">
+  <meta name="keywords" content="webos, firefoxos, pwa, rss">
+  <meta name="author" content="webOS Archive">
+  <meta property="og:title" content="<?php echo $title; ?>">
+  <meta property="og:description" content="<?php echo $description; ?>">
+  <meta property="og:image" content="https://<?php echo $_SERVER['SERVER_NAME'] ?>/hero.png">
+
+  <meta name="twitter:card" content="app">
+  <meta name="twitter:site" content="@webOSArchive">
+  <meta name="twitter:title" content="<?php echo $title; ?>">
+  <meta name="twitter:description" content="<?php echo $description; ?>">
+
+  <title><?php echo $title . $subtitle; ?></title>
+  
+  <link id="favicon" rel="icon" type="image/png" sizes="64x64" href="<?php echo $icon;?>">
+  <link href="<?php echo $PROTOCOL . "://www.webosarchive.org/app-template/"?>web.css" rel="stylesheet" type="text/css" >
+</head>
+<body>
+<?php
+
+$docRoot = "./";
+echo file_get_contents("https://www.webosarchive.org/menu.php?docRoot=" . $docRoot . "&protocol=" . $PROTOCOL);
+?>
+
+  <table width="100%" border=0 style="width:100%;border:0px"><tr><td align="center" style="width:100%;height:100%;border:0px">
+  <div id="row">
+    <div id="content" align="left">
+      <h1><img src="<?php echo $icon;?>" width="60" height="60" alt=""/><?php echo $title; ?></h1>
+      <p><?php echo $description; ?></p>
+      <p>Available for most platforms as a Progressive Web App, on Android, and the webOS App Museum for webOS devices.</p>
+      <p>View the source and contribute on <?php echo "<a href='" . $github . "'>GitHub</a>"?>.</p>
+      <p class="center">
+        <?php if (isset($pwaLink)) { ?>
+        <a class="download-link" href="<?php echo $pwaLink; ?>">
+          <img src="<?php echo $PROTOCOL . "://www.webosarchive.org/app-template/"?>pwa-badge.png" width="200" height="59" alt="Install the PWA" />
+        </a>
+        <?php } ?>
+        <?php if (isset($githubLink)) { ?>
+        <a class="download-link" href="<?php echo $githubLink; ?>">
+          <img src="<?php echo $PROTOCOL . "://www.webosarchive.org/app-template/"?>github-badge.png" width="200" height="59" alt="Get it on GitHub" />
+        </a>
+        <?php } ?>
+        <?php if (isset($museumLink)) { ?>
+        <a class="download-link" href="<?php echo $museumLink; ?>">
+          <img src="<?php echo $PROTOCOL . "://www.webosarchive.org/app-template/"?>museum-badge.png" width="200" height="59" alt="Find it in the App Museum" />
+        </a>
+        <?php } ?>
+      </p>
     </div>
+    <div id="hero">
+      <img src="hero.png" width="480" alt="<?php echo $title ?>" />
+    </div>
+  </div>
+  <div id="footer">
+    &copy; Othello Ventures and webOSArchive.
+    <div id="footer-links">
+      <a href="<?php echo $PROTOCOL . "://www.webosarchive.org/privacy.html"?>">Privacy Policy</a>
+    </div>
+  </div>
+  </td></tr></table>
 </body>
 </html>
