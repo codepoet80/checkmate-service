@@ -79,7 +79,7 @@ echo file_get_contents("https://www.webosarchive.org/menu.php?docRoot=" . $docRo
     </div>
   </div>
   <div id="footer">
-    &copy; Othello Ventures and webOSArchive.
+    &copy; webOSArchive.
     <div id="footer-links">
       <a href="<?php echo $PROTOCOL . "://www.webosarchive.org/privacy.html"?>">Privacy Policy</a>
     </div>
