@@ -110,7 +110,7 @@
             &nbsp;Title: &nbsp;
         </td>
         <td width="*">
-            <input type="text" size="45" name="editTaskTitle" id="editTaskTitle" value="<?php echo $editTask->title ?>"/>
+            <input type="text" size="45" name="editTaskTitle" id="editTaskTitle" value="<?php echo htmlspecialchars($editTask->title, ENT_QUOTES, 'UTF-8') ?>"/>
         </td>
     </tr>
     <tr>
@@ -118,7 +118,7 @@
             &nbsp;Notes: &nbsp;
         </td>
         <td width="*">
-            <textarea name="editTaskNotes" cols="40" rows="5" id="editTaskNotes"><?php echo $editTask->notes ?></textarea>
+            <textarea name="editTaskNotes" cols="40" rows="5" id="editTaskNotes"><?php echo htmlspecialchars($editTask->notes, ENT_QUOTES, 'UTF-8') ?></textarea>
         </td>
     </tr>
     </table>

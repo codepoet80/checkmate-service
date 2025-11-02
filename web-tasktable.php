@@ -24,9 +24,9 @@ function drawTaskTable($tasks) {
                 echo " checked";
             echo " onchange=\"taskModel.doCheckTask(this)\"/>\r\n";
             echo "\t\t\t<td valign=\"middle\" width=\"100%\">\r\n";
-            echo "\t\t\t\t<span class=\"taskListDetailCell\"><b>" . $task->title . "</b>";
+            echo "\t\t\t\t<span class=\"taskListDetailCell\"><b>" . htmlspecialchars($task->title, ENT_QUOTES, 'UTF-8') . "</b>";
             if (isset($task->notes) && $task->notes != "") {
-                echo "&nbsp; <img src=\"images/note.gif\" title=\"" . htmlentities($task->notes) . "\" alt=\"" . htmlentities($task->notes) . "\"/>";
+                echo "&nbsp; <img src=\"images/note.gif\" title=\"" . htmlspecialchars($task->notes, ENT_QUOTES, 'UTF-8') . "\" alt=\"" . htmlspecialchars($task->notes, ENT_QUOTES, 'UTF-8') . "\"/>";
             } 
             echo "</span>\r\n";
             echo "\t\t\t</td>\r\n";
