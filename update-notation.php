@@ -151,7 +151,7 @@ function validate_incoming_data($newtaskdata)
         // Enhanced validation for notes
         $notes = strip_tags(trim($newtaskdata->notes));
         if (strlen($notes) <= 1000) {
-            $cleanedTask->notes = htmlspecialchars($notes, ENT_QUOTES, 'UTF-8');
+            $cleanedTask->notes = $notes;
         } else {
             return false;
         }
